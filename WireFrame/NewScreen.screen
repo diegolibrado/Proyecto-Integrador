@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Accordion" id="1" x="437" y="231" text="Item One&#xA;-Sub-Item 1.1&#xA;-Sub-Item 1.2&#xA;-Sub-Item 1.3&#xA;Item Two&#xA;Item Three&#xA;Item Four" measuredWidth="100" measuredHeight="190" selection="0">
+    <items x="0" y="2" width="100" height="26" text="Item One"/>
+    <items x="0" y="28" width="100" height="26" text="-Sub-Item 1.1"/>
+    <items x="0" y="54" width="100" height="26" text="-Sub-Item 1.2"/>
+    <items x="0" y="80" width="100" height="26" text="-Sub-Item 1.3"/>
+    <items x="0" y="112" width="100" height="26" text="Item Two"/>
+    <items x="0" y="138" width="100" height="26" text="Item Three"/>
+    <items x="0" y="164" width="100" height="26" text="Item Four"/>
+    <font/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>
