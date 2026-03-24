@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore" theme="clean">
+  <widgets xsi:type="model:Browser" id="32" x="344" y="272" width="976" height="608" text="Browser&#xA;http://..." measuredWidth="976" measuredHeight="608" value="25" background="#134f5c" alpha="167">
+    <font bold="true" underline="false"/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="39" x="344" y="496" width="976" height="185" measuredWidth="976" measuredHeight="185" background="#a2c4c9" foreground="#a2c4c9" border="none"/>
+  <widgets xsi:type="model:Label" id="41" x="763" y="436" text="LOGIN" measuredWidth="138" measuredHeight="61" textAlignment="Center" foreground="#a2c4c9">
+    <font size="60px" bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="48" x="528" y="584" text="Empleados" measuredWidth="158" measuredHeight="43" textAlignment="Center" foreground="#444">
+    <font size="40px" bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="50" x="1025" y="584" text="Supers" measuredWidth="107" measuredHeight="43" textAlignment="Center" foreground="#444">
+    <font size="40px" bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Icon" id="51" x="576" y="537" width="48" height="48" measuredWidth="48" measuredHeight="48" foreground="#444" icon="usergroup (large)"/>
+  <widgets xsi:type="model:Icon" id="52" x="1048" y="541" width="48" height="40" measuredWidth="48" measuredHeight="40" foreground="#444" icon="fire (custom)"/>
+  <widgets xsi:type="model:ProgressBar" id="54" x="568" y="688" width="520" height="16" measuredWidth="520" measuredHeight="16" background="#a2c4c9"/>
+  <hRuler/>
+  <vRuler/>
+  <font name="EuroStyle" size="12px"/>
+  <note>This the start screen that shows all the main parts of the *WireframeSketcher*'s user interface.
+
+You can find out more detailed information about each part by consulting the integrated help that can be opened using *F1*.
+
+This description in particular is a screen note that you can edit using the *Notes* view.</note>
+</model:Screen>

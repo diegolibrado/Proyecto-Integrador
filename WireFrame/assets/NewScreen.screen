@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Browser" id="1" x="344" y="272" width="976" height="608" text="Browser&#xA;http://..." measuredWidth="976" measuredHeight="608" value="25" background="#134f5c" alpha="167">
+    <font bold="true" underline="false"/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="2" x="344" y="496" width="976" height="185" measuredWidth="976" measuredHeight="185" background="#a2c4c9" foreground="#a2c4c9" border="none"/>
+  <widgets xsi:type="model:Label" id="3" x="763" y="436" text="LOGIN" measuredWidth="189" measuredHeight="88" textAlignment="Center" foreground="#a2c4c9">
+    <font size="60px" bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="4" x="528" y="584" text="Empleados" measuredWidth="211" measuredHeight="61" textAlignment="Center" foreground="#444">
+    <font size="40px" bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="5" x="1025" y="584" text="Supers" measuredWidth="132" measuredHeight="61" textAlignment="Center" foreground="#444">
+    <font size="40px" bold="true"/>
+  </widgets>
+  <widgets xsi:type="model:Icon" id="6" x="576" y="537" width="48" height="48" measuredWidth="48" measuredHeight="48" foreground="#444" icon="usergroup (large)"/>
+  <widgets xsi:type="model:Icon" id="7" x="1048" y="541" width="48" height="40" measuredWidth="48" measuredHeight="40" foreground="#444" icon="fire (custom)"/>
+  <widgets xsi:type="model:ProgressBar" id="8" x="568" y="688" width="520" height="16" measuredWidth="520" measuredHeight="16" background="#a2c4c9"/>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>
