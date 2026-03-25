@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
-  <widgets xsi:type="model:Browser" id="2" x="136" y="120" width="593" height="385" measuredWidth="593" measuredHeight="385">
-    <font/>
-  </widgets>
-  <hRuler/>
-  <vRuler/>
-  <font size="12px"/>
-</model:Screen>
