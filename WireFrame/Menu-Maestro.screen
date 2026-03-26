@@ -4,18 +4,13 @@
     <widgets xsi:type="model:Image" id="1" x="1" width="1920" height="1080" measuredWidth="1920" measuredHeight="1080" src="assets/fondo%20color.jpeg"/>
     <widgets xsi:type="model:Panel" id="2" y="131" width="1921" height="817" measuredWidth="1921" measuredHeight="817" background="#c4cccb" alpha="171" foreground="#c4cccb" border="none"/>
   </widgets>
-  <widgets xsi:type="model:Label" id="3" x="160" y="256" width="672" text="Nombre de Usuario" measuredWidth="672" measuredHeight="104">
+  <widgets xsi:type="model:Label" id="3" x="184" y="256" width="672" text="Nombre de Usuario" measuredWidth="672" measuredHeight="104">
     <font size="72px" bold="true"/>
   </widgets>
-  <widgets xsi:type="model:TabbedPane" id="8" x="160" y="384" width="1809" height="577" text="Tab One,Tab Two,Tab Three" measuredWidth="1809" measuredHeight="577" selection="0" background="#b6c0bf" position="left">
-    <items x="0" y="10" width="158" height="65" text="Tab One"/>
-    <items x="0" y="75" width="158" height="65" text="Tab Two"/>
-    <items x="0" y="140" width="158" height="65" text="Tab Three"/>
-    <font size="32px"/>
-  </widgets>
-  <widgets xsi:type="model:Button" id="10" x="1766" y="280" width="193" height="56" text="Cerrar sesión" measuredWidth="193" measuredHeight="56" background="#b6c0bf">
+  <widgets xsi:type="model:Button" id="10" x="1766" y="280" width="193" height="56" text="Cerrar sesión" measuredWidth="193" measuredHeight="56" background="#b6c0bf" link="Log-In.screen">
     <font size="28px"/>
   </widgets>
+  <widgets xsi:type="model:Panel" id="11" x="184" y="384" width="1774" height="568" measuredWidth="1774" measuredHeight="568" background="#b6c0bf"/>
   <hRuler/>
   <vRuler/>
   <font size="12px"/>
