@@ -10,12 +10,8 @@
   <widgets xsi:type="model:Button" id="10" x="1766" y="280" width="193" height="56" text="Cerrar sesión" measuredWidth="193" measuredHeight="56" background="#b6c0bf" link="Log-In.screen">
     <font size="28px"/>
   </widgets>
-  <widgets xsi:type="model:TabbedPane" id="13" x="184" y="384" width="1775" height="561" text="Citas,Talleres" measuredWidth="1775" measuredHeight="561" selection="0" background="#b6c0bf" position="left">
-    <items x="0" y="10" width="151" height="77" text="Citas"/>
-    <items x="0" y="87" width="151" height="77" text="Talleres"/>
-    <font size="40px"/>
-  </widgets>
-  <widgets xsi:type="model:Label" id="14" x="832" y="640" width="576" text="PERMISOS MAESTRO" measuredWidth="576" measuredHeight="89">
+  <widgets xsi:type="model:Panel" id="15" x="184" y="384" width="1774" height="560" measuredWidth="1774" measuredHeight="560" background="#b6c0bf"/>
+  <widgets xsi:type="model:Label" id="16" x="824" y="619" width="576" text="PERMISOS OFICIAL" measuredWidth="576" measuredHeight="89">
     <font size="60px"/>
   </widgets>
   <hRuler/>
