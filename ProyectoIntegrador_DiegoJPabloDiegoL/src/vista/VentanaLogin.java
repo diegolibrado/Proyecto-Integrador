@@ -1,6 +1,3 @@
-/**
- * 
- */
 package vista;
 
 import javax.swing.JFrame;
@@ -13,14 +10,16 @@ import javax.swing.JTextField;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-/**
- * 
- */
 public class VentanaLogin extends JFrame {
 	private JPasswordField passwordField;
 	private JTextField textFieldUsuario;
-	
+
 	public VentanaLogin(String titulo) {
 		super(titulo);
 		configInicial();
@@ -33,76 +32,80 @@ public class VentanaLogin extends JFrame {
 
 		// AbsoluteLayout (ponemos los componentes donde nos dé la gana)
 		getContentPane().setLayout(null);
-		
+
 		// tamaño de la ventana
-		setSize(600, 400);
+		setSize(960, 540);
 	}
-	
+
 	private void inicializarComponentes() {
+		getContentPane().setLayout(null);
+
+		// TITULO
 		JLabel lblTitulo = new JLabel("INICIAR SESIÓN");
+		lblTitulo.setBounds(27, 63, 298, 40);
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
-		lblTitulo.setBounds(0, 0, 586, 77);
 		getContentPane().add(lblTitulo);
-		
-		JLabel lblContraseña = new JLabel("Contraseña:");
-		lblContraseña.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		lblContraseña.setBounds(60, 157, 158, 40);
-		getContentPane().add(lblContraseña);
-		
+
+		// BARRA HORIZONTAL (decoracion del fondo)
+		JPanel pnlBarraHorizontal = new JPanel();
+		pnlBarraHorizontal.setForeground(new Color(196, 204, 203));
+		pnlBarraHorizontal.setBackground(new Color(196, 204, 203));
+		pnlBarraHorizontal.setBounds(0, 109, 944, 282);
+		getContentPane().add(pnlBarraHorizontal);
+		pnlBarraHorizontal.setLayout(null);
+
+		// IMAGEN DEL LOGO (no todavia)
+		JLabel lblLogo = new JLabel("LOGO");
+		lblLogo.setFont(new Font("Tahoma", Font.PLAIN, 40));
+		lblLogo.setBackground(new Color(255, 255, 255));
+		lblLogo.setBounds(50, 64, 153, 153);
+		pnlBarraHorizontal.add(lblLogo);
+
+		// PETICION PARAMETROS INICIO DE SESIÓN
 		JLabel lblUsuario = new JLabel("Usuario:");
+		lblUsuario.setBounds(330, 89, 158, 40);
+		pnlBarraHorizontal.add(lblUsuario);
 		lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		lblUsuario.setBounds(60, 87, 158, 40);
-		getContentPane().add(lblUsuario);
-		
-		passwordField = new JPasswordField();
-		passwordField.setHorizontalAlignment(SwingConstants.CENTER);
-		passwordField.setBounds(240, 157, 216, 40);
-		getContentPane().add(passwordField);
-		
+
 		textFieldUsuario = new JTextField();
+		textFieldUsuario.setBounds(510, 89, 216, 40);
+		pnlBarraHorizontal.add(textFieldUsuario);
 		textFieldUsuario.setHorizontalAlignment(SwingConstants.CENTER);
-		textFieldUsuario.setBounds(240, 87, 216, 40);
-		getContentPane().add(textFieldUsuario);
 		textFieldUsuario.setColumns(10);
-		
-		JButton btnLogin = new JButton("LOGIN");
+
+		JLabel lblContraseña = new JLabel("Contraseña:");
+		lblContraseña.setBounds(330, 159, 158, 40);
+		pnlBarraHorizontal.add(lblContraseña);
+		lblContraseña.setFont(new Font("Tahoma", Font.PLAIN, 22));
+
+		passwordField = new JPasswordField();
+		passwordField.setBounds(510, 159, 216, 40);
+		pnlBarraHorizontal.add(passwordField);
+		passwordField.setHorizontalAlignment(SwingConstants.CENTER);
+
+		// BOTÓN DE ACCESO
+		JButton btnLogin = new JButton("Acceder");
+		btnLogin.setBounds(788, 159, 111, 40);
+		pnlBarraHorizontal.add(btnLogin);
+
+		// LISTENER PARA CONFIRMAR ACCESO
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO: hay que configurar la base de datos y al sincronizarla con el prpoyecto
+				// haremos los if-else dependiendo de los parametros que se introduzcan para
+				// abrir una ventana u otra
+			}
+		});
+		btnLogin.setBackground(new Color(118, 165, 175));
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnLogin.setBounds(160, 300, 100, 30);
-		getContentPane().add(btnLogin);
-		
-		JButton btnBorrar = new JButton("BORRAR");
-		btnBorrar.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnBorrar.setBounds(340, 300, 100, 30);
-		getContentPane().add(btnBorrar);
-		
-		JLabel lblEmpleado = new JLabel("Empleado:");
-		lblEmpleado.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		lblEmpleado.setBounds(60, 227, 158, 40);
-		getContentPane().add(lblEmpleado);
-		
-		JRadioButton rdbtnMaestro = new JRadioButton("Maestro");
-		rdbtnMaestro.setHorizontalAlignment(SwingConstants.RIGHT);
-		rdbtnMaestro.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		rdbtnMaestro.setBounds(189, 242, 102, 20);
-		getContentPane().add(rdbtnMaestro);
 
-		JRadioButton rdbtnOficial = new JRadioButton("Oficial");
-		rdbtnOficial.setHorizontalAlignment(SwingConstants.CENTER);
-		rdbtnOficial.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		rdbtnOficial.setBounds(289, 242, 101, 20);
-		getContentPane().add(rdbtnOficial);
-
-		JRadioButton rdbtnAprendiz = new JRadioButton("Aprendiz");
-		rdbtnAprendiz.setHorizontalAlignment(SwingConstants.LEFT);
-		rdbtnAprendiz.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		rdbtnAprendiz.setBounds(389, 242, 101, 20);
-		getContentPane().add(rdbtnAprendiz);
-
-		ButtonGroup grupoCategorias = new ButtonGroup();
-		grupoCategorias.add(rdbtnMaestro);
-		grupoCategorias.add(rdbtnOficial);
-		grupoCategorias.add(rdbtnAprendiz);
+		// IMAGEN DE FONDO
+		JLabel lblFondo = new JLabel("");
+		lblFondo.setIcon(new ImageIcon(
+				"C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\fondo.jpeg"));
+		lblFondo.setBounds(0, 0, 944, 501);
+		getContentPane().add(lblFondo);
 
 	}
 }
