@@ -29,11 +29,11 @@ public class VentanaMaestro extends JFrame {
 	}
 	
 	private void inicializarComponentes() {
-		JLabel lblMenuAprendiz = new JLabel("MENÚ MAESTRO");
-		lblMenuAprendiz.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMenuAprendiz.setFont(new Font("Tahoma", Font.BOLD, 34));
-		lblMenuAprendiz.setBounds(27, 63, 298, 40);
-		getContentPane().add(lblMenuAprendiz);
+		JLabel lblMenuMaestro = new JLabel("MENÚ MAESTRO");
+		lblMenuMaestro.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMenuMaestro.setFont(new Font("Tahoma", Font.BOLD, 34));
+		lblMenuMaestro.setBounds(27, 63, 298, 40);
+		getContentPane().add(lblMenuMaestro);
 		
 		JPanel pnlBarraHorizontal = new JPanel();
 		pnlBarraHorizontal.setLayout(null);
