@@ -1,0 +1,111 @@
+package vista;
+
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JRadioButton;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class VentanaLogin extends JFrame {
+	private JPasswordField passwordField;
+	private JTextField textFieldUsuario;
+
+	public VentanaLogin(String titulo) {
+		super(titulo);
+		configInicial();
+		inicializarComponentes();
+	}
+
+	private void configInicial() {
+		// ventana se cierra con la X
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+		// AbsoluteLayout (ponemos los componentes donde nos dé la gana)
+		getContentPane().setLayout(null);
+
+		// tamaño de la ventana
+		setSize(960, 540);
+	}
+
+	private void inicializarComponentes() {
+		getContentPane().setLayout(null);
+
+		// TITULO
+		JLabel lblTitulo = new JLabel("INICIAR SESIÓN");
+		lblTitulo.setBounds(27, 63, 298, 40);
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
+		getContentPane().add(lblTitulo);
+
+		// BARRA HORIZONTAL (decoracion del fondo)
+		JPanel pnlBarraHorizontal = new JPanel();
+		pnlBarraHorizontal.setForeground(new Color(196, 204, 203));
+		pnlBarraHorizontal.setBackground(new Color(196, 204, 203));
+		pnlBarraHorizontal.setBounds(0, 109, 944, 282);
+		getContentPane().add(pnlBarraHorizontal);
+		pnlBarraHorizontal.setLayout(null);
+
+		// IMAGEN DEL LOGO (no todavia)
+		JLabel lblLogo = new JLabel("LOGO");
+		lblLogo.setFont(new Font("Tahoma", Font.PLAIN, 40));
+		lblLogo.setBackground(new Color(255, 255, 255));
+		lblLogo.setBounds(50, 64, 153, 153);
+		pnlBarraHorizontal.add(lblLogo);
+
+		// PETICION PARAMETROS INICIO DE SESIÓN
+		JLabel lblUsuario = new JLabel("Usuario:");
+		lblUsuario.setBounds(330, 89, 158, 40);
+		pnlBarraHorizontal.add(lblUsuario);
+		lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 22));
+
+		textFieldUsuario = new JTextField();
+		textFieldUsuario.setBounds(510, 89, 216, 40);
+		pnlBarraHorizontal.add(textFieldUsuario);
+		textFieldUsuario.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldUsuario.setColumns(10);
+
+		JLabel lblContraseña = new JLabel("Contraseña:");
+		lblContraseña.setBounds(330, 159, 158, 40);
+		pnlBarraHorizontal.add(lblContraseña);
+		lblContraseña.setFont(new Font("Tahoma", Font.PLAIN, 22));
+
+		passwordField = new JPasswordField();
+		passwordField.setBounds(510, 159, 216, 40);
+		pnlBarraHorizontal.add(passwordField);
+		passwordField.setHorizontalAlignment(SwingConstants.CENTER);
+
+		// BOTÓN DE ACCESO
+		JButton btnLogin = new JButton("Acceder");
+		btnLogin.setBounds(788, 159, 111, 40);
+		pnlBarraHorizontal.add(btnLogin);
+
+		// LISTENER PARA CONFIRMAR ACCESO
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO: hay que configurar la base de datos y al sincronizarla con el prpoyecto
+				// haremos los if-else dependiendo de los parametros que se introduzcan para
+				// abrir una ventana u otra
+			}
+		});
+		btnLogin.setBackground(new Color(118, 165, 175));
+		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 16));
+
+		// IMAGEN DE FONDO
+		JLabel lblFondo = new JLabel("");
+		lblFondo.setIcon(new ImageIcon(
+				"C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\fondo.jpeg"));
+		lblFondo.setBounds(0, 0, 944, 501);
+		getContentPane().add(lblFondo);
+
+	}
+}
