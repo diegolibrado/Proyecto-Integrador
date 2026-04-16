@@ -32,6 +32,8 @@ public class VentanaAprendiz extends JFrame {
 		
 		// tamaño de la ventana
 		setSize(960,540);
+		setLocationRelativeTo(null);
+
 	}
 	
 	private void inicializarComponentes() {

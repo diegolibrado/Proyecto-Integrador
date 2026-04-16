@@ -35,6 +35,8 @@ public class VentanaLogin extends JFrame {
 
 		// tamaño de la ventana
 		setSize(960, 540);
+		setLocationRelativeTo(null);
+
 	}
 
 	private void inicializarComponentes() {
@@ -57,9 +59,10 @@ public class VentanaLogin extends JFrame {
 
 		// IMAGEN DEL LOGO (no todavia)
 		JLabel lblLogo = new JLabel("LOGO");
+		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLogo.setFont(new Font("Tahoma", Font.PLAIN, 40));
 		lblLogo.setBackground(new Color(255, 255, 255));
-		lblLogo.setBounds(50, 64, 153, 153);
+		lblLogo.setBounds(37, 64, 153, 153);
 		pnlBarraHorizontal.add(lblLogo);
 
 		// PETICION PARAMETROS INICIO DE SESIÓN
@@ -69,9 +72,10 @@ public class VentanaLogin extends JFrame {
 		lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 22));
 
 		textFieldUsuario = new JTextField();
+		textFieldUsuario.setBackground(new Color(255, 255, 255));
 		textFieldUsuario.setBounds(510, 89, 216, 40);
 		pnlBarraHorizontal.add(textFieldUsuario);
-		textFieldUsuario.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldUsuario.setHorizontalAlignment(SwingConstants.LEFT);
 		textFieldUsuario.setColumns(10);
 
 		JLabel lblContraseña = new JLabel("Contraseña:");
@@ -82,7 +86,7 @@ public class VentanaLogin extends JFrame {
 		passwordField = new JPasswordField();
 		passwordField.setBounds(510, 159, 216, 40);
 		pnlBarraHorizontal.add(passwordField);
-		passwordField.setHorizontalAlignment(SwingConstants.CENTER);
+		passwordField.setHorizontalAlignment(SwingConstants.LEFT);
 
 		// BOTÓN DE ACCESO
 		JButton btnLogin = new JButton("Acceder");
@@ -92,12 +96,12 @@ public class VentanaLogin extends JFrame {
 		// LISTENER PARA CONFIRMAR ACCESO
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO: hay que configurar la base de datos y al sincronizarla con el prpoyecto
-				// haremos los if-else dependiendo de los parametros que se introduzcan para
-				// abrir una ventana u otra
+				VentanaMaestro vMaestro = new VentanaMaestro("Menu de Gestión - Maestro");
+				vMaestro.setVisible(true);
+				dispose();
 			}
 		});
-		btnLogin.setBackground(new Color(118, 165, 175));
+		btnLogin.setBackground(new Color(165, 191, 201));
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
 		// IMAGEN DE FONDO

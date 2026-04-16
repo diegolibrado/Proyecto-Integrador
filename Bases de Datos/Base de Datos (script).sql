@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS COLABORA_EN;
-DROP TABLE IF EXISTS TRAJE;
 DROP TABLE IF EXISTS CITA;
+DROP TABLE IF EXISTS TRAJE;
 DROP TABLE IF EXISTS EMPLEADO;
 DROP TABLE IF EXISTS TALLER;
 DROP TABLE IF EXISTS CLIENTE;
@@ -26,6 +26,14 @@ CREATE TABLE EMPLEADO (
     contrasena VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE TRAJE (
+    id_traje INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100),
+    estado ENUM('en diseño', 'costura', 'taller') NOT NULL,
+    id_cliente INT,
+    FOREIGN KEY (id_cliente) REFERENCES CLIENTE(id_cliente) ON DELETE CASCADE
+);
+
 CREATE TABLE CITA (
     id_cita INT AUTO_INCREMENT PRIMARY KEY,
     dia DATE NOT NULL,
@@ -33,18 +41,12 @@ CREATE TABLE CITA (
     duracion INT DEFAULT 1, -- Por defecto dura 1 hora
     id_cliente INT,
     id_taller INT,
+    id_traje INT,
     id_empleado_responsable INT,
     FOREIGN KEY (id_cliente) REFERENCES CLIENTE(id_cliente) ON DELETE CASCADE,
     FOREIGN KEY (id_taller) REFERENCES TALLER(id_taller),
-    FOREIGN KEY (id_empleado_responsable) REFERENCES EMPLEADO(id_empleado)
-);
-
-CREATE TABLE TRAJE (
-    id_traje INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100),
-    estado ENUM('en diseño', 'costura', 'taller') NOT NULL,
-    id_cliente INT,
-    FOREIGN KEY (id_cliente) REFERENCES CLIENTE(id_cliente) ON DELETE CASCADE
+    FOREIGN KEY (id_empleado_responsable) REFERENCES EMPLEADO(id_empleado),
+    FOREIGN KEY (id_traje) REFERENCES TRAJE(id_traje)
 );
 
 -- Relación

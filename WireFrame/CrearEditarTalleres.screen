@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore" theme="clean">
+  <widgets xsi:type="model:Panel" id="3" x="112" y="80" width="801" height="505" measuredWidth="801" measuredHeight="505"/>
+  <widgets xsi:type="model:Image" id="5" x="113" y="80" width="1920" height="1080" measuredWidth="1920" measuredHeight="1080" src="assets/fondo%20color.jpeg"/>
+  <widgets xsi:type="model:Panel" id="4" x="112" y="407" width="1921" height="425" measuredWidth="1921" measuredHeight="425" background="#c4cccb" alpha="171" foreground="#c4cccb" border="none"/>
+  <widgets xsi:type="model:Panel" id="7" x="250" y="447" width="333" height="345" measuredWidth="333" measuredHeight="345"/>
+  <widgets xsi:type="model:Label" id="8" x="319" y="575" width="195" text="LOGO" measuredWidth="195" measuredHeight="89" textAlignment="Center">
+    <font size="60px"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="9" x="1145" y="523" width="408" measuredWidth="408" measuredHeight="62">
+    <font size="40px"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="10" x="1145" y="664" width="408" measuredWidth="408" measuredHeight="62">
+    <font size="40px"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="11" x="873" y="523" width="160" text="Usuario:" measuredWidth="160" measuredHeight="62">
+    <font size="40px"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="12" x="809" y="664" width="224" text="Contraseña:" measuredWidth="224" measuredHeight="62">
+    <font size="40px"/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="13" x="1720" y="664" width="192" height="62" text="Acceder" measuredWidth="192" measuredHeight="62" background="#76a5af" link="Menu-Maestro.screen">
+    <font size="40px"/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>
