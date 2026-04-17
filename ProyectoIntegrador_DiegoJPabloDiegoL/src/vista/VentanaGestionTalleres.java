@@ -5,22 +5,28 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-public class VentanaOficial extends JFrame {
-	public VentanaOficial(String titulo) {
-		super(titulo);
-		configInicial();
+public class VentanaGestionTalleres extends JFrame {
+
+	// Declaracion de variables
+	private String tipoUsuario;
+	private JButton btnEliminarCita;
+	private JButton btnCrearCita;
+	private JButton btnModificarCita;
+	private JButton btnGuardarCambios;
+
+	public VentanaGestionTalleres(String rango) {
+		this.tipoUsuario = rango;
 		inicializarComponentes();
+		configInicial();
+		configurarPermisos();
 	}
 
+	/**
+	 * Metodo para determinar la configuracion inicial de la ventana.
+	 */
 	private void configInicial() {
 		// ventana se cierra con la X
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -30,9 +36,19 @@ public class VentanaOficial extends JFrame {
 
 		// tamaño de la ventana
 		setSize(960, 540);
+		setLocationRelativeTo(null);
+	}
+
+	/**
+	 * Metodo para que dependiendo de que tipo de empleado haya ingresado, se
+	 * muestren unas cosas u otras
+	 */
+	private void configurarPermisos() {
+
 	}
 
 	private void inicializarComponentes() {
+
 		// Panel horizontal
 		JPanel pnlBarraHorizontal = new JPanel();
 		pnlBarraHorizontal.setForeground(new Color(196, 204, 203));
@@ -55,20 +71,38 @@ public class VentanaOficial extends JFrame {
 		btnCerrarSesion.setBounds(793, 68, 129, 30);
 		getContentPane().add(btnCerrarSesion);
 
-		// Titulo Página
-		JLabel lblTitulo = new JLabel("Menú Oficial");
+		// Titulo Pagina
+		JLabel lblTitulo = new JLabel("Gestión de Talleres");
 		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
-		lblTitulo.setBounds(22, 63, 298, 40);
+		lblTitulo.setBounds(22, 63, 333, 40);
 		getContentPane().add(lblTitulo);
 
 		// BOTONES
-		JButton btnCitas = new JButton("Citas");
-		btnCitas.setBackground(new Color(165, 191, 201));
-		btnCitas.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnCitas.setBounds(22, 25, 109, 30);
-		pnlBarraHorizontal.add(btnCitas);
+		JButton btnCrear = new JButton("Crear");
+		btnCrear.setBackground(new Color(165, 191, 201));
+		btnCrear.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnCrear.setBounds(22, 25, 109, 30);
+		pnlBarraHorizontal.add(btnCrear);
 
+		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar.setBackground(new Color(165, 191, 201));
+		btnEliminar.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnEliminar.setBounds(22, 63, 109, 30);
+		pnlBarraHorizontal.add(btnEliminar);
+
+		JButton btnModificar = new JButton("Modificar");
+		btnModificar.setBackground(new Color(165, 191, 201));
+		btnModificar.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnModificar.setBounds(22, 101, 109, 30);
+		pnlBarraHorizontal.add(btnModificar);
+
+		JButton btnGuardarCambios = new JButton("Guardar");
+		btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnGuardarCambios.setBackground(new Color(165, 191, 201));
+		btnGuardarCambios.setBounds(22, 231, 109, 30);
+		pnlBarraHorizontal.add(btnGuardarCambios);
+		
 		// Panel con informacion
 		JPanel pnlBarraHorizontal_1 = new JPanel();
 		pnlBarraHorizontal_1.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
@@ -77,6 +111,7 @@ public class VentanaOficial extends JFrame {
 		pnlBarraHorizontal_1.setBackground(new Color(165, 191, 201));
 		pnlBarraHorizontal_1.setBounds(139, 25, 782, 236);
 		pnlBarraHorizontal.add(pnlBarraHorizontal_1);
+		
 		// FONDO
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);
