@@ -23,7 +23,7 @@ CREATE TABLE EMPLEADO (
     nombre VARCHAR(100) NOT NULL,
     apodo VARCHAR(50) UNIQUE NOT NULL,
     categoria ENUM('Aprendiz', 'Oficial', 'Maestro') NOT NULL,
-    contrasena VARCHAR(255) NOT NULL
+    contrasena VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE TRAJE (
@@ -62,19 +62,47 @@ CREATE TABLE COLABORA_EN (
 INSERT INTO TALLER (nombre_sala, tipo_sala) VALUES 
 ('Milán', 'diseño'),
 ('París', 'costura'),
-('Madrid', 'pruebas');
+('Berlin', 'costura'),
+('Florencia', 'pruebas'),
+('Barcelona', 'diseño'),
+('Estambul', 'pruebas'),
+('Londres', 'diseño'),
+('Lisboa', 'costura'),
+('Lyon', 'diseño'),
+('Madrid', 'costura');
 
 INSERT INTO EMPLEADO (nombre, apodo, categoria, contrasena) VALUES 
-('Diego', 'Abuelo', 'Maestro', '1234'),
-('Pablo', 'Diez', 'Oficial', 'abcd'),
-('Lucas', 'Lobo', 'Aprendiz', '0000');
+('Diego', 'Abuelo', 'Maestro', '1111'),
+('Pablo', 'LaTen', 'Aprendiz', '2222'),
+('Roberto', 'Bobby', 'Oficial', '3333'),
+('Victor', 'TungTung', 'Aprendiz', '4444'),
+('Diego', 'Yeyo', 'Oficial', '5555'),
+('Guille', 'Will', 'Oficial', '6666'),
+('Enzo', 'RRR', 'Aprendiz', '7777'),
+('Manuel', 'Patriarca', 'Maestro', '8888'),
+('Alvaro', 'Leyenda', 'Oficial', '9999'),
+('Lucas', 'Lobo', 'Maestro', '0000');
 
 INSERT INTO CLIENTE (nombre, superpoder, colores) VALUES 
 ('Mr. Increíble', 'Superfuerza', 'Rojo y Negro'),
-('Síndrome', 'Tecnología', 'Blanco y Negro'),
-('Elastic girl', 'Elasticidad', 'Rojo y Blanco');
+('Spiderman', 'Trepar', 'Rojo y Azul'),
+('Iron Man', 'Armadura Tecnológica', 'Rojo y Dorado'),
+('Batman', 'Gadgets', 'Negro y gris'),
+('Superman', 'Vuelo', 'Azul, rojo y amarillo'),
+('Flash', 'Súper velocidad', 'Rojo y amarillo'),
+('Thor', 'Control del trueno', 'Rojo, plateado y negro'),
+('Capitán América', 'Escudo indestructible', 'Azul, rojo y blanco'),
+('Black Panther', 'Agilidad', 'Negro y plateado'),
+('Síndrome', 'Tecnología', 'Blanco y Negro');
 
 INSERT INTO TRAJE (nombre, estado, id_cliente) VALUES 
-('Traje Clásico', 'en diseño', 1),
-('Armadura Final', 'taller', 2),
-('Traje de Invisibilidad', 'costura', '3');
+('Traje Increíble', 'en diseño', 1),
+('Traje Arácnido', 'en diseño', 2),
+('Armadura Reactor', 'costura', 3),
+('Traje Nocturno', 'taller', 4),
+('Traje Krypton', 'taller', 5),
+('Traje Velocidad', 'en diseño', 6),
+('Armadura Asgardiana', 'costura', 7),
+('Traje Patriota', 'costura', 8),
+('Traje Wakanda', 'taller', 9),
+('Traje Tecnológico', 'costura', '10');

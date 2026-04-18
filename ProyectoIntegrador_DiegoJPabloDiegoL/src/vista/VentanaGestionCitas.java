@@ -79,29 +79,47 @@ public class VentanaGestionCitas extends JFrame {
 		getContentPane().add(lblTitulo);
 
 		// BOTONES
-		JButton btnCrear = new JButton("Crear");
-		btnCrear.setBackground(new Color(165, 191, 201));
-		btnCrear.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnCrear.setBounds(22, 25, 109, 30);
-		pnlBarraHorizontal.add(btnCrear);
+		btnCrearCita = new JButton("Crear");
+		btnCrearCita.setBackground(new Color(165, 191, 201));
+		btnCrearCita.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnCrearCita.setBounds(22, 25, 109, 30);
+		pnlBarraHorizontal.add(btnCrearCita);
 
-		JButton btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBackground(new Color(165, 191, 201));
-		btnEliminar.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnEliminar.setBounds(22, 63, 109, 30);
-		pnlBarraHorizontal.add(btnEliminar);
+		btnEliminarCita = new JButton("Eliminar");
+		btnEliminarCita.setBackground(new Color(165, 191, 201));
+		btnEliminarCita.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnEliminarCita.setBounds(22, 63, 109, 30);
+		pnlBarraHorizontal.add(btnEliminarCita);
 
-		JButton btnModificar = new JButton("Modificar");
-		btnModificar.setBackground(new Color(165, 191, 201));
-		btnModificar.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnModificar.setBounds(22, 101, 109, 30);
-		pnlBarraHorizontal.add(btnModificar);
+		btnModificarCita = new JButton("Modificar");
+		btnModificarCita.setBackground(new Color(165, 191, 201));
+		btnModificarCita.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnModificarCita.setBounds(22, 101, 109, 30);
+		pnlBarraHorizontal.add(btnModificarCita);
 
-		JButton btnGuardarCambios = new JButton("Guardar");
+		btnGuardarCambios = new JButton("Guardar");
 		btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnGuardarCambios.setBackground(new Color(165, 191, 201));
 		btnGuardarCambios.setBounds(22, 231, 109, 30);
 		pnlBarraHorizontal.add(btnGuardarCambios);
+		
+		JButton btnAtras = new JButton("");
+		ImageIcon iconoAtras = new ImageIcon("C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\flecha_izq.png");
+		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH); //Para que se autoescale y se coloque el tamaño correctamente
+		btnAtras.setIcon(new ImageIcon(imgAtras));
+		btnAtras.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        // Dependiendo del tipo de empleado volveremos a una pagina u otra
+		    	// De momento solo a la de maestro
+		    	VentanaMaestro vMaestro = new VentanaMaestro("Gestion de citas");
+		    	vMaestro.setVisible(true);
+				dispose();
+		    }
+		});
+		btnAtras.setBackground(new Color(165, 191, 201));
+		btnAtras.setFont(new Font("Verdana", Font.PLAIN, 5));
+		btnAtras.setBounds(22, 11, 30, 30); // Posición arriba a la izquierda
+		getContentPane().add(btnAtras);
 		
 		// Panel con informacion
 		JPanel pnlBarraHorizontal_1 = new JPanel();

@@ -25,13 +25,8 @@ public class VentanaAprendiz extends JFrame {
 	}
 
 	private void configInicial() {
-		// ventana se cierra con la X
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-		// AbsoluteLayout (ponemos los componentes donde nos dé la gana)
 		getContentPane().setLayout(null);
-
-		// tamaño de la ventana
 		setSize(960, 540);
 		setLocationRelativeTo(null);
 	}
@@ -69,19 +64,23 @@ public class VentanaAprendiz extends JFrame {
 
 		// BOTONES
 		JButton btnCitas = new JButton("Citas");
+		btnCitas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaGestionCitas vGestionCitas = new VentanaGestionCitas("Gestion de citas");
+				vGestionCitas.setVisible(true);
+				dispose();
+			}
+		});
+		ImageIcon iconoCitas = new ImageIcon("C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\citas.png");
+		java.awt.Image imgCitas = iconoCitas.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+		btnCitas.setIcon(new ImageIcon(imgCitas));
+		// Colocamos el texto abajo
+		btnCitas.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnCitas.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnCitas.setBackground(new Color(165, 191, 201));
 		btnCitas.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnCitas.setBounds(22, 25, 109, 30);
+		btnCitas.setBounds(417, 96, 110, 90);
 		pnlBarraHorizontal.add(btnCitas);
-
-		// Panel con informacion
-		JPanel pnlBarraHorizontal_1 = new JPanel();
-		pnlBarraHorizontal_1.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
-		pnlBarraHorizontal_1.setLayout(null);
-		pnlBarraHorizontal_1.setForeground(new Color(196, 204, 203));
-		pnlBarraHorizontal_1.setBackground(new Color(165, 191, 201));
-		pnlBarraHorizontal_1.setBounds(139, 25, 782, 236);
-		pnlBarraHorizontal.add(pnlBarraHorizontal_1);
 		// FONDO
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);

@@ -28,13 +28,8 @@ public class VentanaMaestro extends JFrame {
 	}
 
 	private void configInicial() {
-		// ventana se cierra con la X
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-		// AbsoluteLayout (ponemos los componentes donde nos dé la gana)
 		getContentPane().setLayout(null);
-
-		// tamaño de la ventana
 		setSize(960, 540);
 		setLocationRelativeTo(null);
 	}
@@ -79,9 +74,15 @@ public class VentanaMaestro extends JFrame {
 				dispose();
 			}
 		});
+		ImageIcon iconoTalleres = new ImageIcon("C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\talleres.png");
+		java.awt.Image imgTalleres = iconoTalleres.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+		btnTalleres.setIcon(new ImageIcon(imgTalleres));
+		// Colocamos el texto abajo
+		btnTalleres.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnTalleres.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnTalleres.setBackground(new Color(165, 191, 201));
 		btnTalleres.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnTalleres.setBounds(22, 63, 109, 30);
+		btnTalleres.setBounds(380, 96, 110, 90);
 		pnlBarraHorizontal.add(btnTalleres);
 
 		JButton btnClientes = new JButton("Clientes");
@@ -92,9 +93,15 @@ public class VentanaMaestro extends JFrame {
 				dispose();
 			}
 		});
+		ImageIcon iconoClientes = new ImageIcon("C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\clientes.png");
+		java.awt.Image imgClientes = iconoClientes.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+		btnClientes.setIcon(new ImageIcon(imgClientes));
+		// Colocamos el texto abajo
+		btnClientes.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnClientes.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnClientes.setBackground(new Color(165, 191, 201));
 		btnClientes.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnClientes.setBounds(22, 101, 109, 30);
+		btnClientes.setBounds(500, 96, 110, 90);
 		pnlBarraHorizontal.add(btnClientes);
 
 		JButton btnCitas = new JButton("Citas");
@@ -105,27 +112,28 @@ public class VentanaMaestro extends JFrame {
 				dispose();
 			}
 		});
+		ImageIcon iconoCitas = new ImageIcon("C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\citas.png");
+		java.awt.Image imgCitas = iconoCitas.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH); //Para que se autoescale y se coloque el tamaño correctamente
+		btnCitas.setIcon(new ImageIcon(imgCitas));
+		// Colocamos el texto abajo
+		btnCitas.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnCitas.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnCitas.setBackground(new Color(165, 191, 201));
 		btnCitas.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnCitas.setBounds(22, 25, 109, 30);
+		btnCitas.setBounds(260, 96, 110, 90);
 		pnlBarraHorizontal.add(btnCitas);
 		
 		JButton btnTrajes = new JButton("Trajes");
+		ImageIcon iconoTrajes = new ImageIcon("C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\trajes.png");
+		java.awt.Image imgTrajes = iconoTrajes.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+		btnTrajes.setIcon(new ImageIcon(imgTrajes));
+		// Colocamos el texto abajo
+		btnTrajes.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnTrajes.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnTrajes.setBackground(new Color(165, 191, 201));
 		btnTrajes.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnTrajes.setBounds(22, 139, 109, 30);
+		btnTrajes.setBounds(620, 96, 110, 90);
 		pnlBarraHorizontal.add(btnTrajes);
-
-		
-
-		// Panel con informacion
-		JPanel pnlBarraHorizontal_1 = new JPanel();
-		pnlBarraHorizontal_1.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
-		pnlBarraHorizontal_1.setLayout(null);
-		pnlBarraHorizontal_1.setForeground(new Color(196, 204, 203));
-		pnlBarraHorizontal_1.setBackground(new Color(165, 191, 201));
-		pnlBarraHorizontal_1.setBounds(139, 25, 782, 236);
-		pnlBarraHorizontal.add(pnlBarraHorizontal_1);
 
 		// FONDO
 		JLabel lblFondo = new JLabel("");
