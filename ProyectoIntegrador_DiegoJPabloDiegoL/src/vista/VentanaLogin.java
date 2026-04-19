@@ -51,21 +51,14 @@ public class VentanaLogin extends JFrame {
 		getContentPane().add(pnlBarraHorizontal);
 		pnlBarraHorizontal.setLayout(null);
 
-		// IMAGEN DEL LOGO (no todavia)
-		JLabel lblLogo = new JLabel("LOGO");
-		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLogo.setFont(new Font("Tahoma", Font.PLAIN, 40));
-		lblLogo.setBackground(new Color(255, 255, 255));
-		lblLogo.setBounds(37, 64, 153, 153);
-		pnlBarraHorizontal.add(lblLogo);
-
 		// PETICION PARAMETROS INICIO DE SESIÓN
-		JLabel lblUsuario = new JLabel("Usuario:");
-		lblUsuario.setBounds(330, 89, 158, 40);
+		JLabel lblUsuario = new JLabel("Usuario (Id):");
+		lblUsuario.setBounds(330, 89, 170, 40);
 		pnlBarraHorizontal.add(lblUsuario);
 		lblUsuario.setFont(new Font("Tahoma", Font.PLAIN, 22));
 
 		textFieldUsuario = new JTextField();
+		textFieldUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textFieldUsuario.setBackground(new Color(255, 255, 255));
 		textFieldUsuario.setBounds(510, 89, 216, 40);
 		pnlBarraHorizontal.add(textFieldUsuario);
@@ -73,11 +66,13 @@ public class VentanaLogin extends JFrame {
 		textFieldUsuario.setColumns(10);
 
 		JLabel lblContraseña = new JLabel("Contraseña:");
-		lblContraseña.setBounds(330, 159, 158, 40);
+		lblContraseña.setBounds(330, 159, 170, 40);
 		pnlBarraHorizontal.add(lblContraseña);
 		lblContraseña.setFont(new Font("Tahoma", Font.PLAIN, 22));
 
 		passwordField = new JPasswordField();
+		passwordField.setEchoChar('*');
+		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		passwordField.setBounds(510, 159, 216, 40);
 		pnlBarraHorizontal.add(passwordField);
 		passwordField.setHorizontalAlignment(SwingConstants.LEFT);
@@ -86,7 +81,6 @@ public class VentanaLogin extends JFrame {
 		JButton btnLogin = new JButton("Acceder");
 		btnLogin.setBounds(788, 159, 111, 40);
 		pnlBarraHorizontal.add(btnLogin);
-
 		// LISTENER PARA CONFIRMAR ACCESO
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -97,6 +91,13 @@ public class VentanaLogin extends JFrame {
 		});
 		btnLogin.setBackground(new Color(165, 191, 201));
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		
+		JLabel lblLogo = new JLabel("");
+		ImageIcon iconoLogo = new ImageIcon("C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\logo.png");
+		java.awt.Image imgLogo = iconoLogo.getImage().getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH); //Para que se autoescale y se coloque el tamaño correctamente
+		lblLogo.setIcon(new ImageIcon(imgLogo));
+		lblLogo.setBounds(37, 51, 180, 180);
+		pnlBarraHorizontal.add(lblLogo);
 
 		// IMAGEN DE FONDO
 		JLabel lblFondo = new JLabel("");

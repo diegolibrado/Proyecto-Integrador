@@ -81,6 +81,7 @@ public class VentanaOficial extends JFrame {
 		btnCitas.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCitas.setBounds(417, 96, 110, 90);
 		pnlBarraHorizontal.add(btnCitas);
+		
 		// FONDO
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);

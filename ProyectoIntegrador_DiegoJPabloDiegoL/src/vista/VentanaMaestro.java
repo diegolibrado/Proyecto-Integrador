@@ -82,7 +82,7 @@ public class VentanaMaestro extends JFrame {
 		btnTalleres.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnTalleres.setBackground(new Color(165, 191, 201));
 		btnTalleres.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnTalleres.setBounds(380, 96, 110, 90);
+		btnTalleres.setBounds(360, 96, 110, 90);
 		pnlBarraHorizontal.add(btnTalleres);
 
 		JButton btnClientes = new JButton("Clientes");
@@ -101,7 +101,7 @@ public class VentanaMaestro extends JFrame {
 		btnClientes.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnClientes.setBackground(new Color(165, 191, 201));
 		btnClientes.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnClientes.setBounds(500, 96, 110, 90);
+		btnClientes.setBounds(480, 96, 110, 90);
 		pnlBarraHorizontal.add(btnClientes);
 
 		JButton btnCitas = new JButton("Citas");
@@ -120,10 +120,17 @@ public class VentanaMaestro extends JFrame {
 		btnCitas.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnCitas.setBackground(new Color(165, 191, 201));
 		btnCitas.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnCitas.setBounds(260, 96, 110, 90);
+		btnCitas.setBounds(240, 96, 110, 90);
 		pnlBarraHorizontal.add(btnCitas);
 		
 		JButton btnTrajes = new JButton("Trajes");
+		btnTrajes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaGestionTrajes vGestionTrajes = new VentanaGestionTrajes("Gestion de citas");
+				vGestionTrajes.setVisible(true);
+				dispose();
+			}
+		});
 		ImageIcon iconoTrajes = new ImageIcon("C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\trajes.png");
 		java.awt.Image imgTrajes = iconoTrajes.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 		btnTrajes.setIcon(new ImageIcon(imgTrajes));
@@ -132,7 +139,7 @@ public class VentanaMaestro extends JFrame {
 		btnTrajes.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnTrajes.setBackground(new Color(165, 191, 201));
 		btnTrajes.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnTrajes.setBounds(620, 96, 110, 90);
+		btnTrajes.setBounds(600, 96, 110, 90);
 		pnlBarraHorizontal.add(btnTrajes);
 
 		// FONDO

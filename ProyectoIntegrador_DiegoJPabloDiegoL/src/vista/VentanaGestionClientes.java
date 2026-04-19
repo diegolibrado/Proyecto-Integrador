@@ -103,12 +103,9 @@ public class VentanaGestionClientes extends JFrame {
 		pnlBarraHorizontal.add(btnGuardarCambios);
 		
 		JButton btnAtras = new JButton("");
-		ImageIcon iconoAtras = new ImageIcon("C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\flecha_atras.png");
-		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(10, 10, java.awt.Image.SCALE_SMOOTH); //Para que se autoescale y se coloque el tamaño correctamente
+		ImageIcon iconoAtras = new ImageIcon("C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\flecha_izq.png");
+		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH); //Para que se autoescale y se coloque el tamaño correctamente
 		btnAtras.setIcon(new ImageIcon(imgAtras));
-		// Colocamos el texto abajo
-		btnAtras.setVerticalTextPosition(SwingConstants.BOTTOM);
-		btnAtras.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnAtras.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        // Dependiendo del tipo de empleado volveremos a una pagina u otra
