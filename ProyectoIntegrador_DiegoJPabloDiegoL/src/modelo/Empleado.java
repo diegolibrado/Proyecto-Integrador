@@ -2,9 +2,9 @@ package modelo;
 
 public class Empleado {
 	private int id_empleado;
-	private String nombre;
+	protected String nombre;
 	private String apodo;
-	private String categoría;
+	protected String categoría;
 	private String contraseña;
 	
 	public Empleado(int id_empleado, String nombre, String apodo, String categoría, String contraseña) {
@@ -16,8 +16,8 @@ public class Empleado {
     }
 	
 	//METODOS
-	private String verCita() {
-		return "Citas disponibles para el empleado: " + nombre;
+	public String verCita() {
+		return "Citas disponibles para el " + categoría + nombre;
 	}
 	
 	//GETTERS Y SETTERS
