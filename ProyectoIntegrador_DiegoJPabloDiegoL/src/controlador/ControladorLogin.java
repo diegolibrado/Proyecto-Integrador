@@ -35,7 +35,7 @@ public class ControladorLogin implements ActionListener {
 		Connection conexion = modelo.getConexion();
 
 		// Query (consulta)
-		String query = "SELECT CATEGORIA FROM EMPLEADO WHERE ID_EMPLEADO = ? AND CONTRASENA = ?";
+		String query = "SELECT categoria FROM EMPLEADO WHERE id_empleado = ? AND contrasena = ?";
 		try (PreparedStatement ps = conexion.prepareStatement(query)) {
 			int id_empleado_numero = Integer.parseInt(usuario);
 			// Hacemos dos Statement, uno para usuario y otro para contraseña
@@ -45,7 +45,7 @@ public class ControladorLogin implements ActionListener {
 
 			// Comienza la logica de comparacion para intentar acceder
 			if (rs.next()) {
-				String categoriaEmpleado = rs.getString("categoria");
+				categoriaEmpleado = rs.getString("categoria");
 				JOptionPane.showMessageDialog(null, "Acceso conseguido!");
 				vLogin.dispose();
 				if (categoriaEmpleado.equalsIgnoreCase("Aprendiz")) {
@@ -56,7 +56,7 @@ public class ControladorLogin implements ActionListener {
 					new VentanaOficial("Menu Oficial").setVisible(true);
 				}
 			}else {
-				JOptionPane.showMessageDialog(null, "Acceso denegado: Contraseña Incorrecta");
+				JOptionPane.showMessageDialog(null, "Acceso denegado: Contraseña o Usuario incorrecto");
 			}
 
 		} catch (SQLException SQLe) {

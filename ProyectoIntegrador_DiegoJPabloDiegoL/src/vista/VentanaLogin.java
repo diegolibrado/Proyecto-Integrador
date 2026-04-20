@@ -35,7 +35,7 @@ public class VentanaLogin extends JFrame {
 	}
 
 	private void inicializarComponentes() {
-		
+
 		// Footer
 		JPanel pnlFooter = new JPanel();
 		pnlFooter.setBackground(new Color(72, 119, 109));
@@ -48,7 +48,7 @@ public class VentanaLogin extends JFrame {
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1.setFont(new Font("Verdana", Font.PLAIN, 10));
 		pnlFooter.add(lblNewLabel_1);
-		
+
 		// TITULO
 		JLabel lblTitulo = new JLabel("INICIAR SESIÓN");
 		lblTitulo.setBounds(27, 63, 298, 40);
@@ -112,7 +112,6 @@ public class VentanaLogin extends JFrame {
 		JLabel lblFondo = new JLabel("");
 		// Cambiamos la ruta de Diego por la ruta relativa del proyecto
 		// Quitamos el getClass().getResource y ponemos la ruta directa desde la raíz
-		lblFondo.setIcon(new ImageIcon("img/fondo.jpeg"));
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
 		lblFondo.setBounds(0, 0, 944, 501);
 		getContentPane().add(lblFondo);
@@ -120,9 +119,13 @@ public class VentanaLogin extends JFrame {
 	}
 
 	public void setControlador(ActionListener c) {
+		// Hacemos este bucle para asegurarnos de que el boton nos manda a donde
+		// queremos, ya que se han eliminado los escuchadores que no nos sirven
+		// Es por control
 		for (ActionListener a : btnLogin.getActionListeners()) {
 			btnLogin.removeActionListener(a);
 		}
+		// Una vez vacio, añadimos el que si nos interesa
 		btnLogin.addActionListener(c);
 	}
 
