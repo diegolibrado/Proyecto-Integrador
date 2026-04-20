@@ -146,8 +146,7 @@ public class VentanaMaestro extends JFrame {
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);
 		getContentPane().add(lblFondo);
-		lblFondo.setIcon(new ImageIcon(
-				"C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\fondo.jpeg"));
+		lblFondo.setIcon(new ImageIcon(getClass().getResource("/img/fondo.jpeg")));
 
 	}
 }

@@ -93,7 +93,7 @@ public class VentanaLogin extends JFrame {
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JLabel lblLogo = new JLabel("");
-		ImageIcon iconoLogo = new ImageIcon("C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\logo.png");
+		ImageIcon iconoLogo = new ImageIcon("img/logo.png");
 		java.awt.Image imgLogo = iconoLogo.getImage().getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH); //Para que se autoescale y se coloque el tamaño correctamente
 		lblLogo.setIcon(new ImageIcon(imgLogo));
 		lblLogo.setBounds(37, 51, 180, 180);
@@ -101,8 +101,9 @@ public class VentanaLogin extends JFrame {
 
 		// IMAGEN DE FONDO
 		JLabel lblFondo = new JLabel("");
-		lblFondo.setIcon(new ImageIcon(
-				"C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\fondo.jpeg"));
+		// Cambiamos la ruta de Diego por la ruta relativa del proyecto
+		// Quitamos el getClass().getResource y ponemos la ruta directa desde la raíz
+		lblFondo.setIcon(new ImageIcon("img/fondo.jpeg"));
 		lblFondo.setBounds(0, 0, 944, 501);
 		getContentPane().add(lblFondo);
 
