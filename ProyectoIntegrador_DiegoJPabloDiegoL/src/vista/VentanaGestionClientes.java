@@ -4,21 +4,30 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+
+import modelo.Modelo;
 
 public class VentanaGestionClientes extends JFrame {
 
 	// Declaracion de variables
-	private String tipoUsuario;
+	private String rangoUsuario;
 	private JButton btnEliminarCita;
 	private JButton btnCrearCita;
 	private JButton btnModificarCita;
 	private JButton btnGuardarCambios;
+	private DefaultTableModel modeloTabla;
+	private JTable table;
 
 	public VentanaGestionClientes(String rango) {
-		this.tipoUsuario = rango;
+		this.rangoUsuario = rango;
 		inicializarComponentes();
 		configInicial();
 		configurarPermisos();
@@ -67,7 +76,7 @@ public class VentanaGestionClientes extends JFrame {
 		});
 		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCerrarSesion.setBackground(new Color(165, 191, 201));
-		btnCerrarSesion.setBounds(793, 68, 129, 30);
+		btnCerrarSesion.setBounds(780, 68, 142, 30);
 		getContentPane().add(btnCerrarSesion);
 
 		// Titulo Pagina
@@ -101,25 +110,27 @@ public class VentanaGestionClientes extends JFrame {
 		btnGuardarCambios.setBackground(new Color(165, 191, 201));
 		btnGuardarCambios.setBounds(22, 231, 109, 30);
 		pnlBarraHorizontal.add(btnGuardarCambios);
-		
+
 		JButton btnAtras = new JButton("");
-		ImageIcon iconoAtras = new ImageIcon("C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\flecha_izq.png");
-		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH); //Para que se autoescale y se coloque el tamaño correctamente
+		// Para que se autoescale y se coloque el tamaño correctamente
+		ImageIcon iconoAtras = new ImageIcon(
+				"img\\flecha_izq.png");
+		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
 		btnAtras.setIcon(new ImageIcon(imgAtras));
 		btnAtras.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        // Dependiendo del tipo de empleado volveremos a una pagina u otra
-		    	// De momento solo a la de maestro
-		    	VentanaMaestro vMaestro = new VentanaMaestro("Gestion de citas");
-		    	vMaestro.setVisible(true);
+			public void actionPerformed(ActionEvent e) {
+				// Dependiendo del tipo de empleado volveremos a una pagina u otra
+				// De momento solo a la de maestro
+				VentanaMaestro vMaestro = new VentanaMaestro("Gestion de citas");
+				vMaestro.setVisible(true);
 				dispose();
-		    }
+			}
 		});
 		btnAtras.setBackground(new Color(165, 191, 201));
 		btnAtras.setFont(new Font("Verdana", Font.PLAIN, 5));
 		btnAtras.setBounds(22, 11, 30, 30); // Posición arriba a la izquierda
 		getContentPane().add(btnAtras);
-		
+
 		// Panel con informacion
 		JPanel pnlBarraHorizontal_1 = new JPanel();
 		pnlBarraHorizontal_1.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
@@ -128,12 +139,58 @@ public class VentanaGestionClientes extends JFrame {
 		pnlBarraHorizontal_1.setBackground(new Color(165, 191, 201));
 		pnlBarraHorizontal_1.setBounds(139, 25, 782, 236);
 		pnlBarraHorizontal.add(pnlBarraHorizontal_1);
-		
+
+		// ScrollPane para la tabla
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 10, 762, 216);
+		pnlBarraHorizontal_1.add(scrollPane);
+
+		// Tabla
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		modeloTabla = new DefaultTableModel();
+		modeloTabla.addColumn("ID");
+		modeloTabla.addColumn("NOMBRE");
+		modeloTabla.addColumn("SUPERPODER");
+		modeloTabla.addColumn("COLORES");
+
+		table = new JTable(modeloTabla);
+		scrollPane.setViewportView(table);
+
+		cargarDatosCitas();
+
 		// FONDO
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);
 		getContentPane().add(lblFondo);
-		lblFondo.setIcon(new ImageIcon(
-				"C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\fondo.jpeg"));
+		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
+	}
+
+	public void cargarDatosCitas() {
+		modeloTabla.setRowCount(0);
+
+		Modelo conector = new Modelo();
+		Connection conexion = conector.getConexion();
+
+		String query = "SELECT id_cliente, nombre, superpoder, colores FROM CLIENTE";
+		try (Statement st = conexion.createStatement(); ResultSet rs = st.executeQuery(query)) {
+
+			// Añadimos los datos
+			while (rs.next()) {
+				Object[] fila = new Object[4];
+				fila[0] = rs.getInt("id_cliente");
+				fila[1] = rs.getString("nombre");
+				fila[2] = rs.getString("superpoder");
+				fila[3] = rs.getString("colores");
+
+				modeloTabla.addRow(fila);
+
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error de SQL: " + e.getMessage());
+			// Si o si cerramos la conexion, haya errores o no.
+		} finally {
+			conector.cerrarConexion(conexion);
+		}
 	}
 }

@@ -22,14 +22,10 @@ public class VentanaOficial extends JFrame {
 	}
 
 	private void configInicial() {
-		// ventana se cierra con la X
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-		// AbsoluteLayout (ponemos los componentes donde nos dé la gana)
 		getContentPane().setLayout(null);
-
-		// tamaño de la ventana
 		setSize(960, 540);
+		setLocationRelativeTo(null);
 	}
 
 	private void inicializarComponentes() {

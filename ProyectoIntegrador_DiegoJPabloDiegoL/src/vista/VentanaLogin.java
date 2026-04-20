@@ -19,7 +19,8 @@ import java.awt.event.ActionEvent;
 public class VentanaLogin extends JFrame {
 	private JPasswordField passwordField;
 	private JTextField textFieldUsuario;
-
+	private JButton btnLogin;
+	
 	public VentanaLogin(String titulo) {
 		super(titulo);
 		configInicial();
@@ -78,23 +79,26 @@ public class VentanaLogin extends JFrame {
 		passwordField.setHorizontalAlignment(SwingConstants.LEFT);
 
 		// BOTÓN DE ACCESO
-		JButton btnLogin = new JButton("Acceder");
+		btnLogin = new JButton("Acceder");
 		btnLogin.setBounds(788, 159, 111, 40);
 		pnlBarraHorizontal.add(btnLogin);
 		// LISTENER PARA CONFIRMAR ACCESO
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaMaestro vMaestro = new VentanaMaestro("Menu de Gestión - Maestro");
-				vMaestro.setVisible(true);
-				dispose();
 			}
 		});
 		btnLogin.setBackground(new Color(165, 191, 201));
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		
+
 		JLabel lblLogo = new JLabel("");
+
 		ImageIcon iconoLogo = new ImageIcon("img/logo.png");
 		java.awt.Image imgLogo = iconoLogo.getImage().getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH); //Para que se autoescale y se coloque el tamaño correctamente
+
+		// Para que se autoescale y se coloque el tamaño correctamente
+		ImageIcon iconoLogo = new ImageIcon("img\\logo.png");
+		java.awt.Image imgLogo = iconoLogo.getImage().getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
+
 		lblLogo.setIcon(new ImageIcon(imgLogo));
 		lblLogo.setBounds(37, 51, 180, 180);
 		pnlBarraHorizontal.add(lblLogo);
@@ -104,8 +108,24 @@ public class VentanaLogin extends JFrame {
 		// Cambiamos la ruta de Diego por la ruta relativa del proyecto
 		// Quitamos el getClass().getResource y ponemos la ruta directa desde la raíz
 		lblFondo.setIcon(new ImageIcon("img/fondo.jpeg"));
+		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
 		lblFondo.setBounds(0, 0, 944, 501);
 		getContentPane().add(lblFondo);
 
 	}
+	
+	public void setControlador(ActionListener c) {
+		for(ActionListener a : btnLogin.getActionListeners()) {
+			btnLogin.removeActionListener(a);
+		}
+		btnLogin.addActionListener(c);
+	}
+
+	public String getContrasena() {
+	    return new String(passwordField.getPassword());
+	}
+	public String getUsuario() {
+	    return textFieldUsuario.getText();
+	}
 }
+
