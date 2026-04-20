@@ -100,16 +100,10 @@ public class VentanaLogin extends JFrame {
 		});
 		btnLogin.setBackground(new Color(165, 191, 201));
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 16));
-
 		JLabel lblLogo = new JLabel("");
-
-		ImageIcon iconoLogo = new ImageIcon("img/logo.png");
-		java.awt.Image imgLogo = iconoLogo.getImage().getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH); //Para que se autoescale y se coloque el tamaño correctamente
-
 		// Para que se autoescale y se coloque el tamaño correctamente
 		ImageIcon iconoLogo = new ImageIcon("img\\logo.png");
 		java.awt.Image imgLogo = iconoLogo.getImage().getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
-
 		lblLogo.setIcon(new ImageIcon(imgLogo));
 		lblLogo.setBounds(37, 51, 180, 180);
 		pnlBarraHorizontal.add(lblLogo);

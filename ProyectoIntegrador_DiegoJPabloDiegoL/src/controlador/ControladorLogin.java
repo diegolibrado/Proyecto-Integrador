@@ -45,14 +45,14 @@ public class ControladorLogin implements ActionListener {
 
 			// Comienza la logica de comparacion para intentar acceder
 			if (rs.next()) {
-				String categoria = rs.getString("categoria");
+				String categoriaEmpleado = rs.getString("categoria");
 				JOptionPane.showMessageDialog(null, "Acceso conseguido!");
 				vLogin.dispose();
-				if (categoria.equalsIgnoreCase("Aprendiz")) {
+				if (categoriaEmpleado.equalsIgnoreCase("Aprendiz")) {
 					new VentanaAprendiz("Menu Aprendiz").setVisible(true);
-				} else if (categoria.equalsIgnoreCase("Maestro")) {
+				} else if (categoriaEmpleado.equalsIgnoreCase("Maestro")) {
 					new VentanaMaestro("Menu Maestro").setVisible(true);
-				} else if(categoria.equalsIgnoreCase("Oficial")){
+				} else if(categoriaEmpleado.equalsIgnoreCase("Oficial")){
 					new VentanaOficial("Menu Oficial").setVisible(true);
 				}
 			}else {
