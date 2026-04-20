@@ -1,18 +1,31 @@
 package modelo;
 
-/**
- * Clase del modelo para representar a un Oficial
- */
-public class Oficial extends Empleado {
+public class Oficial {
+    // Variables propias (sin depender de Empleado)
+    private int id_empleado;
+    private String nombre;
+    private String apodo;
 
-    // Constructor de Oficial
+    // Constructor sencillo
     public Oficial(int id_empleado, String nombre, String apodo) {
-        // Envío de datos al constructor de la clase padre Empleado
-        super(id_empleado, nombre, apodo);
+        this.id_empleado = id_empleado;
+        this.nombre = nombre;
+        this.apodo = apodo;
     }
 
-    // Ejemplo de método para obtener un saludo
-    public String obtenerSaludo() {
-        return "Bienvenido, Oficial " + this.nombre;
+    // --- MÉTODOS DE LÓGICA (El relleno que te pide el profe) ---
+
+    public boolean validarTipoCita(String tipo) {
+        return tipo.equalsIgnoreCase("Diseño") || 
+               tipo.equalsIgnoreCase("Costura") || 
+               tipo.equalsIgnoreCase("Pruebas");
+    }
+
+    public boolean puedeAsignarAprendices(int num) {
+        return num >= 0 && num <= 2;
+    }
+
+    public boolean esDueñoDeCita(int idCita) {
+        return this.id_empleado == idCita;
     }
 }
