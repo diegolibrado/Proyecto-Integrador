@@ -60,6 +60,19 @@ public class VentanaGestionCitas extends JFrame {
 
 	private void inicializarComponentes() {
 
+		// Footer
+		JPanel pnlFooter = new JPanel();
+		pnlFooter.setBackground(new Color(72, 119, 109));
+		pnlFooter.setBounds(0, 481, 944, 20);
+		getContentPane().add(pnlFooter);
+
+		// Copyright
+		JLabel lblNewLabel_1 = new JLabel("© 2026 Payo-Vallecano, Inc. Todos los derechos reservados");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setFont(new Font("Verdana", Font.PLAIN, 10));
+		pnlFooter.add(lblNewLabel_1);
+
 		// Panel horizontal
 		JPanel pnlBarraHorizontal = new JPanel();
 		pnlBarraHorizontal.setForeground(new Color(196, 204, 203));
@@ -73,6 +86,10 @@ public class VentanaGestionCitas extends JFrame {
 		btnCerrarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
+				// Creo objeto tipo controlador asociado a la nueva ventana para que pueda
+				// volver a iniciar sesion
+				controlador.ControladorLogin c = new controlador.ControladorLogin(vLogin);
+				vLogin.setControlador(c);
 				vLogin.setVisible(true);
 				dispose();
 			}

@@ -37,8 +37,9 @@ public class ControladorLogin implements ActionListener {
 		// Query (consulta)
 		String query = "SELECT CATEGORIA FROM EMPLEADO WHERE ID_EMPLEADO = ? AND CONTRASENA = ?";
 		try (PreparedStatement ps = conexion.prepareStatement(query)) {
+			int id_empleado_numero = Integer.parseInt(usuario);
 			// Hacemos dos Statement, uno para usuario y otro para contraseña
-			ps.setString(1, usuario);
+			ps.setInt(1, id_empleado_numero);
 			ps.setString(2, contraseña);
 			ResultSet rs = ps.executeQuery();
 

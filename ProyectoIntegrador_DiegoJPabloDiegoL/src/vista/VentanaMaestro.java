@@ -19,8 +19,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class VentanaMaestro extends JFrame {
-	Empleado empleado = new Empleado();
-
 	public VentanaMaestro(String titulo) {
 		super(titulo);
 		configInicial();
@@ -36,6 +34,19 @@ public class VentanaMaestro extends JFrame {
 
 	private void inicializarComponentes() {
 
+		// Footer
+		JPanel pnlFooter = new JPanel();
+		pnlFooter.setBackground(new Color(72, 119, 109));
+		pnlFooter.setBounds(0, 481, 944, 20);
+		getContentPane().add(pnlFooter);
+
+		// Copyright
+		JLabel lblNewLabel_1 = new JLabel("© 2026 Payo-Vallecano, Inc. Todos los derechos reservados");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setFont(new Font("Verdana", Font.PLAIN, 10));
+		pnlFooter.add(lblNewLabel_1);
+
 		// Panel horizontal
 		JPanel pnlBarraHorizontal = new JPanel();
 		pnlBarraHorizontal.setForeground(new Color(196, 204, 203));
@@ -49,6 +60,10 @@ public class VentanaMaestro extends JFrame {
 		btnCerrarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
+				// Creo objeto tipo controlador asociado a la nueva ventana para que pueda
+				// volver a iniciar sesion
+				controlador.ControladorLogin c = new controlador.ControladorLogin(vLogin);
+				vLogin.setControlador(c);
 				vLogin.setVisible(true);
 				dispose();
 			}
@@ -57,7 +72,7 @@ public class VentanaMaestro extends JFrame {
 		btnCerrarSesion.setBackground(new Color(165, 191, 201));
 		btnCerrarSesion.setBounds(787, 68, 135, 30);
 		getContentPane().add(btnCerrarSesion);
-
+		
 		// Titulo Pagina
 		JLabel lblTitulo = new JLabel("Menú Maestro");
 		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
@@ -113,7 +128,8 @@ public class VentanaMaestro extends JFrame {
 			}
 		});
 		ImageIcon iconoCitas = new ImageIcon("img\\citas.png");
-		java.awt.Image imgCitas = iconoCitas.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH); //Para que se autoescale y se coloque el tamaño correctamente
+		// Para que se autoescale y se coloque el tamaño correctamente
+		java.awt.Image imgCitas = iconoCitas.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 		btnCitas.setIcon(new ImageIcon(imgCitas));
 		// Colocamos el texto abajo
 		btnCitas.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -122,7 +138,7 @@ public class VentanaMaestro extends JFrame {
 		btnCitas.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCitas.setBounds(240, 96, 110, 90);
 		pnlBarraHorizontal.add(btnCitas);
-		
+
 		JButton btnTrajes = new JButton("Trajes");
 		btnTrajes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -146,8 +162,7 @@ public class VentanaMaestro extends JFrame {
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);
 		getContentPane().add(lblFondo);
-		lblFondo.setIcon(new ImageIcon(
-				"img\\fondo.jpeg"));
+		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
 
 	}
 }

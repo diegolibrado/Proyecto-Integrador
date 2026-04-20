@@ -20,7 +20,7 @@ public class VentanaLogin extends JFrame {
 	private JPasswordField passwordField;
 	private JTextField textFieldUsuario;
 	private JButton btnLogin;
-	
+
 	public VentanaLogin(String titulo) {
 		super(titulo);
 		configInicial();
@@ -35,8 +35,20 @@ public class VentanaLogin extends JFrame {
 	}
 
 	private void inicializarComponentes() {
-		getContentPane().setLayout(null);
+		
+		// Footer
+		JPanel pnlFooter = new JPanel();
+		pnlFooter.setBackground(new Color(72, 119, 109));
+		pnlFooter.setBounds(0, 481, 944, 20);
+		getContentPane().add(pnlFooter);
 
+		// Copyright
+		JLabel lblNewLabel_1 = new JLabel("© 2026 Payo-Vallecano, Inc. Todos los derechos reservados");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setFont(new Font("Verdana", Font.PLAIN, 10));
+		pnlFooter.add(lblNewLabel_1);
+		
 		// TITULO
 		JLabel lblTitulo = new JLabel("INICIAR SESIÓN");
 		lblTitulo.setBounds(27, 63, 298, 40);
@@ -72,7 +84,6 @@ public class VentanaLogin extends JFrame {
 		lblContraseña.setFont(new Font("Tahoma", Font.PLAIN, 22));
 
 		passwordField = new JPasswordField();
-		passwordField.setEchoChar('*');
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		passwordField.setBounds(510, 159, 216, 40);
 		pnlBarraHorizontal.add(passwordField);
@@ -105,19 +116,19 @@ public class VentanaLogin extends JFrame {
 		getContentPane().add(lblFondo);
 
 	}
-	
+
 	public void setControlador(ActionListener c) {
-		for(ActionListener a : btnLogin.getActionListeners()) {
+		for (ActionListener a : btnLogin.getActionListeners()) {
 			btnLogin.removeActionListener(a);
 		}
 		btnLogin.addActionListener(c);
 	}
 
 	public String getContrasena() {
-	    return new String(passwordField.getPassword());
+		return new String(passwordField.getPassword());
 	}
+
 	public String getUsuario() {
-	    return textFieldUsuario.getText();
+		return textFieldUsuario.getText();
 	}
 }
-
