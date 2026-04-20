@@ -2,15 +2,20 @@ package modelo;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.JOptionPane;
 
 public class Modelo {
 	private static final String driver = "com.mysql.cj.jdbc.Driver";
-	private static final String url = "jdbc:mysql://localhost:3306/tu_base_datos";
-    private static final String usuario = "root";
-    private static final String contrasena = "2004";
-    
-    /**
+	private static final String url = "jdbc:mysql://localhost:3306/Proyecto-Integrador";
+	private static final String usuario = "root";
+	private static final String contrasena = "2004";
+
+	/**
 	 * Método para conectar la base de datos
 	 * 
 	 * @return

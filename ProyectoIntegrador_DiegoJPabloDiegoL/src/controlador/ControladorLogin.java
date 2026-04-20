@@ -1,0 +1,69 @@
+package controlador;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import modelo.Modelo;
+import vista.VentanaAprendiz;
+import vista.VentanaLogin;
+import vista.VentanaMaestro;
+import vista.VentanaOficial;
+
+public class ControladorLogin implements ActionListener {
+
+	private String categoriaEmpleado;
+	private VentanaLogin vLogin;
+
+	public ControladorLogin(VentanaLogin vLogin) {
+		this.vLogin = vLogin;
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		// Guardamos lo introducido en el textField en una variable
+		String usuario = vLogin.getUsuario();
+		String contraseña = new String(vLogin.getContrasena());
+
+		// realizamos la conexion
+		Modelo modelo = new Modelo();
+		Connection conexion = modelo.getConexion();
+
+		// Query (consulta)
+		String query = "SELECT CATEGORIA FROM EMPLEADO WHERE ID_EMPLEADO = ? AND CONTRASENA = ?";
+		try (PreparedStatement ps = conexion.prepareStatement(query)) {
+			// Hacemos dos Statement, uno para usuario y otro para contraseña
+			ps.setString(1, usuario);
+			ps.setString(2, contraseña);
+			ResultSet rs = ps.executeQuery();
+
+			// Comienza la logica de comparacion para intentar acceder
+			if (rs.next()) {
+				String categoria = rs.getString("categoria");
+				JOptionPane.showMessageDialog(null, "Acceso conseguido!");
+				vLogin.dispose();
+				if (categoria.equalsIgnoreCase("Aprendiz")) {
+					new VentanaAprendiz("Menu Aprendiz").setVisible(true);
+				} else if (categoria.equalsIgnoreCase("Maestro")) {
+					new VentanaMaestro("Menu Maestro").setVisible(true);
+				} else if(categoria.equalsIgnoreCase("Oficial")){
+					new VentanaOficial("Menu Oficial").setVisible(true);
+				}
+			}else {
+				JOptionPane.showMessageDialog(null, "Acceso denegado: Contraseña Incorrecta");
+			}
+
+		} catch (SQLException SQLe) {
+			JOptionPane.showMessageDialog(null, "Error al conectar con la base de datos");
+			SQLe.printStackTrace();
+		// Pase lo que pase cerramos la conexion con la base de datos
+		} finally {
+
+		}
+	}
+}

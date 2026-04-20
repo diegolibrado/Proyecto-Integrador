@@ -55,7 +55,7 @@ public class VentanaMaestro extends JFrame {
 		});
 		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCerrarSesion.setBackground(new Color(165, 191, 201));
-		btnCerrarSesion.setBounds(793, 68, 129, 30);
+		btnCerrarSesion.setBounds(787, 68, 135, 30);
 		getContentPane().add(btnCerrarSesion);
 
 		// Titulo Pagina
@@ -74,7 +74,7 @@ public class VentanaMaestro extends JFrame {
 				dispose();
 			}
 		});
-		ImageIcon iconoTalleres = new ImageIcon("C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\talleres.png");
+		ImageIcon iconoTalleres = new ImageIcon("img\\talleres.png");
 		java.awt.Image imgTalleres = iconoTalleres.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 		btnTalleres.setIcon(new ImageIcon(imgTalleres));
 		// Colocamos el texto abajo
@@ -93,7 +93,7 @@ public class VentanaMaestro extends JFrame {
 				dispose();
 			}
 		});
-		ImageIcon iconoClientes = new ImageIcon("C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\clientes.png");
+		ImageIcon iconoClientes = new ImageIcon("img\\clientes.png");
 		java.awt.Image imgClientes = iconoClientes.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 		btnClientes.setIcon(new ImageIcon(imgClientes));
 		// Colocamos el texto abajo
@@ -112,7 +112,7 @@ public class VentanaMaestro extends JFrame {
 				dispose();
 			}
 		});
-		ImageIcon iconoCitas = new ImageIcon("C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\citas.png");
+		ImageIcon iconoCitas = new ImageIcon("img\\citas.png");
 		java.awt.Image imgCitas = iconoCitas.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH); //Para que se autoescale y se coloque el tamaño correctamente
 		btnCitas.setIcon(new ImageIcon(imgCitas));
 		// Colocamos el texto abajo
@@ -131,7 +131,7 @@ public class VentanaMaestro extends JFrame {
 				dispose();
 			}
 		});
-		ImageIcon iconoTrajes = new ImageIcon("C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\trajes.png");
+		ImageIcon iconoTrajes = new ImageIcon("img\\trajes.png");
 		java.awt.Image imgTrajes = iconoTrajes.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 		btnTrajes.setIcon(new ImageIcon(imgTrajes));
 		// Colocamos el texto abajo
@@ -147,7 +147,7 @@ public class VentanaMaestro extends JFrame {
 		lblFondo.setBounds(0, 0, 944, 501);
 		getContentPane().add(lblFondo);
 		lblFondo.setIcon(new ImageIcon(
-				"C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\fondo.jpeg"));
+				"img\\fondo.jpeg"));
 
 	}
 }
