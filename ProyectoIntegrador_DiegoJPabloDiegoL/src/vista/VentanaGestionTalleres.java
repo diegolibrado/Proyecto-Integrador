@@ -105,6 +105,16 @@ public class VentanaGestionTalleres extends JFrame {
 		btnCrear.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCrear.setBounds(22, 25, 109, 30);
 		pnlBarraHorizontal.add(btnCrear);
+		
+		btnCrear.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        // Abrimos la ventana de Crear y le pasamos el rango del usuario
+		        VentanaCrearTaller vCrear = new VentanaCrearTaller(rangoUsuario);
+		        vCrear.setVisible(true);
+		        // Cerramos la ventana actual
+		        dispose(); 
+		    }
+		});
 
 		JButton btnEliminar = new JButton("Eliminar");
 		btnEliminar.setBackground(new Color(165, 191, 201));
@@ -117,6 +127,29 @@ public class VentanaGestionTalleres extends JFrame {
 		btnModificar.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnModificar.setBounds(22, 101, 109, 30);
 		pnlBarraHorizontal.add(btnModificar);
+		
+		btnModificar.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        // 1. Vemos qué fila ha seleccionado el usuario
+		        int filaSeleccionada = table.getSelectedRow();
+		        
+		        if (filaSeleccionada == -1) {
+		            JOptionPane.showMessageDialog(null, "Por favor, selecciona un taller de la tabla para modificarlo.", "Aviso", JOptionPane.WARNING_MESSAGE);
+		            return;
+		        }
+
+		        // 2. Extraemos los datos de esa fila
+		        int id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+		        String nombre = (String) modeloTabla.getValueAt(filaSeleccionada, 1);
+		        String tipo = (String) modeloTabla.getValueAt(filaSeleccionada, 2);
+
+		        // 3. Abrimos la ventana de Modificar pasándole el rango Y los datos del taller
+		        VentanaModificarTaller vModificar = new VentanaModificarTaller(rangoUsuario, id, nombre, tipo);
+		        vModificar.setVisible(true);
+		        dispose();
+		    }
+		});
+		
 
 		JButton btnGuardarCambios = new JButton("Guardar");
 		btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
