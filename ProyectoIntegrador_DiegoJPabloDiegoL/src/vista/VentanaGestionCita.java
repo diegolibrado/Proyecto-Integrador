@@ -4,18 +4,21 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import controlador.ControladorCrearCita;
 import modelo.Modelo;
 
-public class VentanaGestionTalleres extends JFrame {
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class VentanaGestionCita extends JFrame {
 
 	// Declaracion de variables
 	private String rangoUsuario;
@@ -26,10 +29,11 @@ public class VentanaGestionTalleres extends JFrame {
 	private DefaultTableModel modeloTabla;
 	private JTable table;
 
-	public VentanaGestionTalleres(String rango) {
+	public VentanaGestionCita(String rango) {
 		this.rangoUsuario = rango;
 		inicializarComponentes();
 		configInicial();
+		configurarPermisos();
 	}
 
 	/**
@@ -40,6 +44,14 @@ public class VentanaGestionTalleres extends JFrame {
 		getContentPane().setLayout(null);
 		setSize(960, 540);
 		setLocationRelativeTo(null);
+	}
+
+	/**
+	 * Metodo para que dependiendo de que tipo de empleado haya ingresado, se
+	 * muestren unas cosas u otras
+	 */
+	private void configurarPermisos() {
+
 	}
 
 	private void inicializarComponentes() {
@@ -84,72 +96,41 @@ public class VentanaGestionTalleres extends JFrame {
 		getContentPane().add(btnCerrarSesion);
 
 		// Titulo Pagina
-		JLabel lblTitulo = new JLabel("Gestión de Talleres");
+		JLabel lblTitulo = new JLabel("Gestión de Citas");
 		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
-		lblTitulo.setBounds(22, 63, 333, 40);
+		lblTitulo.setBounds(22, 63, 298, 40);
 		getContentPane().add(lblTitulo);
 
 		// BOTONES
-		JButton btnCrear = new JButton("Crear");
-		btnCrear.setBackground(new Color(165, 191, 201));
-		btnCrear.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnCrear.setBounds(22, 25, 109, 30);
-		pnlBarraHorizontal.add(btnCrear);
-		
-		btnCrear.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        // Abrimos la ventana de Crear y le pasamos el rango del usuario
-		        VentanaCrearTaller vCrear = new VentanaCrearTaller(rangoUsuario);
-		        controlador.ControladorCrearTaller cCrear = new controlador.ControladorCrearTaller(vCrear);
-		        vCrear.setControladorGuardar(cCrear);
-		        vCrear.setVisible(true);
-		        // Cerramos la ventana actual
-		        dispose(); 
-		    }
+		btnCrearCita = new JButton("Crear");
+		btnCrearCita.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaCrearCita vCrearCita = new VentanaCrearCita(rangoUsuario);
+				ControladorCrearCita cCrearCita = new ControladorCrearCita(vCrearCita);
+				vCrearCita.getBtnGuardarCambios().addActionListener(cCrearCita);
+				vCrearCita.setVisible(true);
+				dispose();
+			}
 		});
+		btnCrearCita.setBackground(new Color(165, 191, 201));
+		btnCrearCita.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnCrearCita.setBounds(22, 25, 109, 30);
+		pnlBarraHorizontal.add(btnCrearCita);
 
-		JButton btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBackground(new Color(165, 191, 201));
-		btnEliminar.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnEliminar.setBounds(22, 63, 109, 30);
-		pnlBarraHorizontal.add(btnEliminar);
-		controlador.ControladorEliminarTaller cEliminar = new controlador.ControladorEliminarTaller(this);
-		btnEliminar.addActionListener(cEliminar);
+		btnEliminarCita = new JButton("Eliminar");
+		btnEliminarCita.setBackground(new Color(165, 191, 201));
+		btnEliminarCita.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnEliminarCita.setBounds(22, 63, 109, 30);
+		pnlBarraHorizontal.add(btnEliminarCita);
 
-		JButton btnModificar = new JButton("Modificar");
-		btnModificar.setBackground(new Color(165, 191, 201));
-		btnModificar.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnModificar.setBounds(22, 101, 109, 30);
-		pnlBarraHorizontal.add(btnModificar);
-		
-		btnModificar.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        // 1. Vemos qué fila ha seleccionado el usuario
-		        int filaSeleccionada = table.getSelectedRow();
-		        
-		        // Si no se ha seleccionado ninguna sale panel de error.
-		        if (filaSeleccionada == -1) {
-		            JOptionPane.showMessageDialog(null, "Por favor, selecciona un taller de la tabla para modificarlo.", "Aviso", JOptionPane.WARNING_MESSAGE);
-		            return;
-		        }
+		btnModificarCita = new JButton("Modificar");
+		btnModificarCita.setBackground(new Color(165, 191, 201));
+		btnModificarCita.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnModificarCita.setBounds(22, 101, 109, 30);
+		pnlBarraHorizontal.add(btnModificarCita);
 
-		        // 2. Extraemos los datos de esa fila
-		        int id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
-		        String nombre = (String) modeloTabla.getValueAt(filaSeleccionada, 1);
-		        String tipo = (String) modeloTabla.getValueAt(filaSeleccionada, 2);
-
-		        // 3. Abrimos la ventana de Modificar pasándole el rango Y los datos del taller
-		        VentanaModificarTaller vModificar = new VentanaModificarTaller(rangoUsuario, id, nombre, tipo);
-		        controlador.ControladorModificarTaller cModificar = new controlador.ControladorModificarTaller(vModificar);
-		        vModificar.setControladorModificar(cModificar);
-		        vModificar.setVisible(true);
-		        dispose();
-		    }
-		});
-		
-
-		JButton btnGuardarCambios = new JButton("Guardar");
+		btnGuardarCambios = new JButton("Guardar");
 		btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnGuardarCambios.setBackground(new Color(165, 191, 201));
 		btnGuardarCambios.setBounds(22, 231, 109, 30);
@@ -192,36 +173,49 @@ public class VentanaGestionTalleres extends JFrame {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		modeloTabla = new DefaultTableModel();
-		modeloTabla.addColumn("ID");
-		modeloTabla.addColumn("NOMBRE");
-		modeloTabla.addColumn("TIPO");
+		modeloTabla.addColumn("DÍA");
+		modeloTabla.addColumn("HORA");
+		modeloTabla.addColumn("DURACIÓN");
+		modeloTabla.addColumn("CLIENTE");
+		modeloTabla.addColumn("TALLER");
+		modeloTabla.addColumn("RESPONSABLE");
+		modeloTabla.addColumn("TRAJE");
 
 		table = new JTable(modeloTabla);
 		scrollPane.setViewportView(table);
 
-		cargarDatosTalleres();
+		cargarDatosCitas();
+
 		// FONDO
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);
 		getContentPane().add(lblFondo);
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
 	}
-	
-	//mover a controlador
-	public void cargarDatosTalleres() {
+
+	public void cargarDatosCitas() {
 		modeloTabla.setRowCount(0);
+
 		Modelo conector = new Modelo();
 		Connection conexion = conector.getConexion();
 
-		String query = "SELECT id_taller, nombre_sala, tipo_sala FROM TALLER";
-
+		String query = "SELECT c.dia, c.hora, c.duracion, cl.nombre AS cliente, ta.nombre_sala AS taller, e.nombre AS empleado, tr.nombre AS traje "
+				+ "FROM CITA c " + "JOIN CLIENTE cl ON c.id_cliente = cl.id_cliente "
+				+ "JOIN TALLER ta ON c.id_taller = ta.id_taller "
+				+ "JOIN EMPLEADO e ON c.id_empleado_responsable = e.id_empleado "
+				+ "JOIN TRAJE tr ON c.id_traje = tr.id_traje";
 		try (Statement st = conexion.createStatement(); ResultSet rs = st.executeQuery(query)) {
+
 			// Añadimos los datos
 			while (rs.next()) {
-				Object[] fila = new Object[3];
-				fila[0] = rs.getInt("id_taller");
-				fila[1] = rs.getString("nombre_sala");
-				fila[2] = rs.getString("tipo_sala");
+				Object[] fila = new Object[7];
+				fila[0] = rs.getDate("dia");
+				fila[1] = rs.getTime("hora");
+				fila[2] = rs.getInt("duracion");
+				fila[3] = rs.getString("cliente");
+				fila[4] = rs.getString("taller");
+				fila[5] = rs.getString("empleado");
+				fila[6] = rs.getString("traje");
 
 				modeloTabla.addRow(fila);
 
@@ -232,18 +226,5 @@ public class VentanaGestionTalleres extends JFrame {
 		} finally {
 			conector.cerrarConexion(conexion);
 		}
-	}
-	
-	/**
-	 * Método para obtener el ID del taller seleccionado en la tabla.
-	 * Devuelve -1 si no hay ninguna fila seleccionada.
-	 */
-	public int getIdTallerSeleccionado() {
-		int filaSeleccionada = table.getSelectedRow();
-		if (filaSeleccionada == -1) {
-			return -1; // Nada seleccionado
-		}
-		// Sabiendo que el ID está en la columna 0
-		return (int) modeloTabla.getValueAt(filaSeleccionada, 0);
 	}
 }

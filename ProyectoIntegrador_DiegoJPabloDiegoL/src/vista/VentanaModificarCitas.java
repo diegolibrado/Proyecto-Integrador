@@ -17,7 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class VentanaGestionCitas extends JFrame {
+public class VentanaModificarCitas extends JFrame {
 
 	// Declaracion de variables
 	private String rangoUsuario;
@@ -28,7 +28,7 @@ public class VentanaGestionCitas extends JFrame {
 	private DefaultTableModel modeloTabla;
 	private JTable table;
 
-	public VentanaGestionCitas(String rango) {
+	public VentanaModificarCitas(String rango) {
 		this.rangoUsuario = rango;
 		inicializarComponentes();
 		configInicial();
@@ -38,14 +38,8 @@ public class VentanaGestionCitas extends JFrame {
 	/**
 	 * Metodo para determinar la configuracion inicial de la ventana.
 	 */
-	private void configInicial() {
-		// ventana se cierra con la X
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-		// AbsoluteLayout (ponemos los componentes donde nos dé la gana)
+	private void configInicial() {		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
-
-		// tamaño de la ventana
 		setSize(960, 540);
 		setLocationRelativeTo(null);
 	}

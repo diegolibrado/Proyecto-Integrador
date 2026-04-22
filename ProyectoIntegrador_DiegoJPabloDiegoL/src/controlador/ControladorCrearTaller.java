@@ -60,11 +60,9 @@ public class ControladorCrearTaller implements ActionListener {
 
 			if (filasAfectadas > 0) {
 				JOptionPane.showMessageDialog(vista, "Taller creado exitosamente.");
-				
 				// Volvemos automáticamente a la ventana de gestión para ver el nuevo taller
 				VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(vista.getRangoUsuario());
 				vGestionTalleres.setVisible(true);
-				
 				vista.dispose(); // Cerramos la ventana de creación
 			}
 

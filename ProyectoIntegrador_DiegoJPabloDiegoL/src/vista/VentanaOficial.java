@@ -80,7 +80,7 @@ public class VentanaOficial extends JFrame {
 		JButton btnCitas = new JButton("Citas");
 		btnCitas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaGestionCitas vGestionCitas = new VentanaGestionCitas("Gestion de citas");
+				VentanaGestionCita vGestionCitas = new VentanaGestionCita("Gestion de citas");
 				vGestionCitas.setVisible(true);
 				dispose();
 			}
