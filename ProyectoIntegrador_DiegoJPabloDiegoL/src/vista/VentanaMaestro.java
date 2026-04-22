@@ -19,8 +19,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class VentanaMaestro extends JFrame {
-	Empleado empleado = new Empleado();
-
 	public VentanaMaestro(String titulo) {
 		super(titulo);
 		configInicial();

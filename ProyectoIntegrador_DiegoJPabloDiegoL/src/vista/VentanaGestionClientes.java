@@ -8,21 +8,14 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-
 import modelo.Modelo;
 
 public class VentanaGestionClientes extends JFrame {
 
-	// Declaracion de variables
 	private String rangoUsuario;
-	private JButton btnEliminarCita;
-	private JButton btnCrearCita;
-	private JButton btnModificarCita;
-	private JButton btnGuardarCambios;
 	private DefaultTableModel modeloTabla;
 	private JTable table;
 
@@ -30,124 +23,76 @@ public class VentanaGestionClientes extends JFrame {
 		this.rangoUsuario = rango;
 		inicializarComponentes();
 		configInicial();
-		configurarPermisos();
 	}
 
-	/**
-	 * Metodo para determinar la configuracion inicial de la ventana.
-	 */
 	private void configInicial() {
-		// ventana se cierra con la X
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-		// AbsoluteLayout (ponemos los componentes donde nos dé la gana)
 		getContentPane().setLayout(null);
-
-		// tamaño de la ventana
 		setSize(960, 540);
 		setLocationRelativeTo(null);
 	}
 
-	/**
-	 * Metodo para que dependiendo de que tipo de empleado haya ingresado, se
-	 * muestren unas cosas u otras
-	 */
-	private void configurarPermisos() {
-	}
-
 	private void inicializarComponentes() {
-
-		// Panel horizontal
-		JPanel pnlBarraHorizontal = new JPanel();
-		pnlBarraHorizontal.setForeground(new Color(196, 204, 203));
-		pnlBarraHorizontal.setBackground(new Color(196, 204, 203));
-		pnlBarraHorizontal.setBounds(0, 111, 944, 282);
-		getContentPane().add(pnlBarraHorizontal);
-		pnlBarraHorizontal.setLayout(null);
-
-		// Boton Cerrar Sesion
-		JButton btnCerrarSesion = new JButton("Cerrar sesión");
-		btnCerrarSesion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
-				vLogin.setVisible(true);
-				dispose();
-			}
-		});
-		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnCerrarSesion.setBackground(new Color(165, 191, 201));
-		btnCerrarSesion.setBounds(780, 68, 142, 30);
-		getContentPane().add(btnCerrarSesion);
-
-		// Titulo Pagina
-		JLabel lblTitulo = new JLabel("Gestión de Clientes");
-		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
-		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
-		lblTitulo.setBounds(22, 63, 336, 40);
-		getContentPane().add(lblTitulo);
-
-		// BOTONES
-		JButton btnCrear = new JButton("Crear");
-		btnCrear.setBackground(new Color(165, 191, 201));
-		btnCrear.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnCrear.setBounds(22, 25, 109, 30);
-		pnlBarraHorizontal.add(btnCrear);
-
-		JButton btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBackground(new Color(165, 191, 201));
-		btnEliminar.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnEliminar.setBounds(22, 63, 109, 30);
-		pnlBarraHorizontal.add(btnEliminar);
-
-		JButton btnModificar = new JButton("Modificar");
-		btnModificar.setBackground(new Color(165, 191, 201));
-		btnModificar.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnModificar.setBounds(22, 101, 109, 30);
-		pnlBarraHorizontal.add(btnModificar);
-
-		JButton btnGuardarCambios = new JButton("Guardar");
-		btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnGuardarCambios.setBackground(new Color(165, 191, 201));
-		btnGuardarCambios.setBounds(22, 231, 109, 30);
-		pnlBarraHorizontal.add(btnGuardarCambios);
-
+		
 		JButton btnAtras = new JButton("");
-		// Para que se autoescale y se coloque el tamaño correctamente
-		ImageIcon iconoAtras = new ImageIcon(
-				"img\\flecha_izq.png");
+		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
 		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
 		btnAtras.setIcon(new ImageIcon(imgAtras));
-		btnAtras.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Dependiendo del tipo de empleado volveremos a una pagina u otra
-				// De momento solo a la de maestro
-				VentanaMaestro vMaestro = new VentanaMaestro("Gestion de citas");
-				vMaestro.setVisible(true);
-				dispose();
-			}
+		btnAtras.setBackground(Color.WHITE);
+		btnAtras.setBounds(22, 11, 40, 30);
+		btnAtras.addActionListener(e -> {
+			new VentanaMaestro("Gestión").setVisible(true);
+			dispose();
 		});
-		btnAtras.setBackground(new Color(165, 191, 201));
-		btnAtras.setFont(new Font("Verdana", Font.PLAIN, 5));
-		btnAtras.setBounds(22, 11, 30, 30); // Posición arriba a la izquierda
 		getContentPane().add(btnAtras);
 
-		// Panel con informacion
-		JPanel pnlBarraHorizontal_1 = new JPanel();
-		pnlBarraHorizontal_1.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
-		pnlBarraHorizontal_1.setLayout(null);
-		pnlBarraHorizontal_1.setForeground(new Color(196, 204, 203));
-		pnlBarraHorizontal_1.setBackground(new Color(165, 191, 201));
-		pnlBarraHorizontal_1.setBounds(139, 25, 782, 236);
-		pnlBarraHorizontal.add(pnlBarraHorizontal_1);
+		JButton btnCerrarSesion = new JButton("Cerrar sesión");
+		btnCerrarSesion.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnCerrarSesion.setBounds(815, 63, 110, 30);
+		btnCerrarSesion.addActionListener(e -> {
+			new VentanaLogin("Login").setVisible(true);
+			dispose();
+		});
+		getContentPane().add(btnCerrarSesion);
 
-		// ScrollPane para la tabla
+		JLabel lblTitulo = new JLabel("Gestión de Clientes");
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
+		lblTitulo.setBounds(22, 63, 400, 50);
+		getContentPane().add(lblTitulo);
+
+		JPanel pnlCuerpo = new JPanel();
+		pnlCuerpo.setBackground(new Color(196, 204, 203, 180));
+		pnlCuerpo.setBounds(0, 120, 944, 300);
+		getContentPane().add(pnlCuerpo);
+		pnlCuerpo.setLayout(null);
+
+		JButton btnCrear = new JButton("Crear");
+		btnCrear.setBounds(25, 30, 100, 30);
+		pnlCuerpo.add(btnCrear);
+
+		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar.setBounds(25, 75, 100, 30);
+		pnlCuerpo.add(btnEliminar);
+
+		JButton btnModificar = new JButton("Modificar");
+		btnModificar.setBounds(25, 120, 100, 30);
+		pnlCuerpo.add(btnModificar);
+
+		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.setBounds(25, 240, 100, 30);
+		pnlCuerpo.add(btnGuardar);
+
+		JPanel pnlTabla = new JPanel();
+		pnlTabla.setBorder(new LineBorder(Color.DARK_GRAY));
+		pnlTabla.setBackground(new Color(165, 191, 201));
+		pnlTabla.setBounds(150, 30, 770, 240);
+		pnlCuerpo.add(pnlTabla);
+		pnlTabla.setLayout(null);
+
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 10, 762, 216);
-		pnlBarraHorizontal_1.add(scrollPane);
+		scrollPane.setBounds(5, 5, 760, 230);
+		pnlTabla.add(scrollPane);
 
-		// Tabla
-		table = new JTable();
-		scrollPane.setViewportView(table);
 		modeloTabla = new DefaultTableModel();
 		modeloTabla.addColumn("ID");
 		modeloTabla.addColumn("NOMBRE");
@@ -157,38 +102,31 @@ public class VentanaGestionClientes extends JFrame {
 		table = new JTable(modeloTabla);
 		scrollPane.setViewportView(table);
 
-		cargarDatosCitas();
+		cargarDatosClientes();
 
-		// FONDO
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);
-		getContentPane().add(lblFondo);
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
+		getContentPane().add(lblFondo);
 	}
 
-	public void cargarDatosCitas() {
+	public void cargarDatosClientes() {
 		modeloTabla.setRowCount(0);
-
 		Modelo conector = new Modelo();
 		Connection conexion = conector.getConexion();
-
 		String query = "SELECT id_cliente, nombre, superpoder, colores FROM CLIENTE";
+
 		try (Statement st = conexion.createStatement(); ResultSet rs = st.executeQuery(query)) {
-
-			// Añadimos los datos
 			while (rs.next()) {
-				Object[] fila = new Object[4];
-				fila[0] = rs.getInt("id_cliente");
-				fila[1] = rs.getString("nombre");
-				fila[2] = rs.getString("superpoder");
-				fila[3] = rs.getString("colores");
-
-				modeloTabla.addRow(fila);
-
+				modeloTabla.addRow(new Object[]{
+					rs.getInt("id_cliente"),
+					rs.getString("nombre"),
+					rs.getString("superpoder"),
+					rs.getString("colores")
+				});
 			}
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Error de SQL: " + e.getMessage());
-			// Si o si cerramos la conexion, haya errores o no.
+			JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
 		} finally {
 			conector.cerrarConexion(conexion);
 		}

@@ -96,10 +96,10 @@ public class VentanaLogin extends JFrame {
 		java.awt.Image imgLogo = iconoLogo.getImage().getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH); //Para que se autoescale y se coloque el tamaño correctamente
 
 		// Para que se autoescale y se coloque el tamaño correctamente
-		ImageIcon iconoLogo = new ImageIcon("img\\logo.png");
-		java.awt.Image imgLogo = iconoLogo.getImage().getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon iconoLogo1 = new ImageIcon("img\\logo.png");
+		java.awt.Image imgLogo1 = iconoLogo1.getImage().getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
 
-		lblLogo.setIcon(new ImageIcon(imgLogo));
+		lblLogo.setIcon(new ImageIcon(imgLogo1));
 		lblLogo.setBounds(37, 51, 180, 180);
 		pnlBarraHorizontal.add(lblLogo);
 
