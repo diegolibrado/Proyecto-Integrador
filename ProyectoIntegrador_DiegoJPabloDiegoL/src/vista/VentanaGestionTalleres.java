@@ -114,6 +114,8 @@ public class VentanaGestionTalleres extends JFrame {
 		btnEliminar.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnEliminar.setBounds(22, 63, 109, 30);
 		pnlBarraHorizontal.add(btnEliminar);
+		controlador.ControladorEliminarTaller cEliminar = new controlador.ControladorEliminarTaller(this);
+		btnEliminar.addActionListener(cEliminar);
 
 		JButton btnModificar = new JButton("Modificar");
 		btnModificar.setBackground(new Color(165, 191, 201));
@@ -203,7 +205,8 @@ public class VentanaGestionTalleres extends JFrame {
 		getContentPane().add(lblFondo);
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
 	}
-
+	
+	//mover a controlador
 	public void cargarDatosTalleres() {
 		modeloTabla.setRowCount(0);
 		Modelo conector = new Modelo();
@@ -228,5 +231,18 @@ public class VentanaGestionTalleres extends JFrame {
 		} finally {
 			conector.cerrarConexion(conexion);
 		}
+	}
+	
+	/**
+	 * Método para obtener el ID del taller seleccionado en la tabla.
+	 * Devuelve -1 si no hay ninguna fila seleccionada.
+	 */
+	public int getIdTallerSeleccionado() {
+		int filaSeleccionada = table.getSelectedRow();
+		if (filaSeleccionada == -1) {
+			return -1; // Nada seleccionado
+		}
+		// Sabiendo que el ID está en la columna 0
+		return (int) modeloTabla.getValueAt(filaSeleccionada, 0);
 	}
 }
