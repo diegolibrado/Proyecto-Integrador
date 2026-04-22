@@ -1,0 +1,216 @@
+package vista;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+
+import modelo.Modelo;
+
+public class VentanaModificarTaller extends JFrame {
+
+	// Declaracion de variables de clase (para poder acceder a ellas en el método de guardar)
+	private String rangoUsuario;
+	private JTextField txtIdTaller;
+	private JTextField txtNombreTaller;
+	private JComboBox<String> cmbTipoSala;
+
+	// El constructor ahora recibe los datos desde la tabla
+	public VentanaModificarTaller(String rango, int id, String nombre, String tipo) {
+		this.rangoUsuario = rango;
+		inicializarComponentes();
+		configInicial();
+		configurarPermisos();
+		
+		// CARGAMOS LOS DATOS EN EL FORMULARIO
+		txtIdTaller.setText(String.valueOf(id));
+		txtIdTaller.setEditable(false); // El ID no se debe poder modificar
+		txtNombreTaller.setText(nombre);
+		cmbTipoSala.setSelectedItem(tipo);
+	}
+
+	private void configInicial() {
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		getContentPane().setLayout(null);
+		setSize(960, 540);
+		setLocationRelativeTo(null);
+	}
+
+	private void configurarPermisos() {
+		// Logica de permisos si fuera necesaria
+	}
+
+	private void inicializarComponentes() {
+
+		// Footer
+		JPanel pnlFooter = new JPanel();
+		pnlFooter.setBackground(new Color(72, 119, 109));
+		pnlFooter.setBounds(0, 481, 944, 20);
+		getContentPane().add(pnlFooter);
+
+		// Copyright
+		JLabel lblNewLabel_1 = new JLabel("© 2026 Payo-Vallecano, Inc. Todos los derechos reservados");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setFont(new Font("Verdana", Font.PLAIN, 10));
+		pnlFooter.add(lblNewLabel_1);
+
+		// Panel horizontal principal
+		JPanel pnlBarraHorizontal = new JPanel();
+		pnlBarraHorizontal.setForeground(new Color(196, 204, 203));
+		pnlBarraHorizontal.setBackground(new Color(196, 204, 203));
+		pnlBarraHorizontal.setBounds(0, 111, 944, 282);
+		getContentPane().add(pnlBarraHorizontal);
+		pnlBarraHorizontal.setLayout(null);
+
+		// Boton Cerrar Sesion
+		JButton btnCerrarSesion = new JButton("Cerrar sesión");
+		btnCerrarSesion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
+				controlador.ControladorLogin c = new controlador.ControladorLogin(vLogin);
+				vLogin.setControlador(c);
+				vLogin.setVisible(true);
+				dispose();
+			}
+		});
+		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnCerrarSesion.setBackground(new Color(165, 191, 201));
+		btnCerrarSesion.setBounds(787, 68, 135, 30);
+		getContentPane().add(btnCerrarSesion);
+
+		// Titulo Pagina (Cambiado a Modificar)
+		JLabel lblTitulo = new JLabel("Modificar Taller");
+		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
+		lblTitulo.setBounds(22, 63, 333, 40);
+		getContentPane().add(lblTitulo);
+
+		// Botón Guardar Cambios
+		JButton btnGuardarCambios = new JButton("Guardar");
+		btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnGuardarCambios.setBackground(new Color(165, 191, 201));
+		btnGuardarCambios.setBounds(22, 231, 109, 30);
+		pnlBarraHorizontal.add(btnGuardarCambios);
+		
+		btnGuardarCambios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actualizarTallerEnBD();
+			}
+		});
+
+		// Botón Atrás
+		JButton btnAtras = new JButton("");
+		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
+		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		btnAtras.setIcon(new ImageIcon(imgAtras));
+		btnAtras.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(rangoUsuario);
+				vGestionTalleres.setVisible(true);
+				dispose();
+			}
+		});
+		btnAtras.setBackground(new Color(165, 191, 201));
+		btnAtras.setBounds(22, 11, 30, 30); 
+		getContentPane().add(btnAtras);
+
+		// Panel con informacion (EL FORMULARIO)
+		JPanel pnlFormulario = new JPanel();
+		pnlFormulario.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
+		pnlFormulario.setLayout(null);
+		pnlFormulario.setBackground(new Color(165, 191, 201));
+		pnlFormulario.setBounds(139, 25, 782, 236);
+		pnlBarraHorizontal.add(pnlFormulario);
+
+		// --- COMPONENTES DEL FORMULARIO ---
+		
+		// 1. ID Taller
+		JLabel lblIdTaller = new JLabel("ID del Taller:");
+		lblIdTaller.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblIdTaller.setBounds(50, 40, 150, 30);
+		pnlFormulario.add(lblIdTaller);
+		
+		txtIdTaller = new JTextField();
+		txtIdTaller.setFont(new Font("Verdana", Font.PLAIN, 14));
+		txtIdTaller.setBounds(200, 40, 255, 30);
+		pnlFormulario.add(txtIdTaller);
+
+		// 2. Nombre del Taller
+		JLabel lblNombreTaller = new JLabel("Nombre:");
+		lblNombreTaller.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblNombreTaller.setBounds(50, 100, 150, 30);
+		pnlFormulario.add(lblNombreTaller);
+		
+		txtNombreTaller = new JTextField();
+		txtNombreTaller.setFont(new Font("Verdana", Font.PLAIN, 14));
+		txtNombreTaller.setBounds(200, 100, 255, 30);
+		pnlFormulario.add(txtNombreTaller);
+
+		// 3. Tipo de Sala
+		JLabel lblTipoSala = new JLabel("Tipo de Sala:");
+		lblTipoSala.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblTipoSala.setBounds(50, 160, 150, 30);
+		pnlFormulario.add(lblTipoSala);
+		
+		// Opciones para el desplegable
+		String[] opcionesSala = {"Diseño", "Costura", "Pruebas"};
+		cmbTipoSala = new JComboBox<>(opcionesSala);
+		cmbTipoSala.setFont(new Font("Verdana", Font.PLAIN, 14));
+		cmbTipoSala.setBounds(200, 160, 255, 30);
+		cmbTipoSala.setBackground(Color.WHITE); 
+		pnlFormulario.add(cmbTipoSala);
+
+		// FONDO
+		JLabel lblFondo = new JLabel("");
+		lblFondo.setBounds(0, 0, 944, 501);
+		getContentPane().add(lblFondo);
+		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
+	}
+	
+	private void actualizarTallerEnBD() {
+		String idStr = txtIdTaller.getText();
+		String nombre = txtNombreTaller.getText();
+		String tipo = cmbTipoSala.getSelectedItem().toString();
+
+		if (nombre.isEmpty()) {
+			JOptionPane.showMessageDialog(this, "El nombre del taller no puede estar vacío.", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+
+		Modelo conector = new Modelo();
+		Connection conexion = conector.getConexion();
+		
+		// Hacemos un UPDATE en vez de un INSERT
+		String query = "UPDATE TALLER SET nombre_sala = ?, tipo_sala = ? WHERE id_taller = ?";
+
+		try (PreparedStatement pst = conexion.prepareStatement(query)) {
+			pst.setString(1, nombre);
+			pst.setString(2, tipo);
+			pst.setInt(3, Integer.parseInt(idStr)); // Condición WHERE
+
+			int resultado = pst.executeUpdate();
+			if (resultado > 0) {
+				JOptionPane.showMessageDialog(this, "Taller actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+				
+				// Volvemos a la tabla
+				VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(rangoUsuario);
+				vGestionTalleres.setVisible(true);
+				dispose();
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(this, "Error al actualizar en BD: " + e.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			conector.cerrarConexion(conexion);
+		}
+	}
+}

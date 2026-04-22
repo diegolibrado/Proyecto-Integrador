@@ -20,7 +20,7 @@ public class VentanaLogin extends JFrame {
 	private JPasswordField passwordField;
 	private JTextField textFieldUsuario;
 	private JButton btnLogin;
-	
+
 	public VentanaLogin(String titulo) {
 		super(titulo);
 		configInicial();
@@ -35,7 +35,19 @@ public class VentanaLogin extends JFrame {
 	}
 
 	private void inicializarComponentes() {
-		getContentPane().setLayout(null);
+
+		// Footer
+		JPanel pnlFooter = new JPanel();
+		pnlFooter.setBackground(new Color(72, 119, 109));
+		pnlFooter.setBounds(0, 481, 944, 20);
+		getContentPane().add(pnlFooter);
+
+		// Copyright
+		JLabel lblNewLabel_1 = new JLabel("© 2026 Payo-Vallecano, Inc. Todos los derechos reservados");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setFont(new Font("Verdana", Font.PLAIN, 10));
+		pnlFooter.add(lblNewLabel_1);
 
 		// TITULO
 		JLabel lblTitulo = new JLabel("INICIAR SESIÓN");
@@ -72,7 +84,6 @@ public class VentanaLogin extends JFrame {
 		lblContraseña.setFont(new Font("Tahoma", Font.PLAIN, 22));
 
 		passwordField = new JPasswordField();
-		passwordField.setEchoChar('*');
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		passwordField.setBounds(510, 159, 216, 40);
 		pnlBarraHorizontal.add(passwordField);
@@ -89,17 +100,18 @@ public class VentanaLogin extends JFrame {
 		});
 		btnLogin.setBackground(new Color(165, 191, 201));
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 16));
-
 		JLabel lblLogo = new JLabel("");
-
-		ImageIcon iconoLogo = new ImageIcon("img/logo.png");
-		java.awt.Image imgLogo = iconoLogo.getImage().getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH); //Para que se autoescale y se coloque el tamaño correctamente
-
 		// Para que se autoescale y se coloque el tamaño correctamente
+<<<<<<< HEAD
 		ImageIcon iconoLogo1 = new ImageIcon("img\\logo.png");
 		java.awt.Image imgLogo1 = iconoLogo1.getImage().getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
 
 		lblLogo.setIcon(new ImageIcon(imgLogo1));
+=======
+		ImageIcon iconoLogo = new ImageIcon("img\\logo.png");
+		java.awt.Image imgLogo = iconoLogo.getImage().getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
+		lblLogo.setIcon(new ImageIcon(imgLogo));
+>>>>>>> 2810a5a5a93e28b7c8ecc4c5b31a5ec99d924e35
 		lblLogo.setBounds(37, 51, 180, 180);
 		pnlBarraHorizontal.add(lblLogo);
 
@@ -107,25 +119,28 @@ public class VentanaLogin extends JFrame {
 		JLabel lblFondo = new JLabel("");
 		// Cambiamos la ruta de Diego por la ruta relativa del proyecto
 		// Quitamos el getClass().getResource y ponemos la ruta directa desde la raíz
-		lblFondo.setIcon(new ImageIcon("img/fondo.jpeg"));
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
 		lblFondo.setBounds(0, 0, 944, 501);
 		getContentPane().add(lblFondo);
 
 	}
-	
+
 	public void setControlador(ActionListener c) {
-		for(ActionListener a : btnLogin.getActionListeners()) {
+		// Hacemos este bucle para asegurarnos de que el boton nos manda a donde
+		// queremos, ya que se han eliminado los escuchadores que no nos sirven
+		// Es por control
+		for (ActionListener a : btnLogin.getActionListeners()) {
 			btnLogin.removeActionListener(a);
 		}
+		// Una vez vacio, añadimos el que si nos interesa
 		btnLogin.addActionListener(c);
 	}
 
 	public String getContrasena() {
-	    return new String(passwordField.getPassword());
+		return new String(passwordField.getPassword());
 	}
+
 	public String getUsuario() {
-	    return textFieldUsuario.getText();
+		return textFieldUsuario.getText();
 	}
 }
-

@@ -35,27 +35,28 @@ public class ControladorLogin implements ActionListener {
 		Connection conexion = modelo.getConexion();
 
 		// Query (consulta)
-		String query = "SELECT CATEGORIA FROM EMPLEADO WHERE ID_EMPLEADO = ? AND CONTRASENA = ?";
+		String query = "SELECT categoria FROM EMPLEADO WHERE id_empleado = ? AND contrasena = ?";
 		try (PreparedStatement ps = conexion.prepareStatement(query)) {
+			int id_empleado_numero = Integer.parseInt(usuario);
 			// Hacemos dos Statement, uno para usuario y otro para contraseña
-			ps.setString(1, usuario);
+			ps.setInt(1, id_empleado_numero);
 			ps.setString(2, contraseña);
 			ResultSet rs = ps.executeQuery();
 
 			// Comienza la logica de comparacion para intentar acceder
 			if (rs.next()) {
-				String categoria = rs.getString("categoria");
+				categoriaEmpleado = rs.getString("categoria");
 				JOptionPane.showMessageDialog(null, "Acceso conseguido!");
 				vLogin.dispose();
-				if (categoria.equalsIgnoreCase("Aprendiz")) {
+				if (categoriaEmpleado.equalsIgnoreCase("Aprendiz")) {
 					new VentanaAprendiz("Menu Aprendiz").setVisible(true);
-				} else if (categoria.equalsIgnoreCase("Maestro")) {
+				} else if (categoriaEmpleado.equalsIgnoreCase("Maestro")) {
 					new VentanaMaestro("Menu Maestro").setVisible(true);
-				} else if(categoria.equalsIgnoreCase("Oficial")){
+				} else if(categoriaEmpleado.equalsIgnoreCase("Oficial")){
 					new VentanaOficial("Menu Oficial").setVisible(true);
 				}
 			}else {
-				JOptionPane.showMessageDialog(null, "Acceso denegado: Contraseña Incorrecta");
+				JOptionPane.showMessageDialog(null, "Acceso denegado: Contraseña o Usuario incorrecto");
 			}
 
 		} catch (SQLException SQLe) {
