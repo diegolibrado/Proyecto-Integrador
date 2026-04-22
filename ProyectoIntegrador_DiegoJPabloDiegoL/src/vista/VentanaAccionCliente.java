@@ -3,19 +3,16 @@ package vista;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import modelo.Modelo;
-import java.sql.*;
 
 public class VentanaAccionCliente extends JDialog {
     private JTextField txtID, txtNombre, txtSuperpoder, txtColores;
-    private JButton btnAccion;
+    private JButton btnConfirmar;
     private JLabel lblTitulo;
     private String modo;
-    private VentanaGestionClientes ventanaPadre;
+    private boolean guardado = false; // Importante para saber si el usuario aceptó
 
-    public VentanaAccionCliente(VentanaGestionClientes padre, String modo) {
+    public VentanaAccionCliente(JFrame padre, String modo) {
         super(padre, true);
-        this.ventanaPadre = padre;
         this.modo = modo;
         configInicial();
         inicializarComponentes();
@@ -37,20 +34,22 @@ public class VentanaAccionCliente extends JDialog {
         JPanel pnlCentral = new JPanel();
         pnlCentral.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
         pnlCentral.setBackground(new Color(165, 191, 201));
-        pnlCentral.setBounds(139, 136, 782, 280); // Un poco más alto para los nuevos campos
+        pnlCentral.setBounds(139, 136, 782, 280);
         pnlCentral.setLayout(null);
         getContentPane().add(pnlCentral);
 
-        // Campos
         crearEtiquetaYCampo(pnlCentral, "ID:", 30, txtID = new JTextField());
         crearEtiquetaYCampo(pnlCentral, "Nombre:", 70, txtNombre = new JTextField());
         crearEtiquetaYCampo(pnlCentral, "Superpoder:", 110, txtSuperpoder = new JTextField());
         crearEtiquetaYCampo(pnlCentral, "Colores:", 150, txtColores = new JTextField());
 
-        btnAccion = new JButton("Confirmar");
-        btnAccion.setBounds(160, 210, 200, 35);
-        btnAccion.addActionListener(e -> ejecutarAccion());
-        pnlCentral.add(btnAccion);
+        btnConfirmar = new JButton("Confirmar");
+        btnConfirmar.setBounds(160, 210, 200, 35);
+        btnConfirmar.addActionListener(e -> {
+            guardado = true; // El usuario quiere guardar los cambios en la tabla
+            dispose();
+        });
+        pnlCentral.add(btnConfirmar);
 
         JLabel lblFondo = new JLabel("");
         lblFondo.setBounds(0, 0, 944, 501);
@@ -68,13 +67,12 @@ public class VentanaAccionCliente extends JDialog {
     }
 
     private void ajustarSegunModo() {
+        txtID.setEditable(false);
         if (modo.equals("CREAR")) {
             lblTitulo.setText("Registrar Nuevo Héroe/Cliente");
-            txtID.setEditable(false);
             txtID.setText("Auto");
         } else {
             lblTitulo.setText("Modificar Cliente");
-            txtID.setEditable(false);
         }
     }
 
@@ -85,33 +83,9 @@ public class VentanaAccionCliente extends JDialog {
         txtColores.setText(col);
     }
 
-    private void ejecutarAccion() {
-        Modelo mod = new Modelo();
-        Connection con = mod.getConexion();
-        String sql = "";
-        
-        try {
-            if (modo.equals("CREAR")) {
-                sql = "INSERT INTO CLIENTE (nombre, superpoder, colores) VALUES (?, ?, ?)";
-                PreparedStatement ps = con.prepareStatement(sql);
-                ps.setString(1, txtNombre.getText());
-                ps.setString(2, txtSuperpoder.getText());
-                ps.setString(3, txtColores.getText());
-                ps.executeUpdate();
-            } else if (modo.equals("MODIFICAR")) {
-                sql = "UPDATE CLIENTE SET nombre=?, superpoder=?, colores=? WHERE id_cliente=?";
-                PreparedStatement ps = con.prepareStatement(sql);
-                ps.setString(1, txtNombre.getText());
-                ps.setString(2, txtSuperpoder.getText());
-                ps.setString(3, txtColores.getText());
-                ps.setInt(4, Integer.parseInt(txtID.getText()));
-                ps.executeUpdate();
-            }
-            
-            ventanaPadre.cargarDatosCitas(); // Refresca la tabla automáticamente
-            dispose();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
+    // Getters para que la ventana principal lea los datos
+    public String getNombre() { return txtNombre.getText(); }
+    public String getSuperpoder() { return txtSuperpoder.getText(); }
+    public String getColores() { return txtColores.getText(); }
+    public boolean isGuardado() { return guardado; }
 }

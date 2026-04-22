@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -66,20 +67,67 @@ public class VentanaGestionClientes extends JFrame {
 		getContentPane().add(pnlCuerpo);
 		pnlCuerpo.setLayout(null);
 
+		// --- BOTÓN CREAR ---
 		JButton btnCrear = new JButton("Crear");
 		btnCrear.setBounds(25, 30, 100, 30);
+		btnCrear.addActionListener(e -> {
+			VentanaAccionCliente diag = new VentanaAccionCliente(this, "CREAR");
+			diag.setVisible(true);
+			if (diag.isGuardado()) {
+				int maxId = 0;
+				for(int i = 0; i < modeloTabla.getRowCount(); i++) {
+					int idActual = Integer.parseInt(modeloTabla.getValueAt(i, 0).toString());
+					if(idActual > maxId) maxId = idActual;
+				}
+				modeloTabla.addRow(new Object[]{maxId + 1, diag.getNombre(), diag.getSuperpoder(), diag.getColores()});
+			}
+		});
 		pnlCuerpo.add(btnCrear);
 
+		// --- BOTÓN ELIMINAR ---
 		JButton btnEliminar = new JButton("Eliminar");
 		btnEliminar.setBounds(25, 75, 100, 30);
+		btnEliminar.addActionListener(e -> {
+			int fila = table.getSelectedRow();
+			if (fila != -1) {
+				modeloTabla.removeRow(fila);
+			} else {
+				JOptionPane.showMessageDialog(this, "Selecciona un cliente de la tabla para eliminarlo.");
+			}
+		});
 		pnlCuerpo.add(btnEliminar);
 
+		// --- BOTÓN MODIFICAR ---
 		JButton btnModificar = new JButton("Modificar");
 		btnModificar.setBounds(25, 120, 100, 30);
+		btnModificar.addActionListener(e -> {
+			int fila = table.getSelectedRow();
+			if (fila != -1) {
+				VentanaAccionCliente diag = new VentanaAccionCliente(this, "MODIFICAR");
+				diag.prellenarDatos(
+					modeloTabla.getValueAt(fila, 0).toString(),
+					modeloTabla.getValueAt(fila, 1).toString(),
+					modeloTabla.getValueAt(fila, 2).toString(),
+					modeloTabla.getValueAt(fila, 3).toString()
+				);
+				diag.setVisible(true);
+				if (diag.isGuardado()) {
+					modeloTabla.setValueAt(diag.getNombre(), fila, 1);
+					modeloTabla.setValueAt(diag.getSuperpoder(), fila, 2);
+					modeloTabla.setValueAt(diag.getColores(), fila, 3);
+				}
+			} else {
+				JOptionPane.showMessageDialog(this, "Selecciona un cliente de la tabla para modificarlo.");
+			}
+		});
 		pnlCuerpo.add(btnModificar);
 
+		// --- BOTÓN GUARDAR ---
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setBounds(25, 240, 100, 30);
+		btnGuardar.addActionListener(e -> {
+			guardarEnBaseDeDatos();
+		});
 		pnlCuerpo.add(btnGuardar);
 
 		JPanel pnlTabla = new JPanel();
@@ -93,7 +141,12 @@ public class VentanaGestionClientes extends JFrame {
 		scrollPane.setBounds(5, 5, 760, 230);
 		pnlTabla.add(scrollPane);
 
-		modeloTabla = new DefaultTableModel();
+		modeloTabla = new DefaultTableModel() {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 		modeloTabla.addColumn("ID");
 		modeloTabla.addColumn("NOMBRE");
 		modeloTabla.addColumn("SUPERPODER");
@@ -114,8 +167,9 @@ public class VentanaGestionClientes extends JFrame {
 		modeloTabla.setRowCount(0);
 		Modelo conector = new Modelo();
 		Connection conexion = conector.getConexion();
-		String query = "SELECT id_cliente, nombre, superpoder, colores FROM CLIENTE";
+		if (conexion == null) return;
 
+		String query = "SELECT id_cliente, nombre, superpoder, colores FROM CLIENTE";
 		try (Statement st = conexion.createStatement(); ResultSet rs = st.executeQuery(query)) {
 			while (rs.next()) {
 				modeloTabla.addRow(new Object[]{
@@ -126,7 +180,40 @@ public class VentanaGestionClientes extends JFrame {
 				});
 			}
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+			System.out.println("Error al cargar datos: " + e.getMessage());
+		} finally {
+			conector.cerrarConexion(conexion);
+		}
+	}
+
+	private void guardarEnBaseDeDatos() {
+		Modelo conector = new Modelo();
+		Connection conexion = conector.getConexion();
+		
+		if (conexion == null) {
+			JOptionPane.showMessageDialog(this, "No hay conexión con la base de datos.");
+			return;
+		}
+
+		try {
+			// 1. Limpiar tabla
+			Statement st = conexion.createStatement();
+			st.executeUpdate("DELETE FROM CLIENTE");
+
+			// 2. Insertar lo que hay en la tabla
+			String sql = "INSERT INTO CLIENTE (id_cliente, nombre, superpoder, colores) VALUES (?, ?, ?, ?)";
+			PreparedStatement ps = conexion.prepareStatement(sql);
+
+			for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+				ps.setInt(1, Integer.parseInt(modeloTabla.getValueAt(i, 0).toString()));
+				ps.setString(2, modeloTabla.getValueAt(i, 1).toString());
+				ps.setString(3, modeloTabla.getValueAt(i, 2).toString());
+				ps.setString(4, modeloTabla.getValueAt(i, 3).toString());
+				ps.executeUpdate();
+			}
+			JOptionPane.showMessageDialog(this, "¡Cambios guardados con éxito en la base de datos!");
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(this, "Error al guardar: " + e.getMessage());
 		} finally {
 			conector.cerrarConexion(conexion);
 		}
