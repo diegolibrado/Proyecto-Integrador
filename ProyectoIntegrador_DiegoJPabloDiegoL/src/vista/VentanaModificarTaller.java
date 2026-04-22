@@ -23,7 +23,8 @@ public class VentanaModificarTaller extends JFrame {
 	private JTextField txtIdTaller;
 	private JTextField txtNombreTaller;
 	private JComboBox<String> cmbTipoSala;
-
+	private JButton btnGuardarCambios;
+	
 	// El constructor ahora recibe los datos desde la tabla
 	public VentanaModificarTaller(String rango, int id, String nombre, String tipo) {
 		this.rangoUsuario = rango;
@@ -96,17 +97,11 @@ public class VentanaModificarTaller extends JFrame {
 		getContentPane().add(lblTitulo);
 
 		// Botón Guardar Cambios
-		JButton btnGuardarCambios = new JButton("Guardar");
+		btnGuardarCambios = new JButton("Guardar");
 		btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnGuardarCambios.setBackground(new Color(165, 191, 201));
 		btnGuardarCambios.setBounds(22, 231, 109, 30);
 		pnlBarraHorizontal.add(btnGuardarCambios);
-		
-		btnGuardarCambios.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				actualizarTallerEnBD();
-			}
-		});
 
 		// Botón Atrás
 		JButton btnAtras = new JButton("");
@@ -177,40 +172,29 @@ public class VentanaModificarTaller extends JFrame {
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
 	}
 	
-	private void actualizarTallerEnBD() {
-		String idStr = txtIdTaller.getText();
-		String nombre = txtNombreTaller.getText();
-		String tipo = cmbTipoSala.getSelectedItem().toString();
-
-		if (nombre.isEmpty()) {
-			JOptionPane.showMessageDialog(this, "El nombre del taller no puede estar vacío.", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-
-		Modelo conector = new Modelo();
-		Connection conexion = conector.getConexion();
-		
-		// Hacemos un UPDATE en vez de un INSERT
-		String query = "UPDATE TALLER SET nombre_sala = ?, tipo_sala = ? WHERE id_taller = ?";
-
-		try (PreparedStatement pst = conexion.prepareStatement(query)) {
-			pst.setString(1, nombre);
-			pst.setString(2, tipo);
-			pst.setInt(3, Integer.parseInt(idStr)); // Condición WHERE
-
-			int resultado = pst.executeUpdate();
-			if (resultado > 0) {
-				JOptionPane.showMessageDialog(this, "Taller actualizado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-				
-				// Volvemos a la tabla
-				VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(rangoUsuario);
-				vGestionTalleres.setVisible(true);
-				dispose();
-			}
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(this, "Error al actualizar en BD: " + e.getMessage(), "Error SQL", JOptionPane.ERROR_MESSAGE);
-		} finally {
-			conector.cerrarConexion(conexion);
-		}
+	/**
+	 * Metodo que llamaremos desde el controlador
+	 * @param c
+	 */
+	public void setControladorModificar(ActionListener c) {
+		btnGuardarCambios.addActionListener(c);
 	}
+
+	public String getRangoUsuario() {
+		return rangoUsuario;
+	}
+
+	public String getIdTaller() {
+		return txtIdTaller.getText();
+	}
+
+	public String getNombreTaller() {
+		return txtNombreTaller.getText();
+	}
+
+	public String getTipoSala() {
+		return cmbTipoSala.getSelectedItem().toString();
+	}
+	
+	
 }

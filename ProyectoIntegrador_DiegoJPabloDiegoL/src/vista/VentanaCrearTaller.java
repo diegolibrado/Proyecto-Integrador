@@ -18,19 +18,16 @@ import modelo.Modelo;
 
 public class VentanaCrearTaller extends JFrame {
 
-	// Declaracion de variables
 	private String rangoUsuario;
-	
-	// Campos para el formulario
 	private JTextField txtIdTaller;
 	private JTextField txtNombreTaller;
 	private JComboBox<String> cmbTipoSala; // AHORA ES UN JCOMBOBOX
+	private JButton btnGuardarCambios;
 
 	public VentanaCrearTaller(String rango) {
 		this.rangoUsuario = rango;
 		inicializarComponentes();
 		configInicial();
-		configurarPermisos();
 	}
 
 	private void configInicial() {
@@ -38,10 +35,6 @@ public class VentanaCrearTaller extends JFrame {
 		getContentPane().setLayout(null);
 		setSize(960, 540);
 		setLocationRelativeTo(null);
-	}
-
-	private void configurarPermisos() {
-		// Logica de permisos si fuera necesaria
 	}
 
 	private void inicializarComponentes() {
@@ -91,17 +84,11 @@ public class VentanaCrearTaller extends JFrame {
 		getContentPane().add(lblTitulo);
 
 		// Botón Guardar Cambios
-		JButton btnGuardarCambios = new JButton("Guardar");
+		btnGuardarCambios = new JButton("Guardar");
 		btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnGuardarCambios.setBackground(new Color(165, 191, 201));
 		btnGuardarCambios.setBounds(22, 231, 109, 30);
 		pnlBarraHorizontal.add(btnGuardarCambios);
-		
-		btnGuardarCambios.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				guardarTallerEnBD();
-			}
-		});
 
 		// Botón Atrás
 		JButton btnAtras = new JButton("");
@@ -116,7 +103,7 @@ public class VentanaCrearTaller extends JFrame {
 			}
 		});
 		btnAtras.setBackground(new Color(165, 191, 201));
-		btnAtras.setBounds(22, 11, 30, 30); 
+		btnAtras.setBounds(22, 11, 30, 30);
 		getContentPane().add(btnAtras);
 
 		// Panel con informacion (EL FORMULARIO)
@@ -158,9 +145,7 @@ public class VentanaCrearTaller extends JFrame {
 		pnlFormulario.add(lblTipoSala);
 		
 		// Opciones para el desplegable
-		String[] opcionesSala = {"Diseño", "Costura", "Pruebas"};
-		cmbTipoSala = new JComboBox<>(opcionesSala);
-		cmbTipoSala.setModel(new DefaultComboBoxModel(new String[] {"Diseño", "Costura", "Pruebas"}));
+		cmbTipoSala = new JComboBox<>(new String[] {"Diseño", "Costura", "Pruebas"});
 		cmbTipoSala.setFont(new Font("Verdana", Font.PLAIN, 14));
 		cmbTipoSala.setBounds(200, 160, 255, 30);
 		cmbTipoSala.setBackground(Color.WHITE); 
@@ -172,61 +157,30 @@ public class VentanaCrearTaller extends JFrame {
 		getContentPane().add(lblFondo);
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
 	}
-
-	private void guardarTallerEnBD() {
-		// 1. Recogemos los datos (del TextField y del ComboBox)
-		String idStr = txtIdTaller.getText();
-		String nombre = txtNombreTaller.getText();
-		// Aquí sacamos el texto seleccionado en el ComboBox
-		String tipo = cmbTipoSala.getSelectedItem().toString();
-
-		// 2. Validaciones básicas
-		if (idStr.isEmpty() || nombre.isEmpty()) {
-			JOptionPane.showMessageDialog(this, "Por favor, rellena todos los campos.", "Campos vacíos",
-					JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-
-		int idTaller = 0;
-		try {
-			idTaller = Integer.parseInt(idStr); // Convertimos el ID a número
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(this, "El ID del taller debe ser un número entero.", "Error de formato",
-					JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-
-		// 3. Conexión y guardado en la Base de Datos
-		Modelo conector = new Modelo();
-		Connection conexion = conector.getConexion();
-
-		// Utilizamos PreparedStatement para evitar inyección SQL
-		String query = "INSERT INTO TALLER (id_taller, nombre_sala, tipo_sala) VALUES (?, ?, ?)";
-
-		try (PreparedStatement pst = conexion.prepareStatement(query)) {
-			// Asignamos los valores a los interrogantes de la query
-			pst.setInt(1, idTaller);
-			pst.setString(2, nombre);
-			pst.setString(3, tipo);
-
-			// Ejecutamos la consulta
-			int filasAfectadas = pst.executeUpdate();
-
-			if (filasAfectadas > 0) {
-				JOptionPane.showMessageDialog(this, "Taller creado exitosamente.", "Éxito",
-						JOptionPane.INFORMATION_MESSAGE);
-
-				// Volvemos automáticamente a la ventana de gestión para ver el nuevo taller
-				VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(rangoUsuario);
-				vGestionTalleres.setVisible(true);
-				dispose(); // Cerramos la ventana de creación
-			}
-
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Error al crear el taller en BD: \n" + e.getMessage(), "Error SQL",
-					JOptionPane.ERROR_MESSAGE);
-		} finally {
-			conector.cerrarConexion(conexion);
-		}
+	
+	/**
+	 * Metodo que llamaremos desde el controlador
+	 * @param c
+	 */
+	public void setControladorGuardar(ActionListener c) {
+		btnGuardarCambios.addActionListener(c);
 	}
+
+	public String getRangoUsuario() {
+		return rangoUsuario;
+	}
+
+	public String getIdTaller() {
+		return txtIdTaller.getText();
+	}
+
+	public String getNombreTaller() {
+		return txtNombreTaller.getText();
+	}
+
+	public String getTipoSala() {
+		return cmbTipoSala.getSelectedItem().toString();
+	}
+	
+	
 }

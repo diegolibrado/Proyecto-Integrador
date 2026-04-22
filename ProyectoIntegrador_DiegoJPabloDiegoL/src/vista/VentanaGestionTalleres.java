@@ -110,6 +110,8 @@ public class VentanaGestionTalleres extends JFrame {
 		    public void actionPerformed(ActionEvent e) {
 		        // Abrimos la ventana de Crear y le pasamos el rango del usuario
 		        VentanaCrearTaller vCrear = new VentanaCrearTaller(rangoUsuario);
+		        controlador.ControladorCrearTaller cCrear = new controlador.ControladorCrearTaller(vCrear);
+		        vCrear.setControladorGuardar(cCrear);
 		        vCrear.setVisible(true);
 		        // Cerramos la ventana actual
 		        dispose(); 
@@ -145,6 +147,8 @@ public class VentanaGestionTalleres extends JFrame {
 
 		        // 3. Abrimos la ventana de Modificar pasándole el rango Y los datos del taller
 		        VentanaModificarTaller vModificar = new VentanaModificarTaller(rangoUsuario, id, nombre, tipo);
+		        controlador.ControladorModificarTaller cModificar = new controlador.ControladorModificarTaller(vModificar);
+		        vModificar.setControladorModificar(cModificar);
 		        vModificar.setVisible(true);
 		        dispose();
 		    }
