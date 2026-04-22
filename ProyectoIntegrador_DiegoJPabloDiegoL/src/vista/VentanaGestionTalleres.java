@@ -30,7 +30,6 @@ public class VentanaGestionTalleres extends JFrame {
 		this.rangoUsuario = rango;
 		inicializarComponentes();
 		configInicial();
-		configurarPermisos();
 	}
 
 	/**
@@ -41,14 +40,6 @@ public class VentanaGestionTalleres extends JFrame {
 		getContentPane().setLayout(null);
 		setSize(960, 540);
 		setLocationRelativeTo(null);
-	}
-
-	/**
-	 * Metodo para que dependiendo de que tipo de empleado haya ingresado, se
-	 * muestren unas cosas u otras
-	 */
-	private void configurarPermisos() {
-
 	}
 
 	private void inicializarComponentes() {

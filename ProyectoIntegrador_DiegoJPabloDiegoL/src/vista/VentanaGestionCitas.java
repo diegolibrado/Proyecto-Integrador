@@ -168,13 +168,13 @@ public class VentanaGestionCitas extends JFrame {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		modeloTabla = new DefaultTableModel();
-		modeloTabla.addColumn("ID");
 		modeloTabla.addColumn("DÍA");
 		modeloTabla.addColumn("HORA");
 		modeloTabla.addColumn("DURACIÓN");
 		modeloTabla.addColumn("CLIENTE");
 		modeloTabla.addColumn("TALLER");
 		modeloTabla.addColumn("RESPONSABLE");
+		modeloTabla.addColumn("TRAJE");
 
 		table = new JTable(modeloTabla);
 		scrollPane.setViewportView(table);
@@ -194,22 +194,23 @@ public class VentanaGestionCitas extends JFrame {
 		Modelo conector = new Modelo();
 		Connection conexion = conector.getConexion();
 
-		String query = "SELECT c.id_cita, c.dia, c.hora, c.duracion, cl.nombre AS cliente, t.nombre_sala AS taller, e.nombre AS empleado "
+		String query = "SELECT c.dia, c.hora, c.duracion, cl.nombre AS cliente, ta.nombre_sala AS taller, e.nombre AS empleado, tr.nombre AS traje "
 				+ "FROM CITA c " + "JOIN CLIENTE cl ON c.id_cliente = cl.id_cliente "
-				+ "JOIN TALLER t ON c.id_taller = t.id_taller "
-				+ "JOIN EMPLEADO e ON c.id_empleado_responsable = e.id_empleado";
+				+ "JOIN TALLER ta ON c.id_taller = ta.id_taller "
+				+ "JOIN EMPLEADO e ON c.id_empleado_responsable = e.id_empleado "
+				+ "JOIN TRAJE tr ON c.id_traje = tr.id_traje";
 		try (Statement st = conexion.createStatement(); ResultSet rs = st.executeQuery(query)) {
 
 			// Añadimos los datos
 			while (rs.next()) {
 				Object[] fila = new Object[7];
-				fila[0] = rs.getInt("id_cita");
-				fila[1] = rs.getDate("dia");
-				fila[2] = rs.getTime("hora");
-				fila[3] = rs.getInt("duracion");
-				fila[4] = rs.getString("cliente");
-				fila[5] = rs.getString("taller");
-				fila[6] = rs.getString("empleado");
+				fila[0] = rs.getDate("dia");
+				fila[1] = rs.getTime("hora");
+				fila[2] = rs.getInt("duracion");
+				fila[3] = rs.getString("cliente");
+				fila[4] = rs.getString("taller");
+				fila[5] = rs.getString("empleado");
+				fila[6] = rs.getString("traje");
 
 				modeloTabla.addRow(fila);
 
