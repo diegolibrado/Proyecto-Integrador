@@ -103,7 +103,7 @@ public class VentanaMaestro extends JFrame {
 		JButton btnClientes = new JButton("Clientes");
 		btnClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaGestionClientes vGestionCilientes = new VentanaGestionClientes("Gestion de clientes");
+				VentanaGestionCliente vGestionCilientes = new VentanaGestionCliente("Gestion de clientes");
 				vGestionCilientes.setVisible(true);
 				dispose();
 			}
