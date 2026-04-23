@@ -13,12 +13,21 @@ import javax.swing.JButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 
+import controlador.ControladorMenuPpal;
 import modelo.Empleado;
+import modelo.Modelo;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class VentanaMaestro extends JFrame {
+	
+	private JButton btnCitas;
+	private JButton btnTrajes;
+	private JButton btnTalleres;
+	private JButton btnClientes;
+	
+
 	public VentanaMaestro(String titulo) {
 		super(titulo);
 		configInicial();
@@ -34,6 +43,8 @@ public class VentanaMaestro extends JFrame {
 
 	private void inicializarComponentes() {
 
+		ControladorMenuPpal controlador = new ControladorMenuPpal(this);
+		
 		// Footer
 		JPanel pnlFooter = new JPanel();
 		pnlFooter.setBackground(new Color(72, 119, 109));
@@ -81,72 +92,44 @@ public class VentanaMaestro extends JFrame {
 		getContentPane().add(lblTitulo);
 
 		// BOTONES
-		JButton btnTalleres = new JButton("Talleres");
-		btnTalleres.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres("Gestion de talleres");
-				vGestionTalleres.setVisible(true);
-				dispose();
-			}
-		});
+		btnTalleres = new JButton("Talleres");
 		ImageIcon iconoTalleres = new ImageIcon("img\\talleres.png");
 		java.awt.Image imgTalleres = iconoTalleres.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 		btnTalleres.setIcon(new ImageIcon(imgTalleres));
-		// Colocamos el texto abajo
 		btnTalleres.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnTalleres.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnTalleres.setBackground(new Color(165, 191, 201));
 		btnTalleres.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnTalleres.setBounds(360, 96, 110, 90);
 		pnlBarraHorizontal.add(btnTalleres);
+		btnTalleres.addActionListener(controlador);
 
-		JButton btnClientes = new JButton("Clientes");
-		btnClientes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaGestionClientes vGestionCilientes = new VentanaGestionClientes("Gestion de clientes");
-				vGestionCilientes.setVisible(true);
-				dispose();
-			}
-		});
+		btnClientes = new JButton("Clientes");
 		ImageIcon iconoClientes = new ImageIcon("img\\clientes.png");
 		java.awt.Image imgClientes = iconoClientes.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 		btnClientes.setIcon(new ImageIcon(imgClientes));
-		// Colocamos el texto abajo
 		btnClientes.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnClientes.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnClientes.setBackground(new Color(165, 191, 201));
 		btnClientes.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnClientes.setBounds(480, 96, 110, 90);
 		pnlBarraHorizontal.add(btnClientes);
+		btnClientes.addActionListener(controlador);
 
-		JButton btnCitas = new JButton("Citas");
-		btnCitas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaGestionCita vGestionCitas = new VentanaGestionCita("Gestion de citas");
-				vGestionCitas.setVisible(true);
-				dispose();
-			}
-		});
+		
+		btnCitas = new JButton("Citas");
 		ImageIcon iconoCitas = new ImageIcon("img\\citas.png");
-		// Para que se autoescale y se coloque el tamaño correctamente
 		java.awt.Image imgCitas = iconoCitas.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 		btnCitas.setIcon(new ImageIcon(imgCitas));
-		// Colocamos el texto abajo
 		btnCitas.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnCitas.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnCitas.setBackground(new Color(165, 191, 201));
 		btnCitas.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCitas.setBounds(240, 96, 110, 90);
 		pnlBarraHorizontal.add(btnCitas);
+		btnCitas.addActionListener(controlador);
 
-		JButton btnTrajes = new JButton("Trajes");
-		btnTrajes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaGestionTrajes vGestionTrajes = new VentanaGestionTrajes("Gestion de citas");
-				vGestionTrajes.setVisible(true);
-				dispose();
-			}
-		});
+		btnTrajes = new JButton("Trajes");
 		ImageIcon iconoTrajes = new ImageIcon("img\\trajes.png");
 		java.awt.Image imgTrajes = iconoTrajes.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 		btnTrajes.setIcon(new ImageIcon(imgTrajes));
@@ -157,11 +140,41 @@ public class VentanaMaestro extends JFrame {
 		btnTrajes.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnTrajes.setBounds(600, 96, 110, 90);
 		pnlBarraHorizontal.add(btnTrajes);
+		btnTrajes.addActionListener(controlador);
+
 
 		// FONDO
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);
 		getContentPane().add(lblFondo);
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
+	}
+
+	/**
+	 * @return the btnCitas
+	 */
+	public JButton getBtnCitas() {
+		return btnCitas;
+	}
+	
+	/**
+	 * @return the btnTrajes
+	 */
+	public JButton getBtnTrajes() {
+		return btnTrajes;
+	}
+
+	/**
+	 * @return the btnTalleres
+	 */
+	public JButton getBtnTalleres() {
+		return btnTalleres;
+	}
+
+	/**
+	 * @return the btnClientes
+	 */
+	public JButton getBtnClientes() {
+		return btnClientes;
 	}
 }

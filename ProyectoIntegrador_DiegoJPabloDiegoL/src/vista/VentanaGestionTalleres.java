@@ -8,24 +8,32 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import controlador.ControladorMenuPpal;
+import controlador.taller.ControladorEliminarTaller;
+import controlador.taller.ControladorMenuTaller;
+import controlador.taller.ControladorModificarTaller;
+import modelo.Cita;
 import modelo.Modelo;
+import modelo.Taller;
 
 public class VentanaGestionTalleres extends JFrame {
 
 	// Declaracion de variables
 	private String rangoUsuario;
-	private JButton btnEliminarCita;
-	private JButton btnCrearCita;
-	private JButton btnModificarCita;
-	private JButton btnGuardarCambios;
+	private JButton btnEliminar;
+	private JButton btnCrear;
+	private JButton btnModificar;
+	private JButton btnAtras;
 	private DefaultTableModel modeloTabla;
 	private JTable table;
-
+	private JButton btnCerrarSesion;
+	
 	public VentanaGestionTalleres(String rango) {
 		this.rangoUsuario = rango;
 		inicializarComponentes();
@@ -44,6 +52,8 @@ public class VentanaGestionTalleres extends JFrame {
 
 	private void inicializarComponentes() {
 
+		ControladorMenuTaller controlador = new ControladorMenuTaller(this);
+		
 		// Footer
 		JPanel pnlFooter = new JPanel();
 		pnlFooter.setBackground(new Color(72, 119, 109));
@@ -66,23 +76,13 @@ public class VentanaGestionTalleres extends JFrame {
 		pnlBarraHorizontal.setLayout(null);
 
 		// Boton Cerrar Sesion
-		JButton btnCerrarSesion = new JButton("Cerrar sesión");
-		btnCerrarSesion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
-				// Creo objeto tipo controlador asociado a la nueva ventana para que pueda
-				// volver a iniciar sesion
-				controlador.ControladorLogin c = new controlador.ControladorLogin(vLogin);
-				vLogin.setControlador(c);
-				vLogin.setVisible(true);
-				dispose();
-			}
-		});
+		btnCerrarSesion = new JButton("Cerrar sesión");
 		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCerrarSesion.setBackground(new Color(165, 191, 201));
 		btnCerrarSesion.setBounds(787, 68, 135, 30);
 		getContentPane().add(btnCerrarSesion);
-
+		btnCerrarSesion.addActionListener(controlador);
+		
 		// Titulo Pagina
 		JLabel lblTitulo = new JLabel("Gestión de Talleres");
 		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
@@ -91,89 +91,40 @@ public class VentanaGestionTalleres extends JFrame {
 		getContentPane().add(lblTitulo);
 
 		// BOTONES
-		JButton btnCrear = new JButton("Crear");
+		btnCrear = new JButton("Crear");
 		btnCrear.setBackground(new Color(165, 191, 201));
 		btnCrear.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCrear.setBounds(22, 25, 109, 30);
 		pnlBarraHorizontal.add(btnCrear);
-		
-		btnCrear.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        // Abrimos la ventana de Crear y le pasamos el rango del usuario
-		        VentanaCrearTaller vCrear = new VentanaCrearTaller(rangoUsuario);
-		        controlador.ControladorCrearTaller cCrear = new controlador.ControladorCrearTaller(vCrear);
-		        vCrear.setControladorGuardar(cCrear);
-		        vCrear.setVisible(true);
-		        // Cerramos la ventana actual
-		        dispose(); 
-		    }
-		});
+		btnCrear.addActionListener(controlador);
 
-		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar = new JButton("Eliminar");
 		btnEliminar.setBackground(new Color(165, 191, 201));
 		btnEliminar.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnEliminar.setBounds(22, 63, 109, 30);
 		pnlBarraHorizontal.add(btnEliminar);
-		controlador.ControladorEliminarTaller cEliminar = new controlador.ControladorEliminarTaller(this);
-		btnEliminar.addActionListener(cEliminar);
+		ControladorEliminarTaller cEliminar = new ControladorEliminarTaller(this);
+		btnEliminar.addActionListener(controlador);
 
-		JButton btnModificar = new JButton("Modificar");
+		btnModificar = new JButton("Modificar");
 		btnModificar.setBackground(new Color(165, 191, 201));
 		btnModificar.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnModificar.setBounds(22, 101, 109, 30);
 		pnlBarraHorizontal.add(btnModificar);
-		
-		btnModificar.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        // 1. Vemos qué fila ha seleccionado el usuario
-		        int filaSeleccionada = table.getSelectedRow();
-		        
-		        // Si no se ha seleccionado ninguna sale panel de error.
-		        if (filaSeleccionada == -1) {
-		            JOptionPane.showMessageDialog(null, "Por favor, selecciona un taller de la tabla para modificarlo.", "Aviso", JOptionPane.WARNING_MESSAGE);
-		            return;
-		        }
+		btnModificar.addActionListener(controlador);
 
-		        // 2. Extraemos los datos de esa fila
-		        int id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
-		        String nombre = (String) modeloTabla.getValueAt(filaSeleccionada, 1);
-		        String tipo = (String) modeloTabla.getValueAt(filaSeleccionada, 2);
 
-		        // 3. Abrimos la ventana de Modificar pasándole el rango Y los datos del taller
-		        VentanaModificarTaller vModificar = new VentanaModificarTaller(rangoUsuario, id, nombre, tipo);
-		        controlador.ControladorModificarTaller cModificar = new controlador.ControladorModificarTaller(vModificar);
-		        vModificar.setControladorModificar(cModificar);
-		        vModificar.setVisible(true);
-		        dispose();
-		    }
-		});
-		
-
-		JButton btnGuardarCambios = new JButton("Guardar");
-		btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnGuardarCambios.setBackground(new Color(165, 191, 201));
-		btnGuardarCambios.setBounds(22, 231, 109, 30);
-		pnlBarraHorizontal.add(btnGuardarCambios);
-
-		JButton btnAtras = new JButton("");
+		btnAtras = new JButton("");
 		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
 		// Para que se autoescale y se coloque el tamaño correctamente
 		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
 		btnAtras.setIcon(new ImageIcon(imgAtras));
-		btnAtras.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Dependiendo del tipo de empleado volveremos a una pagina u otra
-				// De momento solo a la de maestro
-				VentanaMaestro vMaestro = new VentanaMaestro("Gestion de citas");
-				vMaestro.setVisible(true);
-				dispose();
-			}
-		});
 		btnAtras.setBackground(new Color(165, 191, 201));
 		btnAtras.setFont(new Font("Verdana", Font.PLAIN, 5));
 		btnAtras.setBounds(22, 11, 30, 30); // Posición arriba a la izquierda
 		getContentPane().add(btnAtras);
-
+		btnAtras.addActionListener(controlador);
+		
 		// Panel con informacion
 		JPanel pnlBarraHorizontal_1 = new JPanel();
 		pnlBarraHorizontal_1.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
@@ -199,7 +150,6 @@ public class VentanaGestionTalleres extends JFrame {
 		table = new JTable(modeloTabla);
 		scrollPane.setViewportView(table);
 
-		cargarDatosTalleres();
 		// FONDO
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);
@@ -208,29 +158,15 @@ public class VentanaGestionTalleres extends JFrame {
 	}
 	
 	//mover a controlador
-	public void cargarDatosTalleres() {
+	public void cargarDatosTalleres(ArrayList<Taller> datosTaller) {
 		modeloTabla.setRowCount(0);
-		Modelo conector = new Modelo();
-		Connection conexion = conector.getConexion();
-
-		String query = "SELECT id_taller, nombre_sala, tipo_sala FROM TALLER";
-
-		try (Statement st = conexion.createStatement(); ResultSet rs = st.executeQuery(query)) {
-			// Añadimos los datos
-			while (rs.next()) {
-				Object[] fila = new Object[3];
-				fila[0] = rs.getInt("id_taller");
-				fila[1] = rs.getString("nombre_sala");
-				fila[2] = rs.getString("tipo_sala");
-
-				modeloTabla.addRow(fila);
-
-			}
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Error de SQL: " + e.getMessage());
-			// Si o si cerramos la conexion, haya errores o no.
-		} finally {
-			conector.cerrarConexion(conexion);
+		for(Taller t : datosTaller) {
+			Object[] fila = new Object[3];
+			fila[0] = t.getId_taller();
+			fila[1] = t.getNombre();
+			fila[2] = t.getTipo_sala();
+			
+			modeloTabla.addRow(fila);
 		}
 	}
 	
@@ -245,5 +181,57 @@ public class VentanaGestionTalleres extends JFrame {
 		}
 		// Sabiendo que el ID está en la columna 0
 		return (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+	}
+	
+	public String getNombreTallerSeleccionado() {
+	    int fila = table.getSelectedRow();
+	    return modeloTabla.getValueAt(fila, 1).toString();
+	}
+
+	public String getTipoTallerSeleccionado() {
+	    int fila = table.getSelectedRow();
+	    return modeloTabla.getValueAt(fila, 2).toString();
+	}
+
+	/**
+	 * @return the btnEliminar
+	 */
+	public JButton getBtnEliminar() {
+		return btnEliminar;
+	}
+
+	/**
+	 * @return the btnCrear
+	 */
+	public JButton getBtnCrear() {
+		return btnCrear;
+	}
+
+	/**
+	 * @return the btnModificar
+	 */
+	public JButton getBtnModificar() {
+		return btnModificar;
+	}
+
+	/**
+	 * @return the btnAtras
+	 */
+	public JButton getBtnAtras() {
+		return btnAtras;
+	}
+
+	/**
+	 * @return the btnCerrarSesion
+	 */
+	public JButton getBtnCerrarSesion() {
+		return btnCerrarSesion;
+	}
+
+	/**
+	 * @return the rangoUsuario
+	 */
+	public String getRangoUsuario() {
+		return rangoUsuario;
 	}
 }

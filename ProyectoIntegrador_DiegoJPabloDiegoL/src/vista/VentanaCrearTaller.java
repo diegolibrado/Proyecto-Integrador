@@ -14,6 +14,8 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import controlador.taller.ControladorCrearTaller;
+import controlador.taller.ControladorModificarTaller;
 import modelo.Modelo;
 
 public class VentanaCrearTaller extends JFrame {
@@ -23,7 +25,9 @@ public class VentanaCrearTaller extends JFrame {
 	private JTextField txtNombreTaller;
 	private JComboBox<String> cmbTipoSala; // AHORA ES UN JCOMBOBOX
 	private JButton btnGuardarCambios;
-
+	private JButton btnAtras;
+	private JButton btnCerrarSesion;
+	
 	public VentanaCrearTaller(String rango) {
 		this.rangoUsuario = rango;
 		inicializarComponentes();
@@ -38,7 +42,6 @@ public class VentanaCrearTaller extends JFrame {
 	}
 
 	private void inicializarComponentes() {
-
 		// Footer
 		JPanel pnlFooter = new JPanel();
 		pnlFooter.setBackground(new Color(72, 119, 109));
@@ -61,16 +64,7 @@ public class VentanaCrearTaller extends JFrame {
 		pnlBarraHorizontal.setLayout(null);
 
 		// Boton Cerrar Sesion
-		JButton btnCerrarSesion = new JButton("Cerrar sesión");
-		btnCerrarSesion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
-				controlador.ControladorLogin c = new controlador.ControladorLogin(vLogin);
-				vLogin.setControlador(c);
-				vLogin.setVisible(true);
-				dispose();
-			}
-		});
+		btnCerrarSesion = new JButton("Cerrar sesión");
 		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCerrarSesion.setBackground(new Color(165, 191, 201));
 		btnCerrarSesion.setBounds(787, 68, 135, 30);
@@ -89,19 +83,12 @@ public class VentanaCrearTaller extends JFrame {
 		btnGuardarCambios.setBackground(new Color(165, 191, 201));
 		btnGuardarCambios.setBounds(22, 231, 109, 30);
 		pnlBarraHorizontal.add(btnGuardarCambios);
-
+		
 		// Botón Atrás
-		JButton btnAtras = new JButton("");
+		btnAtras = new JButton("");
 		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
 		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
 		btnAtras.setIcon(new ImageIcon(imgAtras));
-		btnAtras.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(rangoUsuario);
-				vGestionTalleres.setVisible(true);
-				dispose();
-			}
-		});
 		btnAtras.setBackground(new Color(165, 191, 201));
 		btnAtras.setBounds(22, 11, 30, 30);
 		getContentPane().add(btnAtras);
@@ -164,6 +151,8 @@ public class VentanaCrearTaller extends JFrame {
 	 */
 	public void setControladorGuardar(ActionListener c) {
 		btnGuardarCambios.addActionListener(c);
+	    btnAtras.addActionListener(c);
+	    btnCerrarSesion.addActionListener(c);
 	}
 
 	public String getRangoUsuario() {
@@ -180,6 +169,27 @@ public class VentanaCrearTaller extends JFrame {
 
 	public String getTipoSala() {
 		return cmbTipoSala.getSelectedItem().toString();
+	}
+
+	/**
+	 * @return the btnAtras
+	 */
+	public JButton getBtnAtras() {
+		return btnAtras;
+	}
+
+	/**
+	 * @return the btnCerrarSesion
+	 */
+	public JButton getBtnCerrarSesion() {
+		return btnCerrarSesion;
+	}
+
+	/**
+	 * @return the btnGuardarCambios
+	 */
+	public JButton getBtnGuardarCambios() {
+		return btnGuardarCambios;
 	}
 	
 	

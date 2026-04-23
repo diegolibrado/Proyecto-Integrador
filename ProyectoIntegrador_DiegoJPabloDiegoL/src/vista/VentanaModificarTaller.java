@@ -14,6 +14,8 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import controlador.ControladorMenuPpal;
+import controlador.taller.ControladorModificarTaller;
 import modelo.Modelo;
 
 public class VentanaModificarTaller extends JFrame {
@@ -24,6 +26,8 @@ public class VentanaModificarTaller extends JFrame {
 	private JTextField txtNombreTaller;
 	private JComboBox<String> cmbTipoSala;
 	private JButton btnGuardarCambios;
+	private JButton btnAtras;
+	private JButton btnCerrarSesion;
 	
 	// El constructor ahora recibe los datos desde la tabla
 	public VentanaModificarTaller(String rango, int id, String nombre, String tipo) {
@@ -35,6 +39,7 @@ public class VentanaModificarTaller extends JFrame {
 		// CARGAMOS LOS DATOS EN EL FORMULARIO
 		txtIdTaller.setText(String.valueOf(id));
 		txtIdTaller.setEditable(false); // El ID no se debe poder modificar
+		
 		txtNombreTaller.setText(nombre);
 		cmbTipoSala.setSelectedItem(tipo);
 	}
@@ -52,6 +57,8 @@ public class VentanaModificarTaller extends JFrame {
 
 	private void inicializarComponentes() {
 
+		ControladorModificarTaller cModificarTaller = new ControladorModificarTaller(this);
+		
 		// Footer
 		JPanel pnlFooter = new JPanel();
 		pnlFooter.setBackground(new Color(72, 119, 109));
@@ -74,16 +81,7 @@ public class VentanaModificarTaller extends JFrame {
 		pnlBarraHorizontal.setLayout(null);
 
 		// Boton Cerrar Sesion
-		JButton btnCerrarSesion = new JButton("Cerrar sesión");
-		btnCerrarSesion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
-				controlador.ControladorLogin c = new controlador.ControladorLogin(vLogin);
-				vLogin.setControlador(c);
-				vLogin.setVisible(true);
-				dispose();
-			}
-		});
+		btnCerrarSesion = new JButton("Cerrar sesión");
 		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCerrarSesion.setBackground(new Color(165, 191, 201));
 		btnCerrarSesion.setBounds(787, 68, 135, 30);
@@ -104,17 +102,10 @@ public class VentanaModificarTaller extends JFrame {
 		pnlBarraHorizontal.add(btnGuardarCambios);
 
 		// Botón Atrás
-		JButton btnAtras = new JButton("");
+		btnAtras = new JButton("");
 		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
 		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
 		btnAtras.setIcon(new ImageIcon(imgAtras));
-		btnAtras.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(rangoUsuario);
-				vGestionTalleres.setVisible(true);
-				dispose();
-			}
-		});
 		btnAtras.setBackground(new Color(165, 191, 201));
 		btnAtras.setBounds(22, 11, 30, 30); 
 		getContentPane().add(btnAtras);
@@ -178,6 +169,8 @@ public class VentanaModificarTaller extends JFrame {
 	 */
 	public void setControladorModificar(ActionListener c) {
 		btnGuardarCambios.addActionListener(c);
+	    btnAtras.addActionListener(c);
+	    btnCerrarSesion.addActionListener(c);
 	}
 
 	public String getRangoUsuario() {
@@ -194,6 +187,27 @@ public class VentanaModificarTaller extends JFrame {
 
 	public String getTipoSala() {
 		return cmbTipoSala.getSelectedItem().toString();
+	}
+
+	/**
+	 * @return the btnAtras
+	 */
+	public JButton getBtnAtras() {
+		return btnAtras;
+	}
+
+	/**
+	 * @return the btnGuardarCambios
+	 */
+	public JButton getBtnGuardarCambios() {
+		return btnGuardarCambios;
+	}
+
+	/**
+	 * @return the btnCerrarSesion
+	 */
+	public JButton getBtnCerrarSesion() {
+		return btnCerrarSesion;
 	}
 	
 	

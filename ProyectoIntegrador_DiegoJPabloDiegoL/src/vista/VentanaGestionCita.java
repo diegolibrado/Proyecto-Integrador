@@ -10,6 +10,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import controlador.ControladorCrearCita;
+import modelo.Cita;
 import modelo.Modelo;
 
 import java.sql.Connection;
@@ -17,6 +18,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class VentanaGestionCita extends JFrame {
 
@@ -184,7 +186,7 @@ public class VentanaGestionCita extends JFrame {
 		table = new JTable(modeloTabla);
 		scrollPane.setViewportView(table);
 
-		cargarDatosCitas();
+//		cargarDatosCitas();
 
 		// FONDO
 		JLabel lblFondo = new JLabel("");
@@ -193,38 +195,53 @@ public class VentanaGestionCita extends JFrame {
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
 	}
 
-	public void cargarDatosCitas() {
+	public void cargarDatosCitas(ArrayList<Cita> datosCitas) {
+/*		modeloTabla.setRowCount(0);
+//
+//		Modelo conector = new Modelo();
+//		Connection conexion = conector.getConexion();
+//
+//		String query = "SELECT c.dia, c.hora, c.duracion, cl.nombre AS cliente, ta.nombre_sala AS taller, e.nombre AS empleado, tr.nombre AS traje "
+//				+ "FROM CITA c " + "JOIN CLIENTE cl ON c.id_cliente = cl.id_cliente "
+//				+ "JOIN TALLER ta ON c.id_taller = ta.id_taller "
+//				+ "JOIN EMPLEADO e ON c.id_empleado_responsable = e.id_empleado "
+//				+ "JOIN TRAJE tr ON c.id_traje = tr.id_traje";
+//		try (Statement st = conexion.createStatement(); ResultSet rs = st.executeQuery(query)) {
+//
+//			// Añadimos los datos
+//			while (rs.next()) {
+//				Object[] fila = new Object[7];
+//				fila[0] = rs.getDate("dia");
+//				fila[1] = rs.getTime("hora");
+//				fila[2] = rs.getInt("duracion");
+//				fila[3] = rs.getString("cliente");
+//				fila[4] = rs.getString("taller");
+//				fila[5] = rs.getString("empleado");
+//				fila[6] = rs.getString("traje");
+//
+//				modeloTabla.addRow(fila);
+//
+//			}
+//		} catch (SQLException e) {
+//			JOptionPane.showMessageDialog(null, "Error de SQL: " + e.getMessage());
+//			// Si o si cerramos la conexion, haya errores o no.
+//		} finally {
+//			conector.cerrarConexion(conexion);
+//		}*/
+
 		modeloTabla.setRowCount(0);
-
-		Modelo conector = new Modelo();
-		Connection conexion = conector.getConexion();
-
-		String query = "SELECT c.dia, c.hora, c.duracion, cl.nombre AS cliente, ta.nombre_sala AS taller, e.nombre AS empleado, tr.nombre AS traje "
-				+ "FROM CITA c " + "JOIN CLIENTE cl ON c.id_cliente = cl.id_cliente "
-				+ "JOIN TALLER ta ON c.id_taller = ta.id_taller "
-				+ "JOIN EMPLEADO e ON c.id_empleado_responsable = e.id_empleado "
-				+ "JOIN TRAJE tr ON c.id_traje = tr.id_traje";
-		try (Statement st = conexion.createStatement(); ResultSet rs = st.executeQuery(query)) {
-
-			// Añadimos los datos
-			while (rs.next()) {
-				Object[] fila = new Object[7];
-				fila[0] = rs.getDate("dia");
-				fila[1] = rs.getTime("hora");
-				fila[2] = rs.getInt("duracion");
-				fila[3] = rs.getString("cliente");
-				fila[4] = rs.getString("taller");
-				fila[5] = rs.getString("empleado");
-				fila[6] = rs.getString("traje");
-
-				modeloTabla.addRow(fila);
-
-			}
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Error de SQL: " + e.getMessage());
-			// Si o si cerramos la conexion, haya errores o no.
-		} finally {
-			conector.cerrarConexion(conexion);
+		for (Cita c : datosCitas) {
+			Object[] fila = new Object[7];
+			fila[0] = c.getDia();
+			fila[1] = c.getHora();
+			fila[2] = c.getDuracion();
+			fila[3] = c.getId_cliente(); 
+			fila[4] = c.getId_taller();
+			fila[5] = c.getId_empleado();
+			fila[6] = c.getId_traje();
+//
+			modeloTabla.addRow(fila);
 		}
+		
 	}
 }

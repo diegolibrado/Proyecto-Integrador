@@ -1,8 +1,12 @@
-package vista;
+package vista.aprendiz;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
+
+import vista.VentanaGestionCita;
+import vista.VentanaLogin;
+
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;

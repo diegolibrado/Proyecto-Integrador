@@ -1,5 +1,7 @@
 package modelo;
 
+import java.sql.Date;
+
 /**
  * 
  */
@@ -9,7 +11,7 @@ public class Cita {
     private int id_traje;
     private int id_empleado;
     private int id_taller;
-    private String dia;
+    private Date dia;
     private String hora;
     private int duracion;
 	
@@ -44,11 +46,11 @@ public class Cita {
 	public void setId_taller(int id_taller) {
 		this.id_taller = id_taller;
 	}
-	public String getDia() {
+	public Date getDia() {
 		return dia;
 	}
-	public void setDia(String dia) {
-		this.dia = dia;
+	public void setDia(Date date) {
+		this.dia = date;
 	}
 	public String getHora() {
 		return hora;

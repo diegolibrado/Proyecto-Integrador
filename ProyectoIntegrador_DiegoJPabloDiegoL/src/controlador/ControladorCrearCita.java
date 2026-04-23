@@ -3,6 +3,7 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -33,7 +34,7 @@ public class ControladorCrearCita implements ActionListener {
 		String numAprendices = vista.getNumAprendices();
 
 		// Datos de los spinners
-		java.sql.Date fecha = vista.getFechaCita();
+		Date fecha = new Date(vista.getFechaCita().getTime());
 		String horaStr = vista.getHoraCita();
 		int duracion = vista.getDuracion();
 
