@@ -13,7 +13,7 @@ public class Modelo {
 	private static final String driver = "com.mysql.cj.jdbc.Driver";
 	private static final String url = "jdbc:mysql://localhost:3306/Proyecto-Integrador";
 	private static final String usuario = "root";
-	private static final String contrasena = "2004";
+	private static final String contrasena = "root";
 
 	/**
 	 * Método para conectar la base de datos
