@@ -175,7 +175,7 @@ public class VentanaCrearCita extends JFrame {
 		
 		JLabel lblDuracion = new JLabel("Duración (h):");
 		lblDuracion.setFont(new Font("Verdana", Font.BOLD, 14));
-		lblDuracion.setBounds(484, 105, 106, 30);
+		lblDuracion.setBounds(484, 105, 188, 30);
 		pnlFormulario.add(lblDuracion);
 		spinnerDuracion = new JSpinner();
 		spinnerDuracion.setModel(new SpinnerNumberModel(Integer.valueOf(1), null, null, Integer.valueOf(1)));
@@ -194,7 +194,7 @@ public class VentanaCrearCita extends JFrame {
 		
 		JLabel lblNombreResponsable = new JLabel("Nombre del Responsable:");
 		lblNombreResponsable.setFont(new Font("Verdana", Font.BOLD, 14));
-		lblNombreResponsable.setBounds(49, 105, 204, 30);
+		lblNombreResponsable.setBounds(49, 105, 235, 30);
 		pnlFormulario.add(lblNombreResponsable);
 		txtNombreResponsable = new JTextField();
 		txtNombreResponsable.setFont(new Font("Verdana", Font.PLAIN, 14));

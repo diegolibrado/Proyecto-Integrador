@@ -81,6 +81,8 @@ public class VentanaGestionCita extends JFrame {
 
 		// Boton Cerrar Sesion
 		JButton btnCerrarSesion = new JButton("Cerrar sesión");
+		btnCerrarSesion.setBounds(5, 211, 140, 30);
+		pnlBarraHorizontal.add(btnCerrarSesion);
 		btnCerrarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
@@ -94,8 +96,8 @@ public class VentanaGestionCita extends JFrame {
 		});
 		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCerrarSesion.setBackground(new Color(165, 191, 201));
-		btnCerrarSesion.setBounds(787, 68, 135, 30);
-		getContentPane().add(btnCerrarSesion);
+		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnCerrarSesion.setBackground(new Color(165, 191, 201));
 
 		// Titulo Pagina
 		JLabel lblTitulo = new JLabel("Gestión de Citas");
@@ -132,10 +134,10 @@ public class VentanaGestionCita extends JFrame {
 		btnModificarCita.setBounds(22, 101, 109, 30);
 		pnlBarraHorizontal.add(btnModificarCita);
 
-		btnGuardarCambios = new JButton("Guardar");
+		JButton btnGuardarCambios = new JButton("Guardar");
 		btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnGuardarCambios.setBackground(new Color(165, 191, 201));
-		btnGuardarCambios.setBounds(22, 231, 109, 30);
+		btnGuardarCambios.setBounds(22, 141, 109, 30);
 		pnlBarraHorizontal.add(btnGuardarCambios);
 
 		JButton btnAtras = new JButton("");
@@ -163,7 +165,7 @@ public class VentanaGestionCita extends JFrame {
 		pnlBarraHorizontal_1.setLayout(null);
 		pnlBarraHorizontal_1.setForeground(new Color(196, 204, 203));
 		pnlBarraHorizontal_1.setBackground(new Color(165, 191, 201));
-		pnlBarraHorizontal_1.setBounds(139, 25, 782, 236);
+		pnlBarraHorizontal_1.setBounds(150, 25, 782, 236);
 		pnlBarraHorizontal.add(pnlBarraHorizontal_1);
 
 		// ScrollPane para la tabla

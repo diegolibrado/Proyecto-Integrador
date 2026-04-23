@@ -38,7 +38,8 @@ public class VentanaModificarCitas extends JFrame {
 	/**
 	 * Metodo para determinar la configuracion inicial de la ventana.
 	 */
-	private void configInicial() {		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	private void configInicial() {		
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		setSize(960, 540);
 		setLocationRelativeTo(null);

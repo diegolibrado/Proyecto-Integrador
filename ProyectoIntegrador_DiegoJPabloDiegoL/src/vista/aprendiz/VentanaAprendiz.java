@@ -3,25 +3,40 @@ package vista.aprendiz;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
+<<<<<<< HEAD:ProyectoIntegrador_DiegoJPabloDiegoL/src/vista/aprendiz/VentanaAprendiz.java
 
 import vista.VentanaGestionCita;
 import vista.VentanaLogin;
+=======
+import javax.swing.table.DefaultTableModel;
+
+import modelo.Modelo;
+>>>>>>> caec6d45d0cee0e81dcbe1ce763a2f7177665918:ProyectoIntegrador_DiegoJPabloDiegoL/src/vista/VentanaAprendiz.java
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JButton;
 
 public class VentanaAprendiz extends JFrame {
-
+	
+	private DefaultTableModel modeloTabla;
+	private JTable table;
 	public VentanaAprendiz(String titulo) {
 		super(titulo);
 		configInicial();
@@ -83,35 +98,76 @@ public class VentanaAprendiz extends JFrame {
 		lblTitulo.setBounds(22, 63, 298, 40);
 		getContentPane().add(lblTitulo);
 
-		// BOTONES
-		JButton btnCitas = new JButton("Citas");
-		btnCitas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaGestionCita vGestionCitas = new VentanaGestionCita("Gestion de citas");
-				vGestionCitas.setVisible(true);
-				dispose();
-			}
-		});
-		ImageIcon iconoCitas = new ImageIcon(
-				"C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\citas.png");
-		java.awt.Image imgCitas = iconoCitas.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-		btnCitas.setIcon(new ImageIcon(imgCitas));
-		// Colocamos el texto abajo
-		btnCitas.setVerticalTextPosition(SwingConstants.BOTTOM);
-		btnCitas.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnCitas.setBackground(new Color(165, 191, 201));
-		btnCitas.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnCitas.setBounds(417, 96, 110, 90);
-		pnlBarraHorizontal.add(btnCitas);
-		// FONDO
-		JLabel lblFondo = new JLabel("");
-		lblFondo.setBounds(0, 0, 944, 501);
-		getContentPane().add(lblFondo);
-		lblFondo.setIcon(new ImageIcon(
-				"C:\\Users\\diego\\Proyecto-Integrador\\ProyectoIntegrador_DiegoJPabloDiegoL\\img\\fondo.jpeg"));
+		// Panel con informacion
+				JPanel pnlBarraHorizontal_1 = new JPanel();
+				pnlBarraHorizontal_1.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
+				pnlBarraHorizontal_1.setLayout(null);
+				pnlBarraHorizontal_1.setForeground(new Color(196, 204, 203));
+				pnlBarraHorizontal_1.setBackground(new Color(165, 191, 201));
+				pnlBarraHorizontal_1.setBounds(80, 25, 782, 236);
+				pnlBarraHorizontal.add(pnlBarraHorizontal_1);
 
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(10, 481, 169, 12);
-		getContentPane().add(lblNewLabel);
+				// ScrollPane para la tabla
+				JScrollPane scrollPane = new JScrollPane();
+				scrollPane.setBounds(10, 10, 762, 216);
+				pnlBarraHorizontal_1.add(scrollPane);
+
+				// Tabla
+				table = new JTable();
+				scrollPane.setViewportView(table);
+				modeloTabla = new DefaultTableModel();
+				modeloTabla.addColumn("DÍA");
+				modeloTabla.addColumn("HORA");
+				modeloTabla.addColumn("DURACIÓN");
+				modeloTabla.addColumn("CLIENTE");
+				modeloTabla.addColumn("TALLER");
+				modeloTabla.addColumn("RESPONSABLE");
+				modeloTabla.addColumn("TRAJE");
+
+				table = new JTable(modeloTabla);
+				scrollPane.setViewportView(table);
+
+				cargarDatosCitas();
+
+				// FONDO
+				JLabel lblFondo = new JLabel("");
+				lblFondo.setBounds(0, 0, 944, 501);
+				getContentPane().add(lblFondo);
+				lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
+	}
+	
+	public void cargarDatosCitas() {
+		modeloTabla.setRowCount(0);
+
+		Modelo conector = new Modelo();
+		Connection conexion = conector.getConexion();
+
+		String query = "SELECT c.dia, c.hora, c.duracion, cl.nombre AS cliente, ta.nombre_sala AS taller, e.nombre AS empleado, tr.nombre AS traje "
+				+ "FROM CITA c " + "JOIN CLIENTE cl ON c.id_cliente = cl.id_cliente "
+				+ "JOIN TALLER ta ON c.id_taller = ta.id_taller "
+				+ "JOIN EMPLEADO e ON c.id_empleado_responsable = e.id_empleado "
+				+ "JOIN TRAJE tr ON c.id_traje = tr.id_traje";
+		try (Statement st = conexion.createStatement(); ResultSet rs = st.executeQuery(query)) {
+
+			// Añadimos los datos
+			while (rs.next()) {
+				Object[] fila = new Object[7];
+				fila[0] = rs.getDate("dia");
+				fila[1] = rs.getTime("hora");
+				fila[2] = rs.getInt("duracion");
+				fila[3] = rs.getString("cliente");
+				fila[4] = rs.getString("taller");
+				fila[5] = rs.getString("empleado");
+				fila[6] = rs.getString("traje");
+
+				modeloTabla.addRow(fila);
+
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error de SQL: " + e.getMessage());
+			// Si o si cerramos la conexion, haya errores o no.
+		} finally {
+			conector.cerrarConexion(conexion);
+		}
 	}
 }

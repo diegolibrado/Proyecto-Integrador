@@ -75,6 +75,7 @@ public class VentanaGestionTalleres extends JFrame {
 		getContentPane().add(pnlBarraHorizontal);
 		pnlBarraHorizontal.setLayout(null);
 
+<<<<<<< HEAD
 		// Boton Cerrar Sesion
 		btnCerrarSesion = new JButton("Cerrar sesión");
 		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
@@ -83,6 +84,8 @@ public class VentanaGestionTalleres extends JFrame {
 		getContentPane().add(btnCerrarSesion);
 		btnCerrarSesion.addActionListener(controlador);
 		
+=======
+>>>>>>> caec6d45d0cee0e81dcbe1ce763a2f7177665918
 		// Titulo Pagina
 		JLabel lblTitulo = new JLabel("Gestión de Talleres");
 		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
@@ -114,7 +117,27 @@ public class VentanaGestionTalleres extends JFrame {
 		btnModificar.addActionListener(controlador);
 
 
+<<<<<<< HEAD
 		btnAtras = new JButton("");
+=======
+		        // 3. Abrimos la ventana de Modificar pasándole el rango Y los datos del taller
+		        VentanaModificarTaller vModificar = new VentanaModificarTaller(rangoUsuario, id, nombre, tipo);
+		        controlador.ControladorModificarTaller cModificar = new controlador.ControladorModificarTaller(vModificar);
+		        vModificar.setControladorModificar(cModificar);
+		        vModificar.setVisible(true);
+		        dispose();
+		    }
+		});
+		
+
+		JButton btnGuardarCambios = new JButton("Guardar");
+		btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnGuardarCambios.setBackground(new Color(165, 191, 201));
+		btnGuardarCambios.setBounds(22, 141, 109, 30);
+		pnlBarraHorizontal.add(btnGuardarCambios);
+
+		JButton btnAtras = new JButton("");
+>>>>>>> caec6d45d0cee0e81dcbe1ce763a2f7177665918
 		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
 		// Para que se autoescale y se coloque el tamaño correctamente
 		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
@@ -131,7 +154,7 @@ public class VentanaGestionTalleres extends JFrame {
 		pnlBarraHorizontal_1.setLayout(null);
 		pnlBarraHorizontal_1.setForeground(new Color(196, 204, 203));
 		pnlBarraHorizontal_1.setBackground(new Color(165, 191, 201));
-		pnlBarraHorizontal_1.setBounds(139, 25, 782, 236);
+		pnlBarraHorizontal_1.setBounds(150, 25, 782, 236);
 		pnlBarraHorizontal.add(pnlBarraHorizontal_1);
 
 		// ScrollPane para la tabla
@@ -149,6 +172,24 @@ public class VentanaGestionTalleres extends JFrame {
 
 		table = new JTable(modeloTabla);
 		scrollPane.setViewportView(table);
+		
+				// Boton Cerrar Sesion
+				JButton btnCerrarSesion = new JButton("Cerrar sesión");
+				btnCerrarSesion.setBounds(5, 211, 140, 30);
+				pnlBarraHorizontal.add(btnCerrarSesion);
+				btnCerrarSesion.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
+						// Creo objeto tipo controlador asociado a la nueva ventana para que pueda
+						// volver a iniciar sesion
+						controlador.ControladorLogin c = new controlador.ControladorLogin(vLogin);
+						vLogin.setControlador(c);
+						vLogin.setVisible(true);
+						dispose();
+					}
+				});
+				btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
+				btnCerrarSesion.setBackground(new Color(165, 191, 201));
 
 		// FONDO
 		JLabel lblFondo = new JLabel("");
