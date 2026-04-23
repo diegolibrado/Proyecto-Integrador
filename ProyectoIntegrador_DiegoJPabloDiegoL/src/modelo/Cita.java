@@ -1,6 +1,7 @@
 package modelo;
 
 import java.sql.Date;
+import java.sql.Time;
 
 /**
  * 
@@ -12,9 +13,13 @@ public class Cita {
     private int id_empleado;
     private int id_taller;
     private Date dia;
-    private String hora;
+    private Time hora;
     private int duracion;
-	
+    private String nombreCliente;
+    private String nombreTaller;
+    private String nombreEmpleadoResponsable;
+    private String nombreTraje;
+
     //Getters y Setters
     public int getId_cita() {
 		return id_cita;
@@ -52,16 +57,72 @@ public class Cita {
 	public void setDia(Date date) {
 		this.dia = date;
 	}
-	public String getHora() {
+	public Time getHora() {
 		return hora;
 	}
-	public void setHora(String hora) {
-		this.hora = hora;
+	public void setHora(Time time) {
+		this.hora = time;
 	}
 	public int getDuracion() {
 		return duracion;
 	}
 	public void setDuracion(int duracion) {
 		this.duracion = duracion;
+	}
+	/**
+	 * @return the nombreCliente
+	 */
+	public String getNombreCliente() {
+		return nombreCliente;
+	}
+	/**
+	 * @return the nombreTaller
+	 */
+	public String getNombreTaller() {
+		return nombreTaller;
+	}
+	/**
+	 * @return the nombreEmpleadoResponsable
+	 */
+	public String getNombreEmpleadoResponsable() {
+		return nombreEmpleadoResponsable;
+	}
+	/**
+	 * @return the nombreTraje
+	 */
+	public String getNombreTraje() {
+		return nombreTraje;
+	}
+	/**
+	 * @param nombreCliente the nombreCliente to set
+	 */
+	public void setNombreCliente(String nombreCliente) {
+		this.nombreCliente = nombreCliente;
+	}
+	/**
+	 * @param nombreTaller the nombreTaller to set
+	 */
+	public void setNombreTaller(String nombreTaller) {
+		this.nombreTaller = nombreTaller;
+	}
+	/**
+	 * @param nombreEmpleadoResponsable the nombreEmpleadoResponsable to set
+	 */
+	public void setNombreEmpleadoResponsable(String nombreEmpleadoResponsable) {
+		this.nombreEmpleadoResponsable = nombreEmpleadoResponsable;
+	}
+	/**
+	 * @param nombreTraje the nombreTraje to set
+	 */
+	public void setNombreTraje(String nombreTraje) {
+		this.nombreTraje = nombreTraje;
+	}
+	public String getHoraString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public void setHoraString(String horaCita) {
+		// TODO Auto-generated method stub
+		
 	}
 }

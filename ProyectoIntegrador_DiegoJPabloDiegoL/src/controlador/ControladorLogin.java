@@ -6,10 +6,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import controlador.cita.ControladorMenuCita;
+import modelo.Cita;
 import modelo.Modelo;
 import vista.VentanaGestionCita;
 import vista.VentanaLogin;
@@ -43,20 +46,33 @@ public class ControladorLogin implements ActionListener {
 		String categoria = modelo.obtenerCategoria(idEmpleado, contraseña);
 		
 		if(categoria != null) {
+			idEmpleado = Integer.parseInt(vLogin.getUsuario());
 			JOptionPane.showMessageDialog(null, "¡Acceso Conseguido!");
 			vLogin.dispose();
 			
 			switch(categoria) {
 			case "Aprendiz":
-				new VentanaGestionCita("Menu Aprendiz").setVisible(true);
+				VentanaGestionCita vGestionCitasAprendiz = new VentanaGestionCita(categoria, idEmpleado);
+				ControladorMenuCita cAprendiz = new ControladorMenuCita(vGestionCitasAprendiz, categoria, idEmpleado);
+				vGestionCitasAprendiz.setControlador(cAprendiz);
+				ArrayList<Cita> citasAprendiz = modelo.recuperarCitasPropias(idEmpleado);
+				vGestionCitasAprendiz.cargarDatosCitas(citasAprendiz);
+				vGestionCitasAprendiz.setVisible(true);
 				break;
 			case "Maestro":
-				new VentanaMaestro("Menu Maestro").setVisible(true);
+				VentanaMaestro vMaestro = new VentanaMaestro("Menu Maestro", categoria, idEmpleado);
+				ControladorMenuMaestro cMenuMaestro = new ControladorMenuMaestro(vMaestro, categoria, idEmpleado);
+				vMaestro.setControlador(cMenuMaestro);
+				vMaestro.setVisible(true);
 				break;
 			case "Oficial":
-				new VentanaGestionCita("Menu Oficial").setVisible(true);
+				VentanaGestionCita vGestionCitasOficial = new VentanaGestionCita(categoria, idEmpleado);
+				ControladorMenuCita cOficial = new ControladorMenuCita(vGestionCitasOficial, categoria, idEmpleado);
+				vGestionCitasOficial.setControlador(cOficial);
+				ArrayList<Cita> citasOficial = modelo.recuperarCitas();
+				vGestionCitasOficial.cargarDatosCitas(citasOficial);
+				vGestionCitasOficial.setVisible(true);
 				break;
-				
 			}
 		}else {
 			JOptionPane.showMessageDialog(null, "Acceso denegado: Contraseña o Usuario incorrectos");

@@ -21,10 +21,14 @@ public class ControladorMenuTaller implements ActionListener {
 
 	private VentanaGestionTalleres vGestionTalleres;
 	private Modelo m;
+	private String rangoUsuario;
+	private int idUsuario;
 
-	public ControladorMenuTaller(VentanaGestionTalleres v) {
+	public ControladorMenuTaller(VentanaGestionTalleres v, String rango, int id) {
 		vGestionTalleres = v;
 		m = new Modelo();
+		rangoUsuario = rango;
+		idUsuario = id;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -55,7 +59,7 @@ public class ControladorMenuTaller implements ActionListener {
 			vCrearTaller.setVisible(true);
 			vGestionTalleres.dispose();
 		} else if (e.getSource().equals(vGestionTalleres.getBtnAtras())) {
-			VentanaMaestro vMaestro = new VentanaMaestro("Gestion de citas");
+			VentanaMaestro vMaestro = new VentanaMaestro("Gestion de citas", rangoUsuario, idUsuario);
 			vMaestro.setVisible(true);
 			vGestionTalleres.dispose();
 		} else if (e.getSource().equals(vGestionTalleres.getBtnModificar())) {

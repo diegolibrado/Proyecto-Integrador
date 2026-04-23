@@ -149,8 +149,8 @@ public class VentanaCrearTaller extends JFrame {
 	 * Metodo que llamaremos desde el controlador
 	 * @param c
 	 */
-	public void setControladorGuardar(ActionListener c) {
-		btnGuardarCambios.addActionListener(c);
+	public void setControladorGuardar(ControladorCrearTaller c) {
+	    btnGuardarCambios.addActionListener(c);
 	    btnAtras.addActionListener(c);
 	    btnCerrarSesion.addActionListener(c);
 	}

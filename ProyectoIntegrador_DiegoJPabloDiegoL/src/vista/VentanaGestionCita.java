@@ -9,7 +9,9 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import controlador.ControladorCrearCita;
+import controlador.ControladorLogin;
+import controlador.cita.ControladorCrearCita;
+import controlador.cita.ControladorMenuCita;
 import modelo.Cita;
 import modelo.Modelo;
 
@@ -24,15 +26,19 @@ public class VentanaGestionCita extends JFrame {
 
 	// Declaracion de variables
 	private String rangoUsuario;
+	private int idEmpleadoLogin;
 	private JButton btnEliminarCita;
 	private JButton btnCrearCita;
 	private JButton btnModificarCita;
-	private JButton btnGuardarCambios;
 	private DefaultTableModel modeloTabla;
 	private JTable table;
+	private JLabel lblTitulo;
+	private JButton btnCerrarSesion;
+	private JButton btnAtras;
 
-	public VentanaGestionCita(String rango) {
+	public VentanaGestionCita(String rango, int idEmpleado) {
 		this.rangoUsuario = rango;
+		this.idEmpleadoLogin = idEmpleado;
 		inicializarComponentes();
 		configInicial();
 		configurarPermisos();
@@ -53,7 +59,20 @@ public class VentanaGestionCita extends JFrame {
 	 * muestren unas cosas u otras
 	 */
 	private void configurarPermisos() {
-
+		if (rangoUsuario.equals("Maestro")) {
+			lblTitulo.setText("Gestion de Citas");
+		} else if (rangoUsuario.equals("Oficial")) {
+			btnCrearCita.setVisible(false);
+			btnEliminarCita.setVisible(true);
+	        btnModificarCita.setVisible(true);
+	        lblTitulo.setText("Gestion de citas");
+		}else if(rangoUsuario.equals("Aprendiz")) {
+			btnCrearCita.setVisible(false);
+	        btnEliminarCita.setVisible(false);
+	        btnModificarCita.setVisible(false);
+	        lblTitulo.setText("Mis Citas");
+		}
+		
 	}
 
 	private void inicializarComponentes() {
@@ -80,27 +99,16 @@ public class VentanaGestionCita extends JFrame {
 		pnlBarraHorizontal.setLayout(null);
 
 		// Boton Cerrar Sesion
-		JButton btnCerrarSesion = new JButton("Cerrar sesión");
+		btnCerrarSesion = new JButton("Cerrar sesión");
 		btnCerrarSesion.setBounds(5, 211, 140, 30);
 		pnlBarraHorizontal.add(btnCerrarSesion);
-		btnCerrarSesion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
-				// Creo objeto tipo controlador asociado a la nueva ventana para que pueda
-				// volver a iniciar sesion
-				controlador.ControladorLogin c = new controlador.ControladorLogin(vLogin);
-				vLogin.setControlador(c);
-				vLogin.setVisible(true);
-				dispose();
-			}
-		});
 		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCerrarSesion.setBackground(new Color(165, 191, 201));
 		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCerrarSesion.setBackground(new Color(165, 191, 201));
 
 		// Titulo Pagina
-		JLabel lblTitulo = new JLabel("Gestión de Citas");
+		lblTitulo = new JLabel("Gestión de Citas");
 		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
 		lblTitulo.setBounds(22, 63, 298, 40);
@@ -108,15 +116,6 @@ public class VentanaGestionCita extends JFrame {
 
 		// BOTONES
 		btnCrearCita = new JButton("Crear");
-		btnCrearCita.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaCrearCita vCrearCita = new VentanaCrearCita(rangoUsuario);
-				ControladorCrearCita cCrearCita = new ControladorCrearCita(vCrearCita);
-				vCrearCita.getBtnGuardarCambios().addActionListener(cCrearCita);
-				vCrearCita.setVisible(true);
-				dispose();
-			}
-		});
 		btnCrearCita.setBackground(new Color(165, 191, 201));
 		btnCrearCita.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCrearCita.setBounds(22, 25, 109, 30);
@@ -134,26 +133,10 @@ public class VentanaGestionCita extends JFrame {
 		btnModificarCita.setBounds(22, 101, 109, 30);
 		pnlBarraHorizontal.add(btnModificarCita);
 
-		JButton btnGuardarCambios = new JButton("Guardar");
-		btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnGuardarCambios.setBackground(new Color(165, 191, 201));
-		btnGuardarCambios.setBounds(22, 141, 109, 30);
-		pnlBarraHorizontal.add(btnGuardarCambios);
-
-		JButton btnAtras = new JButton("");
+		btnAtras = new JButton("");
 		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
-		// Para que se autoescale y se coloque el tamaño correctamente
 		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
-		btnAtras.setIcon(new ImageIcon(imgAtras));
-		btnAtras.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Dependiendo del tipo de empleado volveremos a una pagina u otra
-				// De momento solo a la de maestro
-				VentanaMaestro vMaestro = new VentanaMaestro("Gestion de citas");
-				vMaestro.setVisible(true);
-				dispose();
-			}
-		});
+		btnAtras.setIcon(new ImageIcon(imgAtras));		
 		btnAtras.setBackground(new Color(165, 191, 201));
 		btnAtras.setFont(new Font("Verdana", Font.PLAIN, 5));
 		btnAtras.setBounds(22, 11, 30, 30); // Posición arriba a la izquierda
@@ -188,62 +171,76 @@ public class VentanaGestionCita extends JFrame {
 		table = new JTable(modeloTabla);
 		scrollPane.setViewportView(table);
 
-//		cargarDatosCitas();
-
 		// FONDO
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);
 		getContentPane().add(lblFondo);
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
 	}
+	
+	public int getIdCitaSeleccionado() {
+		int filaSeleccionada = table.getSelectedRow();
+		if (filaSeleccionada == -1)
+			return -1;
+		return (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+	}
+	
+	public void setControlador(ControladorMenuCita c) {
+	    btnEliminarCita.addActionListener(c);
+	    btnCrearCita.addActionListener(c);
+	    btnModificarCita.addActionListener(c);
+	    btnAtras.addActionListener(c);
+	    btnCerrarSesion.addActionListener(c);
+	}
 
 	public void cargarDatosCitas(ArrayList<Cita> datosCitas) {
-/*		modeloTabla.setRowCount(0);
-//
-//		Modelo conector = new Modelo();
-//		Connection conexion = conector.getConexion();
-//
-//		String query = "SELECT c.dia, c.hora, c.duracion, cl.nombre AS cliente, ta.nombre_sala AS taller, e.nombre AS empleado, tr.nombre AS traje "
-//				+ "FROM CITA c " + "JOIN CLIENTE cl ON c.id_cliente = cl.id_cliente "
-//				+ "JOIN TALLER ta ON c.id_taller = ta.id_taller "
-//				+ "JOIN EMPLEADO e ON c.id_empleado_responsable = e.id_empleado "
-//				+ "JOIN TRAJE tr ON c.id_traje = tr.id_traje";
-//		try (Statement st = conexion.createStatement(); ResultSet rs = st.executeQuery(query)) {
-//
-//			// Añadimos los datos
-//			while (rs.next()) {
-//				Object[] fila = new Object[7];
-//				fila[0] = rs.getDate("dia");
-//				fila[1] = rs.getTime("hora");
-//				fila[2] = rs.getInt("duracion");
-//				fila[3] = rs.getString("cliente");
-//				fila[4] = rs.getString("taller");
-//				fila[5] = rs.getString("empleado");
-//				fila[6] = rs.getString("traje");
-//
-//				modeloTabla.addRow(fila);
-//
-//			}
-//		} catch (SQLException e) {
-//			JOptionPane.showMessageDialog(null, "Error de SQL: " + e.getMessage());
-//			// Si o si cerramos la conexion, haya errores o no.
-//		} finally {
-//			conector.cerrarConexion(conexion);
-//		}*/
-
 		modeloTabla.setRowCount(0);
 		for (Cita c : datosCitas) {
-			Object[] fila = new Object[7];
+			Object[] fila = new Object[7]; // Ajusta el número según tus columnas visibles
 			fila[0] = c.getDia();
 			fila[1] = c.getHora();
 			fila[2] = c.getDuracion();
-			fila[3] = c.getId_cliente(); 
-			fila[4] = c.getId_taller();
-			fila[5] = c.getId_empleado();
-			fila[6] = c.getId_traje();
-//
+			fila[3] = c.getNombreCliente(); // <--- Usamos los nombres que sacamos con JOIN
+			fila[4] = c.getNombreTaller();
+			fila[5] = c.getNombreEmpleadoResponsable();
+			fila[6] = c.getNombreTraje();
+
 			modeloTabla.addRow(fila);
 		}
-		
+	}
+
+	/**
+	 * @return the btnEliminarCita
+	 */
+	public JButton getBtnEliminarCita() {
+		return btnEliminarCita;
+	}
+
+	/**
+	 * @return the btnCrearCita
+	 */
+	public JButton getBtnCrearCita() {
+		return btnCrearCita;
+	}
+
+	/**
+	 * @return the btnModificarCita
+	 */
+	public JButton getBtnModificarCita() {
+		return btnModificarCita;
+	}
+
+	/**
+	 * @return the btnCerrarSesion
+	 */
+	public JButton getBtnCerrarSesion() {
+		return btnCerrarSesion;
+	}
+
+	/**
+	 * @return the btnAtras
+	 */
+	public JButton getBtnAtras() {
+		return btnAtras;
 	}
 }

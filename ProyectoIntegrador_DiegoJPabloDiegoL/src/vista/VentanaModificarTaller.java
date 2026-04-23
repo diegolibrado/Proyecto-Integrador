@@ -14,7 +14,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import controlador.ControladorMenuPpal;
+import controlador.ControladorMenuMaestro;
 import controlador.taller.ControladorModificarTaller;
 import modelo.Modelo;
 

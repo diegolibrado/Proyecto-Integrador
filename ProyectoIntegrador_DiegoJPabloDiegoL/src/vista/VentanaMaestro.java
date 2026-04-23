@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 
-import controlador.ControladorMenuPpal;
+import controlador.ControladorMenuMaestro;
 import modelo.Empleado;
 import modelo.Modelo;
 
@@ -26,10 +26,15 @@ public class VentanaMaestro extends JFrame {
 	private JButton btnTrajes;
 	private JButton btnTalleres;
 	private JButton btnClientes;
+	private JButton btnCerrarSesion;
+	private String rangoUsuario;
+	private int idUsuario;
 	
 
-	public VentanaMaestro(String titulo) {
+	public VentanaMaestro(String titulo, String rango, int id) {
 		super(titulo);
+		rangoUsuario = rango;
+		idUsuario = id;
 		configInicial();
 		inicializarComponentes();
 	}
@@ -42,8 +47,6 @@ public class VentanaMaestro extends JFrame {
 	}
 
 	private void inicializarComponentes() {
-
-		ControladorMenuPpal controlador = new ControladorMenuPpal(this);
 		
 		// Footer
 		JPanel pnlFooter = new JPanel();
@@ -67,18 +70,7 @@ public class VentanaMaestro extends JFrame {
 		pnlBarraHorizontal.setLayout(null);
 
 		// Boton Cerrar Sesion
-		JButton btnCerrarSesion = new JButton("Cerrar sesión");
-		btnCerrarSesion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
-				// Creo objeto tipo controlador asociado a la nueva ventana para que pueda
-				// volver a iniciar sesion
-				controlador.ControladorLogin c = new controlador.ControladorLogin(vLogin);
-				vLogin.setControlador(c);
-				vLogin.setVisible(true);
-				dispose();
-			}
-		});
+		btnCerrarSesion = new JButton("Cerrar sesión");
 		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCerrarSesion.setBackground(new Color(165, 191, 201));
 		btnCerrarSesion.setBounds(787, 68, 135, 30);
@@ -102,20 +94,9 @@ public class VentanaMaestro extends JFrame {
 		btnTalleres.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnTalleres.setBounds(360, 96, 110, 90);
 		pnlBarraHorizontal.add(btnTalleres);
-		btnTalleres.addActionListener(controlador);
 
-<<<<<<< HEAD
 		btnClientes = new JButton("Clientes");
-=======
 		JButton btnClientes = new JButton("Clientes");
-		btnClientes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaGestionCliente vGestionCilientes = new VentanaGestionCliente("Gestion de clientes");
-				vGestionCilientes.setVisible(true);
-				dispose();
-			}
-		});
->>>>>>> caec6d45d0cee0e81dcbe1ce763a2f7177665918
 		ImageIcon iconoClientes = new ImageIcon("img\\clientes.png");
 		java.awt.Image imgClientes = iconoClientes.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 		btnClientes.setIcon(new ImageIcon(imgClientes));
@@ -125,9 +106,7 @@ public class VentanaMaestro extends JFrame {
 		btnClientes.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnClientes.setBounds(480, 96, 110, 90);
 		pnlBarraHorizontal.add(btnClientes);
-		btnClientes.addActionListener(controlador);
 
-		
 		btnCitas = new JButton("Citas");
 		ImageIcon iconoCitas = new ImageIcon("img\\citas.png");
 		java.awt.Image imgCitas = iconoCitas.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
@@ -138,7 +117,6 @@ public class VentanaMaestro extends JFrame {
 		btnCitas.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCitas.setBounds(240, 96, 110, 90);
 		pnlBarraHorizontal.add(btnCitas);
-		btnCitas.addActionListener(controlador);
 
 		btnTrajes = new JButton("Trajes");
 		ImageIcon iconoTrajes = new ImageIcon("img\\trajes.png");
@@ -151,7 +129,6 @@ public class VentanaMaestro extends JFrame {
 		btnTrajes.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnTrajes.setBounds(600, 96, 110, 90);
 		pnlBarraHorizontal.add(btnTrajes);
-		btnTrajes.addActionListener(controlador);
 
 
 		// FONDO
@@ -161,6 +138,14 @@ public class VentanaMaestro extends JFrame {
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
 	}
 
+	public void setControlador(ControladorMenuMaestro c) {
+		btnCitas.addActionListener(c);
+		btnTalleres.addActionListener(c);
+		btnTrajes.addActionListener(c);
+		btnClientes.addActionListener(c);
+		btnCerrarSesion.addActionListener(c);
+	}
+	
 	/**
 	 * @return the btnCitas
 	 */
@@ -187,5 +172,12 @@ public class VentanaMaestro extends JFrame {
 	 */
 	public JButton getBtnClientes() {
 		return btnClientes;
+	}
+
+	/**
+	 * @return the btnCerrarSesion
+	 */
+	public JButton getBtnCerrarSesion() {
+		return btnCerrarSesion;
 	}
 }

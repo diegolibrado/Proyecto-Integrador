@@ -61,15 +61,11 @@ public class VentanaGestionCliente extends JFrame {
 		getContentPane().add(pnlBarraHorizontal);
 		pnlBarraHorizontal.setLayout(null);
 
-<<<<<<< HEAD:ProyectoIntegrador_DiegoJPabloDiegoL/src/vista/VentanaGestionClientes.java
-=======
 		// Boton Cerrar Sesion
 		JButton btnCerrarSesion = new JButton("Cerrar sesión");
 		btnCerrarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
-<<<<<<< Updated upstream
-=======
 				controlador.ControladorLogin c = new controlador.ControladorLogin(vLogin);
 				vLogin.setControlador(c);
 				vLogin.setVisible(true);
@@ -81,7 +77,6 @@ public class VentanaGestionCliente extends JFrame {
 		btnCerrarSesion.setBounds(787, 68, 135, 30);
 		getContentPane().add(btnCerrarSesion);
 
->>>>>>> f6c51b02da51761653cedd435415037932092f97:ProyectoIntegrador_DiegoJPabloDiegoL/src/vista/VentanaGestionCliente.java
 		// Titulo Pagina
 		JLabel lblTitulo = new JLabel("Gestión de Cliente");
 		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
@@ -128,14 +123,6 @@ public class VentanaGestionCliente extends JFrame {
 		            JOptionPane.showMessageDialog(null, "Por favor, selecciona un cliente de la tabla para modificarlo.", "Aviso", JOptionPane.WARNING_MESSAGE);
 		            return;
 		        }
-
-<<<<<<< HEAD:ProyectoIntegrador_DiegoJPabloDiegoL/src/vista/VentanaGestionClientes.java
-		JButton btnGuardarCambios = new JButton("Guardar");
-		btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnGuardarCambios.setBackground(new Color(165, 191, 201));
-		btnGuardarCambios.setBounds(22, 141, 109, 30);
-		pnlBarraHorizontal.add(btnGuardarCambios);
-=======
 		        int id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
 		        String nombre = (String) modeloTabla.getValueAt(filaSeleccionada, 1);
 		        String superpoder = (String) modeloTabla.getValueAt(filaSeleccionada, 2);
@@ -148,8 +135,12 @@ public class VentanaGestionCliente extends JFrame {
 		        dispose();
 		    }
 		});
->>>>>>> f6c51b02da51761653cedd435415037932092f97:ProyectoIntegrador_DiegoJPabloDiegoL/src/vista/VentanaGestionCliente.java
-
+		JButton btnGuardarCambios = new JButton("Guardar");
+		btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnGuardarCambios.setBackground(new Color(165, 191, 201));
+		btnGuardarCambios.setBounds(22, 141, 109, 30);
+		pnlBarraHorizontal.add(btnGuardarCambios);
+		
 		JButton btnAtras = new JButton("");
 		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
 		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
@@ -189,26 +180,24 @@ public class VentanaGestionCliente extends JFrame {
 		scrollPane.setViewportView(table);
 		
 		// Boton Cerrar Sesion
-		JButton btnCerrarSesion = new JButton("Cerrar sesión");
-		btnCerrarSesion.setBounds(5, 211, 140, 30);
-		pnlBarraHorizontal.add(btnCerrarSesion);
-		btnCerrarSesion.addActionListener(new ActionListener() {
+		JButton btnCerrarSesion1 = new JButton("Cerrar sesión");
+		btnCerrarSesion1.setBounds(5, 211, 140, 30);
+		pnlBarraHorizontal.add(btnCerrarSesion1);
+		btnCerrarSesion1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
 				// Creo objeto tipo controlador asociado a la nueva ventana para que pueda
 				// volver a iniciar sesion
->>>>>>> Stashed changes
 				controlador.ControladorLogin c = new controlador.ControladorLogin(vLogin);
 				vLogin.setControlador(c);
 				vLogin.setVisible(true);
 				dispose();
 			}
 		});
-		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnCerrarSesion.setBackground(new Color(165, 191, 201));
-<<<<<<< Updated upstream
-		btnCerrarSesion.setBounds(787, 68, 135, 30);
-		getContentPane().add(btnCerrarSesion);
+		btnCerrarSesion1.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnCerrarSesion1.setBackground(new Color(165, 191, 201));
+		btnCerrarSesion1.setBounds(787, 68, 135, 30);
+		getContentPane().add(btnCerrarSesion1);
 
 		// Titulo Pagina
 		JLabel lblTitulo = new JLabel("Gestión de Cliente");
@@ -307,8 +296,6 @@ public class VentanaGestionCliente extends JFrame {
 
 		table = new JTable(modeloTabla);
 		scrollPane.setViewportView(table);
-=======
->>>>>>> Stashed changes
 
 		cargarDatosCliente();
         
@@ -318,7 +305,7 @@ public class VentanaGestionCliente extends JFrame {
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
 		getContentPane().add(lblFondo);
 	}
-	
+
 	public void cargarDatosCliente() {
 		modeloTabla.setRowCount(0);
 		Modelo conector = new Modelo();
@@ -342,16 +329,16 @@ public class VentanaGestionCliente extends JFrame {
 			conector.cerrarConexion(conexion);
 		}
 	}
-	
+
 	public int getIdClienteSeleccionado() {
 		int filaSeleccionada = table.getSelectedRow();
 		if (filaSeleccionada == -1) {
-			return -1; 
+			return -1;
 		}
 		return (int) modeloTabla.getValueAt(filaSeleccionada, 0);
 	}
 
-    public String getRangoUsuario() {
-        return rangoUsuario;
-    }
+	public String getRangoUsuario() {
+		return rangoUsuario;
+	}
 }

@@ -22,17 +22,19 @@ public class ControladorCrearTaller implements ActionListener {
 
 	public ControladorCrearTaller(VentanaCrearTaller vista) {
 		this.vista = vista;
+
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		Modelo modelo = new Modelo();
 
 		if (e.getSource().equals(vista.getBtnAtras())) {
-			VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(vista.getRangoUsuario());
-			vGestionTalleres.cargarDatosTalleres(modelo.recuperarTalleres());
-			vGestionTalleres.setVisible(true);
-			vista.dispose();
-			return;
+		    // ERROR: Creabas la ventana de gestión pero no su controlador
+		    VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(vista.getRangoUsuario());
+		    vGestionTalleres.cargarDatosTalleres(modelo.recuperarTalleres());
+		    vGestionTalleres.setVisible(true);
+		    vista.dispose();
+		    return;
 		} else if (e.getSource().equals(vista.getBtnCerrarSesion())) {
 			VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
 			ControladorLogin cLogin = new ControladorLogin(vLogin);

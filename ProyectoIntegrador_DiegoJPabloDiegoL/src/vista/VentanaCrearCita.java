@@ -25,6 +25,8 @@ public class VentanaCrearCita extends JFrame {
 	private JTextField txtNombreTraje;
 	private JTextField txtNombreResponsable;
 	private JButton btnGuardarCambios;
+	private JButton btnCerrarSesion;
+	private JButton btnAtras;
 	private JTextField txtIdCita;
 	private JTextField txtNombreCliente;
 	private JTextField txtNombreTaller;
@@ -70,16 +72,7 @@ public class VentanaCrearCita extends JFrame {
 		pnlBarraHorizontal.setLayout(null);
 
 		// Boton Cerrar Sesion
-		JButton btnCerrarSesion = new JButton("Cerrar sesión");
-		btnCerrarSesion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
-				controlador.ControladorLogin c = new controlador.ControladorLogin(vLogin);
-				vLogin.setControlador(c);
-				vLogin.setVisible(true);
-				dispose();
-			}
-		});
+		btnCerrarSesion = new JButton("Cerrar sesión");
 		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCerrarSesion.setBackground(new Color(165, 191, 201));
 		btnCerrarSesion.setBounds(787, 68, 135, 30);
@@ -100,17 +93,10 @@ public class VentanaCrearCita extends JFrame {
 		pnlBarraHorizontal.add(btnGuardarCambios);
 
 		// Botón Atrás
-		JButton btnAtras = new JButton("");
+		btnAtras = new JButton("");
 		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
 		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
 		btnAtras.setIcon(new ImageIcon(imgAtras));
-		btnAtras.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(rangoUsuario);
-				vGestionTalleres.setVisible(true);
-				dispose();
-			}
-		});
 		btnAtras.setBackground(new Color(165, 191, 201));
 		btnAtras.setBounds(22, 11, 30, 30);
 		getContentPane().add(btnAtras);
@@ -270,5 +256,19 @@ public class VentanaCrearCita extends JFrame {
 	
 	public void setControladorGuardar(ActionListener c) {
 		btnGuardarCambios.addActionListener(c);
+	}
+
+	/**
+	 * @return the btnCerrarSesion
+	 */
+	public JButton getBtnCerrarSesion() {
+		return btnCerrarSesion;
+	}
+
+	/**
+	 * @return the btnAtras
+	 */
+	public JButton getBtnAtras() {
+		return btnAtras;
 	}
 }
