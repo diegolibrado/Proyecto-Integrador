@@ -48,7 +48,7 @@ public class ControladorLogin implements ActionListener {
 			
 			switch(categoria) {
 			case "Aprendiz":
-				new VentanaGestionCita("Menu Aprendiz").setVisible(true);
+				new VentanaAprendiz("Menu Aprendiz").setVisible(true);
 				break;
 			case "Maestro":
 				new VentanaMaestro("Menu Maestro").setVisible(true);
