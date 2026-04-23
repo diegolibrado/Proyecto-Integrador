@@ -104,9 +104,9 @@ public class VentanaMaestro extends JFrame {
 		pnlBarraHorizontal.add(btnTalleres);
 		btnTalleres.addActionListener(controlador);
 
-<<<<<<< HEAD
+
 		btnClientes = new JButton("Clientes");
-=======
+
 		JButton btnClientes = new JButton("Clientes");
 		btnClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -115,7 +115,7 @@ public class VentanaMaestro extends JFrame {
 				dispose();
 			}
 		});
->>>>>>> caec6d45d0cee0e81dcbe1ce763a2f7177665918
+
 		ImageIcon iconoClientes = new ImageIcon("img\\clientes.png");
 		java.awt.Image imgClientes = iconoClientes.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 		btnClientes.setIcon(new ImageIcon(imgClientes));

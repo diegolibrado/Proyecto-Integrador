@@ -15,12 +15,11 @@ public class Modelo {
 	private static final String driver = "com.mysql.cj.jdbc.Driver";
 	private static final String url = "jdbc:mysql://localhost:3306/Proyecto-Integrador";
 	private static final String usuario = "root";
-	private static final String contrasena = "root";
+	private static final String contrasena = "1234";
 
 	/**
 	 * Método para conectar la base de datos
-	 * 
-	 * @return
+	 * * @return
 	 */
 	public Connection getConexion() {
 		Connection conexion = null;
@@ -42,8 +41,7 @@ public class Modelo {
 
 	/**
 	 * Metodo para cerrar la conexion de la base de datos con el proyecto
-	 * 
-	 * @param c
+	 * * @param c
 	 */
 	public void cerrarConexion(Connection c) {
 		// Control de excepciones para cerrar la conexion
@@ -131,35 +129,90 @@ public class Modelo {
 		return talleres;
 	}
 
+
 	public ArrayList<Cliente> recuperarClientes() {
-		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+	    ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+	    Connection conexion = getConexion();
+	    String query = "SELECT id_cliente, nombre, superpoder, colores FROM CLIENTE";
 
+	    try {
+	        Statement st = conexion.createStatement();
+	        ResultSet rs = st.executeQuery(query);
+
+	        while (rs.next()) {
+	            Cliente c = new Cliente();
+	            // Agregado el ID para que los controladores puedan identificar al cliente
+	            c.setId(rs.getInt("id_cliente")); 
+	            c.setNombre(rs.getString("nombre"));
+	            c.setSuperpoder(rs.getString("superpoder"));
+	            c.setColores(rs.getString("colores"));
+	            clientes.add(c);
+	        }
+	    } catch (SQLException e) {
+	        JOptionPane.showMessageDialog(null, "Error de SQL al recuperar clientes: " + e.getMessage());
+	    } finally {
+	        cerrarConexion(conexion);
+	    }
+	    return clientes;
+	}
+
+	public boolean crearCliente(Cliente cliente) {
+	    // No incluimos el id_cliente porque es autoincremental en la BBDD
+	    String query = "INSERT INTO CLIENTE (nombre, superpoder, colores) VALUES (?, ?, ?)";
+	    Connection conexion = getConexion();
+	    
+	    try {
+	        PreparedStatement pst = conexion.prepareStatement(query);
+	        pst.setString(1, cliente.getNombre());
+	        pst.setString(2, cliente.getSuperpoder());
+	        pst.setString(3, cliente.getColores());
+	        
+	        int filasAfectadas = pst.executeUpdate();
+	        return filasAfectadas > 0;
+	        
+	    } catch(SQLException sqlex) {
+	        System.err.println("Error al crear el cliente: " + sqlex.getMessage());
+	        return false;
+	    } finally {
+	        cerrarConexion(conexion);
+	    }
+	}
+
+	// método de eliminar cliente
+	public boolean eliminarCliente(int idCliente) {
+		String query = "DELETE FROM CLIENTE WHERE id_cliente = ?";
 		Connection conexion = getConexion();
-
-		String query = "SELECT id_taller, nombre_sala, tipo_sala FROM TALLER";
-
 		try {
-			Statement st = conexion.createStatement();
-			ResultSet rs = st.executeQuery(query);
+			PreparedStatement pst = conexion.prepareStatement(query);
+			pst.setInt(1, idCliente);
+			int resultado = pst.executeUpdate();
+			return resultado > 0;
+		} catch(SQLException sqlex) {
+			System.err.println("Error al eliminar cliente: " + sqlex.getMessage());
+			return false;
+		} finally {
+			cerrarConexion(conexion);
+		}	
+	}
 
-			Taller t = new Taller();
-			// Añadimos los datos
-			while (rs.next()) {
-				t.setId_taller(rs.getInt("id_taller"));
-				t.setNombre(rs.getString("nombre_sala"));
-				t.setTipo_sala(rs.getString("tipo_sala"));
-//
-//				modeloTabla.addRow(fila);
-
-			}
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Error de SQL: " + e.getMessage());
-			// Si o si cerramos la conexion, haya errores o no.
+	//  metodo de modificar cliente
+	public boolean modificarCliente(Cliente cliente) {
+		String query = "UPDATE CLIENTE SET nombre = ?, superpoder = ?, colores = ? WHERE id_cliente = ?";
+		Connection conexion = getConexion();
+		try {
+			PreparedStatement pst = conexion.prepareStatement(query);
+			pst.setString(1, cliente.getNombre());
+			pst.setString(2, cliente.getSuperpoder());
+			pst.setString(3, cliente.getColores());
+			pst.setInt(4, cliente.getId());
+			int filasAfectadas = pst.executeUpdate();
+			return filasAfectadas > 0;
+		} catch(SQLException sqlex) {
+			System.err.println("Error al modificar el cliente: " + sqlex.getMessage());
+			return false;
 		} finally {
 			cerrarConexion(conexion);
 		}
-
-		return clientes;
 	}
 	
 	public String obtenerCategoria(int id, String contrasena) {
@@ -248,6 +301,7 @@ public class Modelo {
 		
 		return false;
 	}
+
 	
 //	public boolean crearCliente(Cliente cliente) {
 //		String query= "INSERT INTO TALLER (id_taller, nombre_sala, tipo_sala) VALUES (?, ?, ?)";

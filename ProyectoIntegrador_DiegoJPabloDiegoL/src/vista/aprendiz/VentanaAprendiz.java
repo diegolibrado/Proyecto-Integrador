@@ -3,15 +3,13 @@ package vista.aprendiz;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
-<<<<<<< HEAD:ProyectoIntegrador_DiegoJPabloDiegoL/src/vista/aprendiz/VentanaAprendiz.java
 
 import vista.VentanaGestionCita;
 import vista.VentanaLogin;
-=======
+
 import javax.swing.table.DefaultTableModel;
 
 import modelo.Modelo;
->>>>>>> caec6d45d0cee0e81dcbe1ce763a2f7177665918:ProyectoIntegrador_DiegoJPabloDiegoL/src/vista/VentanaAprendiz.java
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
