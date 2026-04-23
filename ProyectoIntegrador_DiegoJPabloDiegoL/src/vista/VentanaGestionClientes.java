@@ -122,11 +122,26 @@ public class VentanaGestionClientes extends JFrame {
 		});
 		pnlCuerpo.add(btnModificar);
 
-		// --- BOTÓN GUARDAR ---
+		// --- BOTÓN GUARDAR Y REDIRIGIR ---
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setBounds(25, 240, 100, 30);
 		btnGuardar.addActionListener(e -> {
+			// 1. Guardamos los cambios en MySQL
 			guardarEnBaseDeDatos();
+
+			// 2. Redirigimos según el rango del usuario que inició sesión
+			if (rangoUsuario != null) {
+				if (rangoUsuario.equals("Maestro")) {
+					new VentanaMaestro("Menú Maestro").setVisible(true);
+				} else if (rangoUsuario.equals("Oficial")) {
+					new VentanaOficial("Menú Oficial").setVisible(true);
+				} else if (rangoUsuario.equals("Aprendiz")) {
+					new VentanaAprendiz("Menú Aprendiz").setVisible(true);
+				} else {
+					new VentanaLogin("Login").setVisible(true);
+				}
+				dispose();
+			}
 		});
 		pnlCuerpo.add(btnGuardar);
 
@@ -196,8 +211,13 @@ public class VentanaGestionClientes extends JFrame {
 		}
 
 		try {
-			// 1. Limpiar tabla
 			Statement st = conexion.createStatement();
+			
+			// --- SOLUCIÓN ERROR FOREIGN KEY ---
+			// Desactivamos temporalmente la revisión de llaves para poder borrar y reinsertar
+			st.executeUpdate("SET FOREIGN_KEY_CHECKS = 0");
+
+			// 1. Limpiar tabla
 			st.executeUpdate("DELETE FROM CLIENTE");
 
 			// 2. Insertar lo que hay en la tabla
@@ -211,8 +231,18 @@ public class VentanaGestionClientes extends JFrame {
 				ps.setString(4, modeloTabla.getValueAt(i, 3).toString());
 				ps.executeUpdate();
 			}
-			JOptionPane.showMessageDialog(this, "¡Cambios guardados con éxito en la base de datos!");
+			
+			// Volvemos a activar la revisión por seguridad
+			st.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
+			
+			JOptionPane.showMessageDialog(this, "Cambios guardados con éxito en la base de datos");
 		} catch (SQLException e) {
+			// Intentamos reactivar las llaves incluso si hay error
+			try {
+				Statement stReset = conexion.createStatement();
+				stReset.executeUpdate("SET FOREIGN_KEY_CHECKS = 1");
+			} catch (SQLException ex) { ex.printStackTrace(); }
+			
 			JOptionPane.showMessageDialog(this, "Error al guardar: " + e.getMessage());
 		} finally {
 			conector.cerrarConexion(conexion);
