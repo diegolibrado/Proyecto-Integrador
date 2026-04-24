@@ -8,8 +8,9 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import controlador.cliente.ControladorMenuCliente; // Asegúrate de que la ruta del controlador sea correcta
+import controlador.cliente.ControladorMenuCliente;
 import modelo.Cliente;
+import modelo.Modelo; // Importamos el modelo para cargar datos
 
 public class VentanaGestionCliente extends JFrame {
 
@@ -26,6 +27,11 @@ public class VentanaGestionCliente extends JFrame {
 		this.rangoUsuario = rango;
 		configInicial();
 		inicializarComponentes();
+		
+		// --- CAMBIO CLAVE: Cargar los datos nada más abrir la ventana ---
+		Modelo modelo = new Modelo();
+		ArrayList<Cliente> lista = modelo.recuperarClientes();
+		cargarDatosClientes(lista);
 	}
 
 	private void configInicial() {
@@ -37,7 +43,7 @@ public class VentanaGestionCliente extends JFrame {
 	}
 
 	private void inicializarComponentes() {
-		// Instanciamos el controlador que gestionará los eventos de esta vntana
+		// Instanciamos el controlador
 		ControladorMenuCliente controlador = new ControladorMenuCliente(this);
 		
 		// Footer
@@ -89,8 +95,10 @@ public class VentanaGestionCliente extends JFrame {
 
 		btnAtras = new JButton("");
 		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
-		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
-		btnAtras.setIcon(new ImageIcon(imgAtras));
+		if (new java.io.File("img\\flecha_izq.png").exists()) {
+			java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+			btnAtras.setIcon(new ImageIcon(imgAtras));
+		}
 		btnAtras.setBackground(new Color(165, 191, 201));
 		btnAtras.setBounds(22, 11, 30, 30);
 		btnAtras.addActionListener(controlador);
@@ -115,12 +123,17 @@ public class VentanaGestionCliente extends JFrame {
 		scrollPane.setBounds(10, 10, 762, 216);
 		pnlTablaContainer.add(scrollPane);
 
-		// Columnas específicas de Cliente
-		modeloTabla = new DefaultTableModel(new Object[][] {}, new String[] {"ID", "NOMBRE", "SUPERPODER", "COLORES"});
+		modeloTabla = new DefaultTableModel(new Object[][] {}, new String[] {"ID", "NOMBRE", "SUPERPODER", "COLORES"}) {
+			// Hacer la tabla no editable por el usuario directamente
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		
 		table = new JTable(modeloTabla);
 		scrollPane.setViewportView(table);
 
-		// fondo repetido en los mismos por si acaso
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
@@ -129,16 +142,19 @@ public class VentanaGestionCliente extends JFrame {
 	
 	public void cargarDatosClientes(ArrayList<Cliente> datosCliente) {
 		modeloTabla.setRowCount(0);
-		for(Cliente c : datosCliente) {
-			modeloTabla.addRow(new Object[]{
-				c.getId(),
-				c.getNombre(),
-				c.getSuperpoder(),
-				c.getColores()
-			});
+		if (datosCliente != null) {
+			for(Cliente c : datosCliente) {
+				modeloTabla.addRow(new Object[]{
+					c.getId(),
+					c.getNombre(),
+					c.getSuperpoder(),
+					c.getColores()
+				});
+			}
 		}
 	}
 	
+	// Getters para el controlador y métodos de selección...
 	public int getIdClienteSeleccionado() {
 		int filaSeleccionada = table.getSelectedRow();
 		return (filaSeleccionada != -1) ? (int) modeloTabla.getValueAt(filaSeleccionada, 0) : -1;
@@ -159,7 +175,6 @@ public class VentanaGestionCliente extends JFrame {
 		return (fila != -1) ? modeloTabla.getValueAt(fila, 3).toString() : null;
 	}
 
-	// Getters para el controlador
 	public JButton getBtnEliminar() { return btnEliminar; }
 	public JButton getBtnCrear() { return btnCrear; }
 	public JButton getBtnModificar() { return btnModificar; }
