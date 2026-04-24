@@ -62,13 +62,14 @@ public class ControladorCrearCita implements ActionListener {
 		        String nombreResp = vista.getNombreResponsable();
 		        String nombreTraje = vista.getNombreTraje();
 
-		        nuevaCita.setId_cliente(modelo.obtenerIdCliente(nombreCli));
-		        nuevaCita.setId_taller(modelo.obtenerIdTaller(nombreTal));
-		        nuevaCita.setId_empleado(modelo.obtenerIdEmpleado(nombreResp));
-		        nuevaCita.setId_traje(modelo.obtenerIdTraje(nombreTraje));
+		        nuevaCita.setId_cliente((nombreCli));
+		        nuevaCita.setId_taller((nombreTal));
+		        nuevaCita.setId_empleado((nombreResp));
+		        nuevaCita.setId_traje((nombreTraje));
 
 		        if (modelo.crearCita(nuevaCita)) {
-		            JOptionPane.showMessageDialog(vista, "Cita creada correctamente");		        }
+		            JOptionPane.showMessageDialog(vista, "Cita creada correctamente");		       
+		        }
 
 		    } catch (NumberFormatException nfe) {
 		        JOptionPane.showMessageDialog(vista, "El ID de la Cita debe ser un número entero.");

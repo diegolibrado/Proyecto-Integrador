@@ -54,7 +54,7 @@ public class ControladorMenuTaller implements ActionListener {
 		} else if (e.getSource().equals(vGestionTalleres.getBtnCrear())) {
 			// Abrimos la ventana de Crear y le pasamos el rango del usuario
 			VentanaCrearTaller vCrearTaller = new VentanaCrearTaller(vGestionTalleres.getRangoUsuario());
-			ControladorCrearTaller cCrearTaller = new ControladorCrearTaller(vCrearTaller);
+			ControladorCrearTaller cCrearTaller = new ControladorCrearTaller(vCrearTaller, rangoUsuario, idUsuario);
 			vCrearTaller.setControladorGuardar(cCrearTaller);
 			vCrearTaller.setVisible(true);
 			vGestionTalleres.dispose();
@@ -71,8 +71,8 @@ public class ControladorMenuTaller implements ActionListener {
 				String tipoTaller = vGestionTalleres.getTipoTallerSeleccionado();
 				
 				// 3. Abrimos la ventana de Modificar pasándole el rango Y el ID del taller
-				VentanaModificarTaller vModificarTaller = new VentanaModificarTaller(vGestionTalleres.getRangoUsuario(), idTaller, nombreTaller, tipoTaller);
-				ControladorModificarTaller cModificarTaller = new ControladorModificarTaller(vModificarTaller);
+				VentanaModificarTaller vModificarTaller = new VentanaModificarTaller(vGestionTalleres.getRangoUsuario(), idTaller, nombreTaller, tipoTaller, idTaller);
+				ControladorModificarTaller cModificarTaller = new ControladorModificarTaller(vModificarTaller, tipoTaller, idTaller);
 				vModificarTaller.setControladorModificar(cModificarTaller);
 				vModificarTaller.setVisible(true);
 				vGestionTalleres.dispose();

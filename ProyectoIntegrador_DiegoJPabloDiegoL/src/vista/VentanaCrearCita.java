@@ -30,7 +30,7 @@ public class VentanaCrearCita extends JFrame {
 	private JTextField txtIdCita;
 	private JTextField txtNombreCliente;
 	private JTextField txtNombreTaller;
-	private JTextField txtNumAprendices;
+	private JComboBox cmbNumAprendices;
 	private JSpinner spinnerFecha ;
 	private JSpinner spinnerHora;
 	private JSpinner spinnerDuracion;
@@ -191,10 +191,11 @@ public class VentanaCrearCita extends JFrame {
 		lblNumAprendices.setFont(new Font("Verdana", Font.BOLD, 14));
 		lblNumAprendices.setBounds(49, 187, 204, 30);
 		pnlFormulario.add(lblNumAprendices);
-		txtNumAprendices = new JTextField();
-		txtNumAprendices.setFont(new Font("Verdana", Font.PLAIN, 14));
-		txtNumAprendices.setBounds(263, 187, 150, 30);
-		pnlFormulario.add(txtNumAprendices);
+		cmbNumAprendices = new JComboBox<>(new String[] {"0", "1", "2"});
+		cmbNumAprendices.setFont(new Font("Verdana", Font.PLAIN, 14));
+		cmbNumAprendices.setBounds(263, 187, 150, 30);
+		cmbNumAprendices.setBackground(Color.WHITE); 
+		pnlFormulario.add(cmbNumAprendices);
 		
 		// FONDO
 		JLabel lblFondo = new JLabel("");
@@ -220,8 +221,8 @@ public class VentanaCrearCita extends JFrame {
 		return txtNombreTraje.getText(); 
 	}
 	
-	public String getNumAprendices() { 
-		return txtNumAprendices.getText(); 
+	public String getTipoSala() {
+		return cmbNumAprendices.getSelectedItem().toString();
 	}
 	
 	public String getIdCita() { 
@@ -233,7 +234,7 @@ public class VentanaCrearCita extends JFrame {
 	}
 	
 	// Fecha desde el spinnerFecha
-	public java.sql.Date getFechaCita(){
+	public Date getFechaCita(){
 		Date fecha = (Date) spinnerFecha.getValue();
 		return new java.sql.Date(fecha.getTime());
 	}

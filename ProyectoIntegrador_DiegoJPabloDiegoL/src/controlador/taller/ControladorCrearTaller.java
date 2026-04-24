@@ -19,10 +19,13 @@ import vista.VentanaModificarTaller;
 public class ControladorCrearTaller implements ActionListener {
 
 	private VentanaCrearTaller vista;
+	private String rangoUsuario;
+	private int idUsuario;
 
-	public ControladorCrearTaller(VentanaCrearTaller vista) {
+	public ControladorCrearTaller(VentanaCrearTaller vista, String rango, int id) {
 		this.vista = vista;
-
+		this.rangoUsuario = rango;
+		this.idUsuario = id;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -30,7 +33,7 @@ public class ControladorCrearTaller implements ActionListener {
 
 		if (e.getSource().equals(vista.getBtnAtras())) {
 		    // ERROR: Creabas la ventana de gestión pero no su controlador
-		    VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(vista.getRangoUsuario());
+		    VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(vista.getRangoUsuario(), 0);
 		    vGestionTalleres.cargarDatosTalleres(modelo.recuperarTalleres());
 		    vGestionTalleres.setVisible(true);
 		    vista.dispose();
@@ -61,7 +64,7 @@ public class ControladorCrearTaller implements ActionListener {
 
 				if (modelo.crearTaller(taller)) {
 					JOptionPane.showMessageDialog(vista, "Taller creado exitosamente");
-					VentanaGestionTalleres vGestion = new VentanaGestionTalleres(vista.getRangoUsuario());
+					VentanaGestionTalleres vGestion = new VentanaGestionTalleres(vista.getRangoUsuario(), idTaller);
 					vGestion.cargarDatosTalleres(modelo.recuperarTalleres());
 					vGestion.setVisible(true);
 					vista.dispose();

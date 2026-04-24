@@ -51,7 +51,7 @@ public class ControladorMenuMaestro implements ActionListener {
 			vGestionCitas.setVisible(true);
 			vMaestro.dispose();
 		} else if (e.getSource().equals(vMaestro.getBtnTalleres())) {
-			VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres("Gestion de Talleres");
+			VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres("Gestion de Talleres", idUsuario);
 			ControladorMenuTaller cMenuTaller = new ControladorMenuTaller(vGestionTalleres, rangoUsuario, idUsuario);
 			vGestionTalleres.setControlador(cMenuTaller);
 			ArrayList<Taller> datosTalleres = m.recuperarTalleres();

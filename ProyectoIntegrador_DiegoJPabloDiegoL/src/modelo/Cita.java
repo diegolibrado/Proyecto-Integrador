@@ -12,7 +12,7 @@ public class Cita {
     private int id_traje;
     private int id_empleado;
     private int id_taller;
-    private Date dia;
+    private java.util.Date dia;
     private Time hora;
     private int duracion;
     private String nombreCliente;
@@ -51,10 +51,10 @@ public class Cita {
 	public void setId_taller(int id_taller) {
 		this.id_taller = id_taller;
 	}
-	public Date getDia() {
+	public java.util.Date getDia() {
 		return dia;
 	}
-	public void setDia(Date date) {
+	public void setDia(java.util.Date date) {
 		this.dia = date;
 	}
 	public Time getHora() {

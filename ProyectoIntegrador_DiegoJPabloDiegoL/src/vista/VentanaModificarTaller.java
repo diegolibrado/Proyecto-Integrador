@@ -22,6 +22,7 @@ public class VentanaModificarTaller extends JFrame {
 
 	// Declaracion de variables de clase (para poder acceder a ellas en el método de guardar)
 	private String rangoUsuario;
+	private int idUsuario;
 	private JTextField txtIdTaller;
 	private JTextField txtNombreTaller;
 	private JComboBox<String> cmbTipoSala;
@@ -30,8 +31,9 @@ public class VentanaModificarTaller extends JFrame {
 	private JButton btnCerrarSesion;
 	
 	// El constructor ahora recibe los datos desde la tabla
-	public VentanaModificarTaller(String rango, int id, String nombre, String tipo) {
+	public VentanaModificarTaller(String rango, int id, String nombre, String tipo, int idUser) {
 		this.rangoUsuario = rango;
+		this.idUsuario = idUser;
 		inicializarComponentes();
 		configInicial();
 		configurarPermisos();
@@ -57,7 +59,7 @@ public class VentanaModificarTaller extends JFrame {
 
 	private void inicializarComponentes() {
 
-		ControladorModificarTaller cModificarTaller = new ControladorModificarTaller(this);
+		ControladorModificarTaller cModificarTaller = new ControladorModificarTaller(this, rangoUsuario, idUsuario);
 		
 		// Footer
 		JPanel pnlFooter = new JPanel();
