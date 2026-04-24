@@ -15,6 +15,7 @@ import vista.VentanaGestionCita;
 import vista.VentanaLogin;
 import vista.VentanaMaestro;
 import vista.VentanaOficial;
+import vista.oficial.VentanadeOficial;
 import vista.aprendiz.VentanaAprendiz;
 
 public class ControladorLogin implements ActionListener {
@@ -54,7 +55,7 @@ public class ControladorLogin implements ActionListener {
 				new VentanaMaestro("Menu Maestro").setVisible(true);
 				break;
 			case "Oficial":
-				new VentanaGestionCita("Menu Oficial").setVisible(true);
+				new VentanadeOficial("Menu Oficial").setVisible(true);
 				break;
 				
 			}
