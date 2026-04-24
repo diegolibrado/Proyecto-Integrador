@@ -51,23 +51,17 @@ public class ControladorCrearCita implements ActionListener {
 			try {
 		        Cita nuevaCita = new Cita();
 		        
-		        // El ID de la cita SÍ es un número
 		        nuevaCita.setId_cita(Integer.parseInt(vista.getIdCita())); 
 		        
 		        nuevaCita.setDia(vista.getFechaCita());
 		        nuevaCita.setHoraString(vista.getHoraCita());
 		        nuevaCita.setDuracion(vista.getDuracion());
 
-		        // --- AQUÍ ESTABA EL ERROR ---
-		        // Quitamos el Integer.parseInt porque vista.getNombreCliente() devuelve "Sara"
-		        // Asegúrate de que en tu clase Cita.java estos setters acepten String temporalmente
-		        // o que el Modelo maneje la conversión.
 		        String nombreCli = vista.getNombreCliente();
 		        String nombreTal = vista.getNombreTaller();
 		        String nombreResp = vista.getNombreResponsable();
 		        String nombreTraje = vista.getNombreTraje();
 
-		        // Si tu base de datos requiere IDs (ints), tienes que pedírselos al modelo así:
 		        nuevaCita.setId_cliente(modelo.obtenerIdCliente(nombreCli));
 		        nuevaCita.setId_taller(modelo.obtenerIdTaller(nombreTal));
 		        nuevaCita.setId_empleado(modelo.obtenerIdEmpleado(nombreResp));
@@ -77,7 +71,6 @@ public class ControladorCrearCita implements ActionListener {
 		            JOptionPane.showMessageDialog(vista, "Cita creada correctamente");		        }
 
 		    } catch (NumberFormatException nfe) {
-		        // Ahora este error solo saltará si el "ID de la Cita" no es un número
 		        JOptionPane.showMessageDialog(vista, "El ID de la Cita debe ser un número entero.");
 		    }
 		}

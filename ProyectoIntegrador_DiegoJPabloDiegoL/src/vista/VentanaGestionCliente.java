@@ -2,343 +2,189 @@ package vista;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import modelo.Modelo;
+import controlador.cliente.ControladorMenuCliente;
+import modelo.Cliente;
 
 public class VentanaGestionCliente extends JFrame {
 
-	// Declaracion de variables
-	private String rangoUsuario;
-	private DefaultTableModel modeloTabla;
-	private JTable table;
+    private String rangoUsuario;
+    private JButton btnEliminar;
+    private JButton btnCrear;
+    private JButton btnModificar;
+    private JButton btnAtras;
+    private JButton btnCerrarSesion;
+    private DefaultTableModel modeloTabla;
+    private JTable table;
 
-	public VentanaGestionCliente(String rango) {
-		this.rangoUsuario = rango;
-		inicializarComponentes();
-		configInicial();
-	}
+    public VentanaGestionCliente(String rango) {
+        this.rangoUsuario = rango;
+        configInicial();
+        inicializarComponentes();
+    }
 
-	/**
-	 * Metodo para determinar la configuracion inicial de la ventana.
-	 */
-	private void configInicial() {
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		getContentPane().setLayout(null);
-		setSize(960, 540);
-		setLocationRelativeTo(null);
-	}
+    private void configInicial() {
+        setTitle("Gestión de Clientes");
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(null);
+        setSize(960, 540);
+        setLocationRelativeTo(null);
+    }
 
-	private void inicializarComponentes() {
+    private void inicializarComponentes() {
+        // Instanciamos el controlador
+        ControladorMenuCliente controlador = new ControladorMenuCliente(this);
 
-		// Footer
-		JPanel pnlFooter = new JPanel();
-		pnlFooter.setBackground(new Color(72, 119, 109));
-		pnlFooter.setBounds(0, 481, 944, 20);
-		getContentPane().add(pnlFooter);
+        // --- BOTÓN ATRÁS ---
+        btnAtras = new JButton("");
+        ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
+        Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        btnAtras.setIcon(new ImageIcon(imgAtras));
+        btnAtras.setBackground(new Color(165, 191, 201));
+        btnAtras.setBounds(22, 11, 30, 30);
+        btnAtras.addActionListener(controlador);
+        getContentPane().add(btnAtras);
 
-		// Copyright
-		JLabel lblCopyright = new JLabel("© 2026 Payo-Vallecano, Inc. Todos los derechos reservados");
-		lblCopyright.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCopyright.setForeground(new Color(255, 255, 255));
-		lblCopyright.setFont(new Font("Verdana", Font.PLAIN, 10));
-		pnlFooter.add(lblCopyright);
+        // --- TÍTULO ---
+        JLabel lblTitulo = new JLabel("Gestión de Clientes");
+        lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
+        lblTitulo.setBounds(22, 63, 400, 40);
+        getContentPane().add(lblTitulo);
 
-		// Panel horizontal
-		JPanel pnlBarraHorizontal = new JPanel();
-		pnlBarraHorizontal.setForeground(new Color(196, 204, 203));
-		pnlBarraHorizontal.setBackground(new Color(196, 204, 203));
-		pnlBarraHorizontal.setBounds(0, 111, 944, 282);
-		getContentPane().add(pnlBarraHorizontal);
-		pnlBarraHorizontal.setLayout(null);
+        // --- BOTÓN CERRAR SESIÓN ---
+        btnCerrarSesion = new JButton("Cerrar sesión");
+        btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
+        btnCerrarSesion.setBackground(new Color(165, 191, 201));
+        btnCerrarSesion.setBounds(787, 68, 135, 30);
+        btnCerrarSesion.addActionListener(controlador);
+        getContentPane().add(btnCerrarSesion);
 
-		// Boton Cerrar Sesion
-		JButton btnCerrarSesion = new JButton("Cerrar sesión");
-		btnCerrarSesion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
-				controlador.ControladorLogin c = new controlador.ControladorLogin(vLogin);
-				vLogin.setControlador(c);
-				vLogin.setVisible(true);
-				dispose();
-			}
-		});
-		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnCerrarSesion.setBackground(new Color(165, 191, 201));
-		btnCerrarSesion.setBounds(787, 68, 135, 30);
-		getContentPane().add(btnCerrarSesion);
+        // --- PANEL CENTRAL ---
+        JPanel pnlBarraHorizontal = new JPanel();
+        pnlBarraHorizontal.setBackground(new Color(196, 204, 203));
+        pnlBarraHorizontal.setBounds(0, 111, 944, 282);
+        pnlBarraHorizontal.setLayout(null);
+        getContentPane().add(pnlBarraHorizontal);
 
-		// Titulo Pagina
-		JLabel lblTitulo = new JLabel("Gestión de Cliente");
-		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
-		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
-		lblTitulo.setBounds(22, 63, 400, 40);
-		getContentPane().add(lblTitulo);
+        // --- BOTONES LATERALES (Dentro del panel central) ---
+        btnCrear = new JButton("Crear");
+        btnCrear.setBackground(new Color(165, 191, 201));
+        btnCrear.setFont(new Font("Verdana", Font.PLAIN, 14));
+        btnCrear.setBounds(22, 25, 109, 30);
+        btnCrear.addActionListener(controlador);
+        pnlBarraHorizontal.add(btnCrear);
 
-		// BOTONES
-		JButton btnCrear = new JButton("Crear");
-		btnCrear.setBackground(new Color(165, 191, 201));
-		btnCrear.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnCrear.setBounds(22, 25, 109, 30);
-		pnlBarraHorizontal.add(btnCrear);
-		
-		btnCrear.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        VentanaCrearCliente vCrear = new VentanaCrearCliente(rangoUsuario);
-		        controlador.ControladorCrearCliente cCrear = new controlador.ControladorCrearCliente(vCrear);
-		        vCrear.setControladorGuardar(cCrear);
-		        vCrear.setVisible(true);
-		        dispose(); 
-		    }
-		});
+        btnEliminar = new JButton("Eliminar");
+        btnEliminar.setBackground(new Color(165, 191, 201));
+        btnEliminar.setFont(new Font("Verdana", Font.PLAIN, 14));
+        btnEliminar.setBounds(22, 63, 109, 30);
+        btnEliminar.addActionListener(controlador);
+        pnlBarraHorizontal.add(btnEliminar);
 
-		JButton btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBackground(new Color(165, 191, 201));
-		btnEliminar.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnEliminar.setBounds(22, 63, 109, 30);
-		pnlBarraHorizontal.add(btnEliminar);
-		controlador.ControladorEliminarCliente cEliminar = new controlador.ControladorEliminarCliente(this);
-		btnEliminar.addActionListener(cEliminar);
+        btnModificar = new JButton("Modificar");
+        btnModificar.setBackground(new Color(165, 191, 201));
+        btnModificar.setFont(new Font("Verdana", Font.PLAIN, 14));
+        btnModificar.setBounds(22, 101, 109, 30);
+        btnModificar.addActionListener(controlador);
+        pnlBarraHorizontal.add(btnModificar);
 
-		JButton btnModificar = new JButton("Modificar");
-		btnModificar.setBackground(new Color(165, 191, 201));
-		btnModificar.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnModificar.setBounds(22, 101, 109, 30);
-		pnlBarraHorizontal.add(btnModificar);
-		
-		btnModificar.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        int filaSeleccionada = table.getSelectedRow();
-		        
-		        if (filaSeleccionada == -1) {
-		            JOptionPane.showMessageDialog(null, "Por favor, selecciona un cliente de la tabla para modificarlo.", "Aviso", JOptionPane.WARNING_MESSAGE);
-		            return;
-		        }
-		        int id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
-		        String nombre = (String) modeloTabla.getValueAt(filaSeleccionada, 1);
-		        String superpoder = (String) modeloTabla.getValueAt(filaSeleccionada, 2);
-		        String colores = (String) modeloTabla.getValueAt(filaSeleccionada, 3);
+        // --- PANEL DE LA TABLA ---
+        JPanel pnlTablaContainer = new JPanel();
+        pnlTablaContainer.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
+        pnlTablaContainer.setBackground(new Color(165, 191, 201));
+        pnlTablaContainer.setBounds(150, 25, 782, 236);
+        pnlTablaContainer.setLayout(null);
+        pnlBarraHorizontal.add(pnlTablaContainer);
 
-		        VentanaModificarCliente vModificar = new VentanaModificarCliente(rangoUsuario, id, nombre, superpoder, colores);
-		        controlador.ControladorModificarCliente cModificar = new controlador.ControladorModificarCliente(vModificar);
-		        vModificar.setControladorModificar(cModificar);
-		        vModificar.setVisible(true);
-		        dispose();
-		    }
-		});
-		JButton btnGuardarCambios = new JButton("Guardar");
-		btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnGuardarCambios.setBackground(new Color(165, 191, 201));
-		btnGuardarCambios.setBounds(22, 141, 109, 30);
-		pnlBarraHorizontal.add(btnGuardarCambios);
-		
-		JButton btnAtras = new JButton("");
-		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
-		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
-		btnAtras.setIcon(new ImageIcon(imgAtras));
-		btnAtras.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaMaestro vMaestro = new VentanaMaestro("Gestion de citas");
-				vMaestro.setVisible(true);
-				dispose();
-			}
-		});
-		btnAtras.setBackground(new Color(165, 191, 201));
-		btnAtras.setBounds(22, 11, 30, 30);
-		getContentPane().add(btnAtras);
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBounds(10, 10, 762, 216);
+        pnlTablaContainer.add(scrollPane);
 
-		// Panel con informacion
-		JPanel pnlBarraHorizontal_1 = new JPanel();
-		pnlBarraHorizontal_1.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
-		pnlBarraHorizontal_1.setLayout(null);
-		pnlBarraHorizontal_1.setBackground(new Color(165, 191, 201));
-		pnlBarraHorizontal_1.setBounds(150, 25, 782, 236);
-		pnlBarraHorizontal.add(pnlBarraHorizontal_1);
+        modeloTabla = new DefaultTableModel(new Object[][] {}, new String[] {"ID", "NOMBRE", "SUPERPODER", "COLORES"});
+        table = new JTable(modeloTabla);
+        scrollPane.setViewportView(table);
 
-		// ScrollPane para la tabla
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 10, 762, 216);
-		pnlBarraHorizontal_1.add(scrollPane);
+        // --- FOOTER ---
+        JPanel pnlFooter = new JPanel();
+        pnlFooter.setBackground(new Color(72, 119, 109));
+        pnlFooter.setBounds(0, 481, 944, 20);
+        getContentPane().add(pnlFooter);
 
-		// Tabla
-		modeloTabla = new DefaultTableModel();
-		modeloTabla.addColumn("ID");
-		modeloTabla.addColumn("NOMBRE");
-		modeloTabla.addColumn("SUPERPODER");
-		modeloTabla.addColumn("COLORES");
+        JLabel lblCopyright = new JLabel("© 2026 Payo-Vallecano, Inc. Todos los derechos reservados");
+        lblCopyright.setHorizontalAlignment(SwingConstants.CENTER);
+        lblCopyright.setForeground(Color.WHITE);
+        lblCopyright.setFont(new Font("Verdana", Font.PLAIN, 10));
+        pnlFooter.add(lblCopyright);
 
-		table = new JTable(modeloTabla);
-		scrollPane.setViewportView(table);
-		
-		// Boton Cerrar Sesion
-		JButton btnCerrarSesion1 = new JButton("Cerrar sesión");
-		btnCerrarSesion1.setBounds(5, 211, 140, 30);
-		pnlBarraHorizontal.add(btnCerrarSesion1);
-		btnCerrarSesion1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
-				// Creo objeto tipo controlador asociado a la nueva ventana para que pueda
-				// volver a iniciar sesion
-				controlador.ControladorLogin c = new controlador.ControladorLogin(vLogin);
-				vLogin.setControlador(c);
-				vLogin.setVisible(true);
-				dispose();
-			}
-		});
-		btnCerrarSesion1.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnCerrarSesion1.setBackground(new Color(165, 191, 201));
-		btnCerrarSesion1.setBounds(787, 68, 135, 30);
-		getContentPane().add(btnCerrarSesion1);
+        // --- FONDO ---
+        JLabel lblFondo = new JLabel("");
+        lblFondo.setBounds(0, 0, 944, 501);
+        lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
+        getContentPane().add(lblFondo);
+    }
 
-		// Titulo Pagina
-		JLabel lblTitulo = new JLabel("Gestión de Cliente");
-		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
-		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
-		lblTitulo.setBounds(22, 63, 400, 40);
-		getContentPane().add(lblTitulo);
+    public void cargarDatosClientes(ArrayList<Cliente> datosCliente) {
+        modeloTabla.setRowCount(0);
+        for(Cliente c : datosCliente) {
+            modeloTabla.addRow(new Object[]{
+                c.getId(),
+                c.getNombre(),
+                c.getSuperpoder(),
+                c.getColores()
+            });
+        }
+    }
 
-		// BOTONES
-		JButton btnCrear = new JButton("Crear");
-		btnCrear.setBackground(new Color(165, 191, 201));
-		btnCrear.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnCrear.setBounds(22, 25, 109, 30);
-		pnlBarraHorizontal.add(btnCrear);
-		
-		btnCrear.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        VentanaCrearCliente vCrear = new VentanaCrearCliente(rangoUsuario);
-		        controlador.ControladorCrearCliente cCrear = new controlador.ControladorCrearCliente(vCrear);
-		        vCrear.setControladorGuardar(cCrear);
-		        vCrear.setVisible(true);
-		        dispose(); 
-		    }
-		});
+    public int getIdClienteSeleccionado() {
+        int fila = table.getSelectedRow();
+        return (fila != -1) ? (int) modeloTabla.getValueAt(fila, 0) : -1;
+    }
 
-		JButton btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBackground(new Color(165, 191, 201));
-		btnEliminar.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnEliminar.setBounds(22, 63, 109, 30);
-		pnlBarraHorizontal.add(btnEliminar);
-		controlador.ControladorEliminarCliente cEliminar = new controlador.ControladorEliminarCliente(this);
-		btnEliminar.addActionListener(cEliminar);
+    public String getNombreClienteSeleccionado() {
+        int fila = table.getSelectedRow();
+        return (fila != -1) ? modeloTabla.getValueAt(fila, 1).toString() : null;
+    }
 
-		JButton btnModificar = new JButton("Modificar");
-		btnModificar.setBackground(new Color(165, 191, 201));
-		btnModificar.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnModificar.setBounds(22, 101, 109, 30);
-		pnlBarraHorizontal.add(btnModificar);
-		
-		btnModificar.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        int filaSeleccionada = table.getSelectedRow();
-		        
-		        if (filaSeleccionada == -1) {
-		            JOptionPane.showMessageDialog(null, "Por favor, selecciona un cliente de la tabla para modificarlo.", "Aviso", JOptionPane.WARNING_MESSAGE);
-		            return;
-		        }
+    public String getSuperpoderClienteSeleccionado() {
+        int fila = table.getSelectedRow();
+        return (fila != -1) ? modeloTabla.getValueAt(fila, 2).toString() : null;
+    }
 
-		        int id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
-		        String nombre = (String) modeloTabla.getValueAt(filaSeleccionada, 1);
-		        String superpoder = (String) modeloTabla.getValueAt(filaSeleccionada, 2);
-		        String colores = (String) modeloTabla.getValueAt(filaSeleccionada, 3);
+    public String getColoresClienteSeleccionado() {
+        int fila = table.getSelectedRow();
+        return (fila != -1) ? modeloTabla.getValueAt(fila, 3).toString() : null;
+    }
 
-		        VentanaModificarCliente vModificar = new VentanaModificarCliente(rangoUsuario, id, nombre, superpoder, colores);
-		        controlador.ControladorModificarCliente cModificar = new controlador.ControladorModificarCliente(vModificar);
-		        vModificar.setControladorModificar(cModificar);
-		        vModificar.setVisible(true);
-		        dispose();
-		    }
-		});
-
-		JButton btnAtras = new JButton("");
-		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
-		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
-		btnAtras.setIcon(new ImageIcon(imgAtras));
-		btnAtras.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaMaestro vMaestro = new VentanaMaestro("Gestion de citas");
-				vMaestro.setVisible(true);
-				dispose();
-			}
-		});
-		btnAtras.setBackground(new Color(165, 191, 201));
-		btnAtras.setBounds(22, 11, 30, 30);
-		getContentPane().add(btnAtras);
-
-		// Panel con informacion
-		JPanel pnlBarraHorizontal_1 = new JPanel();
-		pnlBarraHorizontal_1.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
-		pnlBarraHorizontal_1.setLayout(null);
-		pnlBarraHorizontal_1.setBackground(new Color(165, 191, 201));
-		pnlBarraHorizontal_1.setBounds(139, 25, 782, 236);
-		pnlBarraHorizontal.add(pnlBarraHorizontal_1);
-
-		// ScrollPane para la tabla
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 10, 762, 216);
-		pnlBarraHorizontal_1.add(scrollPane);
-
-		// Tabla
-		modeloTabla = new DefaultTableModel();
-		modeloTabla.addColumn("ID");
-		modeloTabla.addColumn("NOMBRE");
-		modeloTabla.addColumn("SUPERPODER");
-		modeloTabla.addColumn("COLORES");
-
-		table = new JTable(modeloTabla);
-		scrollPane.setViewportView(table);
-
-		cargarDatosCliente();
-        
-		// FONDO
-		JLabel lblFondo = new JLabel("");
-		lblFondo.setBounds(0, 0, 944, 501);
-		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
-		getContentPane().add(lblFondo);
-	}
-
-	public void cargarDatosCliente() {
-		modeloTabla.setRowCount(0);
-		Modelo conector = new Modelo();
-		Connection conexion = conector.getConexion();
-
-		String query = "SELECT id_cliente, nombre, superpoder, colores FROM CLIENTE";
-
-		try (Statement st = conexion.createStatement(); ResultSet rs = st.executeQuery(query)) {
-			while (rs.next()) {
-				Object[] fila = new Object[4];
-				fila[0] = rs.getInt("id_cliente");
-				fila[1] = rs.getString("nombre");
-				fila[2] = rs.getString("superpoder");
-				fila[3] = rs.getString("colores");
-
-				modeloTabla.addRow(fila);
-			}
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Error de SQL: " + e.getMessage());
-		} finally {
-			conector.cerrarConexion(conexion);
-		}
-	}
-
-	public int getIdClienteSeleccionado() {
-		int filaSeleccionada = table.getSelectedRow();
-		if (filaSeleccionada == -1) {
-			return -1;
-		}
-		return (int) modeloTabla.getValueAt(filaSeleccionada, 0);
-	}
-
-	public String getRangoUsuario() {
-		return rangoUsuario;
-	}
+    // Getters para el controlador
+    public JButton getBtnEliminar() { 
+    	return btnEliminar; 
+    }
+    
+    public JButton getBtnCrear() { 
+    	return btnCrear; 
+    }
+    
+    public JButton getBtnModificar() { 
+    	return btnModificar; 
+    }
+    
+    public JButton getBtnAtras() { 
+    	return btnAtras; 
+    }
+    
+    public JButton getBtnCerrarSesion() { 
+    	return btnCerrarSesion; 
+    }
+    
+    public String getRangoUsuario() { 
+    	return rangoUsuario; 
+    }
 }

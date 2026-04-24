@@ -2,6 +2,7 @@ package vista;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -13,8 +14,8 @@ import modelo.Taller;
 
 public class VentanaGestionTalleres extends JFrame {
 
-	// Declaracion de variables
 	private String rangoUsuario;
+	public int idUsuario;
 	private JButton btnEliminar;
 	private JButton btnCrear;
 	private JButton btnModificar;
@@ -23,16 +24,15 @@ public class VentanaGestionTalleres extends JFrame {
 	private DefaultTableModel modeloTabla;
 	private JTable table;
 
-	public VentanaGestionTalleres(String rango) {
+	public VentanaGestionTalleres(String rango, int id) {
 		this.rangoUsuario = rango;
-		inicializarComponentes();
+		this.idUsuario = id;
 		configInicial();
+		inicializarComponentes();
 	}
 
-	/**
-	 * Metodo para determinar la configuracion inicial de la ventana.
-	 */
 	private void configInicial() {
+		setTitle("Gestión de Talleres");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		setSize(960, 540);
@@ -40,6 +40,7 @@ public class VentanaGestionTalleres extends JFrame {
 	}
 
 	private void inicializarComponentes() {
+		ControladorMenuTaller controlador = new ControladorMenuTaller(this, rangoUsuario, idUsuario);
 
 		// Footer
 		JPanel pnlFooter = new JPanel();
@@ -47,114 +48,108 @@ public class VentanaGestionTalleres extends JFrame {
 		pnlFooter.setBounds(0, 481, 944, 20);
 		getContentPane().add(pnlFooter);
 
-		// Copyright
 		JLabel lblCopyright = new JLabel("© 2026 Payo-Vallecano, Inc. Todos los derechos reservados");
 		lblCopyright.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCopyright.setForeground(new Color(255, 255, 255));
+		lblCopyright.setForeground(Color.WHITE);
 		lblCopyright.setFont(new Font("Verdana", Font.PLAIN, 10));
 		pnlFooter.add(lblCopyright);
 
-		// Panel horizontal principal
+		// Panel horizontal central
 		JPanel pnlBarraHorizontal = new JPanel();
-		pnlBarraHorizontal.setForeground(new Color(196, 204, 203));
 		pnlBarraHorizontal.setBackground(new Color(196, 204, 203));
 		pnlBarraHorizontal.setBounds(0, 111, 944, 282);
-		getContentPane().add(pnlBarraHorizontal);
 		pnlBarraHorizontal.setLayout(null);
+		getContentPane().add(pnlBarraHorizontal);
 
 		// Titulo Pagina
 		JLabel lblTitulo = new JLabel("Gestión de Talleres");
-		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
-		lblTitulo.setBounds(22, 63, 333, 40);
+		lblTitulo.setBounds(22, 63, 400, 40);
 		getContentPane().add(lblTitulo);
 
-		// --- BOTONES DE ACCIÓN ---
+		// Botones de acción
 		btnCrear = new JButton("Crear");
 		btnCrear.setBackground(new Color(165, 191, 201));
 		btnCrear.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCrear.setBounds(22, 25, 109, 30);
+		btnCrear.addActionListener(controlador);
 		pnlBarraHorizontal.add(btnCrear);
 
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.setBackground(new Color(165, 191, 201));
 		btnEliminar.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnEliminar.setBounds(22, 63, 109, 30);
+		btnEliminar.addActionListener(controlador);
 		pnlBarraHorizontal.add(btnEliminar);
 
 		btnModificar = new JButton("Modificar");
 		btnModificar.setBackground(new Color(165, 191, 201));
 		btnModificar.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnModificar.setBounds(22, 101, 109, 30);
+		btnModificar.addActionListener(controlador);
 		pnlBarraHorizontal.add(btnModificar);
 
 		btnCerrarSesion = new JButton("Cerrar sesión");
 		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCerrarSesion.setBackground(new Color(165, 191, 201));
 		btnCerrarSesion.setBounds(787, 68, 135, 30);
+		btnCerrarSesion.addActionListener(controlador);
 		getContentPane().add(btnCerrarSesion);
 
 		btnAtras = new JButton("");
 		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
-		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 		btnAtras.setIcon(new ImageIcon(imgAtras));
 		btnAtras.setBackground(new Color(165, 191, 201));
 		btnAtras.setBounds(22, 11, 30, 30);
+		btnAtras.addActionListener(controlador);
 		getContentPane().add(btnAtras);
 
-		// --- PANEL DE LA TABLA ---
-		JPanel pnlContenedorTabla = new JPanel();
-		pnlContenedorTabla.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
-		pnlContenedorTabla.setLayout(null);
-		pnlContenedorTabla.setBackground(new Color(165, 191, 201));
-		pnlContenedorTabla.setBounds(150, 25, 782, 236);
-		pnlBarraHorizontal.add(pnlContenedorTabla);
+		// Tabla
+		JPanel pnlTablaContainer = new JPanel();
+		pnlTablaContainer.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
+		pnlTablaContainer.setBackground(new Color(165, 191, 201));
+		pnlTablaContainer.setBounds(150, 25, 782, 236);
+		pnlTablaContainer.setLayout(null);
+		pnlBarraHorizontal.add(pnlTablaContainer);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 10, 762, 216);
-		pnlContenedorTabla.add(scrollPane);
+		pnlTablaContainer.add(scrollPane);
 
-		modeloTabla = new DefaultTableModel();
-		modeloTabla.addColumn("ID");
-		modeloTabla.addColumn("NOMBRE");
-		modeloTabla.addColumn("TIPO");
-
+		modeloTabla = new DefaultTableModel(new Object[][] {}, new String[] { "ID", "NOMBRE", "TIPO" });
 		table = new JTable(modeloTabla);
 		scrollPane.setViewportView(table);
 
-		// FONDO
+		// Fondo
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);
-		getContentPane().add(lblFondo);
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
+		getContentPane().add(lblFondo);
 	}
 
 	public void setControlador(ControladorMenuTaller c) {
-	    btnAtras.addActionListener(c);
-		btnCrear.addActionListener(c);
 		btnCrear.addActionListener(c);
 		btnEliminar.addActionListener(c);
 		btnModificar.addActionListener(c);
 		btnCerrarSesion.addActionListener(c);
 		btnAtras.addActionListener(c);
 	}
-	
+
 	public void cargarDatosTalleres(ArrayList<Taller> datosTaller) {
 		modeloTabla.setRowCount(0);
 		for (Taller t : datosTaller) {
-			Object[] fila = new Object[3];
-			fila[0] = t.getId_taller();
-			fila[1] = t.getNombre();
-			fila[2] = t.getTipo_sala();
-			modeloTabla.addRow(fila);
+			modeloTabla.addRow(new Object[] { 
+				t.getId_taller(), 
+				t.getNombre(), 
+				t.getTipo_sala() 
+			});
 		}
 	}
 
 	public int getIdTallerSeleccionado() {
 		int filaSeleccionada = table.getSelectedRow();
-		if (filaSeleccionada == -1)
-			return -1;
-		return (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+		return (filaSeleccionada != -1) ? (int) modeloTabla.getValueAt(filaSeleccionada, 0) : -1;
 	}
 
 	public String getNombreTallerSeleccionado() {
@@ -167,28 +162,22 @@ public class VentanaGestionTalleres extends JFrame {
 		return (fila != -1) ? modeloTabla.getValueAt(fila, 2).toString() : null;
 	}
 
-	// GETTERS
-	public JButton getBtnEliminar() {
-		return btnEliminar;
+	public JButton getBtnEliminar() { 
+		return btnEliminar; 
 	}
-
-	public JButton getBtnCrear() {
-		return btnCrear;
+	public JButton getBtnCrear() { 
+		return btnCrear; 
 	}
-
-	public JButton getBtnModificar() {
-		return btnModificar;
+	public JButton getBtnModificar() { 
+		return btnModificar; 
 	}
-
-	public JButton getBtnAtras() {
-		return btnAtras;
+	public JButton getBtnAtras() { 
+		return btnAtras; 
 	}
-
-	public JButton getBtnCerrarSesion() {
-		return btnCerrarSesion;
+	public JButton getBtnCerrarSesion() { 
+		return btnCerrarSesion; 
 	}
-
-	public String getRangoUsuario() {
-		return rangoUsuario;
+	public String getRangoUsuario() { 
+		return rangoUsuario; 
 	}
 }

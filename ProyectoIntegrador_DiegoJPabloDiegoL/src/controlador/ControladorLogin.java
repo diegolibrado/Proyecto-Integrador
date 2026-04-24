@@ -58,6 +58,7 @@ public class ControladorLogin implements ActionListener {
 				ArrayList<Cita> citasAprendiz = modelo.recuperarCitasPropias(idEmpleado);
 				vGestionCitasAprendiz.cargarDatosCitas(citasAprendiz);
 				vGestionCitasAprendiz.setVisible(true);
+				new VentanaAprendiz("Menu Aprendiz").setVisible(true);
 				break;
 			case "Maestro":
 				VentanaMaestro vMaestro = new VentanaMaestro("Menu Maestro", categoria, idEmpleado);

@@ -97,6 +97,10 @@ public class VentanaMaestro extends JFrame {
 
 		btnClientes = new JButton("Clientes");
 		JButton btnClientes = new JButton("Clientes");
+
+		btnClientes = new JButton("Clientes");
+
+		btnClientes = new JButton("Clientes");
 		ImageIcon iconoClientes = new ImageIcon("img\\clientes.png");
 		java.awt.Image imgClientes = iconoClientes.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
 		btnClientes.setIcon(new ImageIcon(imgClientes));
