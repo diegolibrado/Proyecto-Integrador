@@ -28,7 +28,7 @@ public class VentanaGestionCliente extends JFrame {
 		configInicial();
 		inicializarComponentes();
 		
-		// --- CAMBIO CLAVE: Cargar los datos nada más abrir la ventana ---
+		// Cargar los datos nada más abrir la ventana 
 		Modelo modelo = new Modelo();
 		ArrayList<Cliente> lista = modelo.recuperarClientes();
 		cargarDatosClientes(lista);
@@ -111,7 +111,7 @@ public class VentanaGestionCliente extends JFrame {
 		btnCerrarSesion.addActionListener(controlador);
 		getContentPane().add(btnCerrarSesion);
 
-		// --- TABLA ---
+		//  TABLA 
 		JPanel pnlTablaContainer = new JPanel();
 		pnlTablaContainer.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
 		pnlTablaContainer.setBackground(new Color(165, 191, 201));

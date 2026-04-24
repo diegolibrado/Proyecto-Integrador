@@ -15,7 +15,7 @@ public class Modelo {
 	private static final String driver = "com.mysql.cj.jdbc.Driver";
 	private static final String url = "jdbc:mysql://localhost:3306/Proyecto-Integrador";
 	private static final String usuario = "root";
-	private static final String contrasena = "root";
+	private static final String contrasena = "1234";
 
 	/**
 	 * Método para conectar la base de datos
@@ -41,7 +41,7 @@ public class Modelo {
 
 	/**
 	 * Metodo para cerrar la conexion de la base de datos con el proyecto
-	 * * @param c
+	 * * @param 
 	 */
 	public void cerrarConexion(Connection c) {
 		// Control de excepciones para cerrar la conexion

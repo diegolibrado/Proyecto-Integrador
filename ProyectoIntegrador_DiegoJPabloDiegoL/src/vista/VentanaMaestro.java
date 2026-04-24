@@ -2,23 +2,18 @@ package vista;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
-import javax.swing.JButton;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.LineBorder;
 
 import controlador.ControladorMenuPpal;
-import modelo.Empleado;
-import modelo.Modelo;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class VentanaMaestro extends JFrame {
 	
@@ -26,7 +21,7 @@ public class VentanaMaestro extends JFrame {
 	private JButton btnTrajes;
 	private JButton btnTalleres;
 	private JButton btnClientes;
-	
+	private String rangoUsuario; // Añadido para gestionar el rango si fuera necesario
 
 	public VentanaMaestro(String titulo) {
 		super(titulo);
@@ -43,6 +38,7 @@ public class VentanaMaestro extends JFrame {
 
 	private void inicializarComponentes() {
 
+		// Instanciamos el controlador que centraliza las acciones
 		ControladorMenuPpal controlador = new ControladorMenuPpal(this);
 		
 		// Footer
@@ -52,27 +48,24 @@ public class VentanaMaestro extends JFrame {
 		getContentPane().add(pnlFooter);
 
 		// Copyright
-		JLabel lblNewLabel_1 = new JLabel("© 2026 Payo-Vallecano, Inc. Todos los derechos reservados");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setForeground(new Color(255, 255, 255));
-		lblNewLabel_1.setFont(new Font("Verdana", Font.PLAIN, 10));
-		pnlFooter.add(lblNewLabel_1);
+		JLabel lblCopyright = new JLabel("© 2026 Payo-Vallecano, Inc. Todos los derechos reservados");
+		lblCopyright.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCopyright.setForeground(new Color(255, 255, 255));
+		lblCopyright.setFont(new Font("Verdana", Font.PLAIN, 10));
+		pnlFooter.add(lblCopyright);
 
-		// Panel horizontal
+		// Panel horizontal principal
 		JPanel pnlBarraHorizontal = new JPanel();
-		pnlBarraHorizontal.setForeground(new Color(196, 204, 203));
 		pnlBarraHorizontal.setBackground(new Color(196, 204, 203));
 		pnlBarraHorizontal.setBounds(0, 111, 944, 282);
-		getContentPane().add(pnlBarraHorizontal);
 		pnlBarraHorizontal.setLayout(null);
+		getContentPane().add(pnlBarraHorizontal);
 
 		// Boton Cerrar Sesion
 		JButton btnCerrarSesion = new JButton("Cerrar sesión");
 		btnCerrarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
-				// Creo objeto tipo controlador asociado a la nueva ventana para que pueda
-				// volver a iniciar sesion
 				controlador.ControladorLogin c = new controlador.ControladorLogin(vLogin);
 				vLogin.setControlador(c);
 				vLogin.setVisible(true);
@@ -86,106 +79,72 @@ public class VentanaMaestro extends JFrame {
 		
 		// Titulo Pagina
 		JLabel lblTitulo = new JLabel("Menú Maestro");
-		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
 		lblTitulo.setBounds(22, 63, 298, 40);
 		getContentPane().add(lblTitulo);
 
-		// BOTONES
-		btnTalleres = new JButton("Talleres");
-		ImageIcon iconoTalleres = new ImageIcon("img\\talleres.png");
-		java.awt.Image imgTalleres = iconoTalleres.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-		btnTalleres.setIcon(new ImageIcon(imgTalleres));
-		btnTalleres.setVerticalTextPosition(SwingConstants.BOTTOM);
-		btnTalleres.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnTalleres.setBackground(new Color(165, 191, 201));
-		btnTalleres.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnTalleres.setBounds(360, 96, 110, 90);
-		pnlBarraHorizontal.add(btnTalleres);
-		btnTalleres.addActionListener(controlador);
+		// --- BOTONES ---
 
-
-		btnClientes = new JButton("Clientes");
-
-		JButton btnClientes = new JButton("Clientes");
-		btnClientes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaGestionCliente vGestionCilientes = new VentanaGestionCliente("Gestion de clientes");
-				vGestionCilientes.setVisible(true);
-				dispose();
-			}
-		});
-
-		ImageIcon iconoClientes = new ImageIcon("img\\clientes.png");
-		java.awt.Image imgClientes = iconoClientes.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-		btnClientes.setIcon(new ImageIcon(imgClientes));
-		btnClientes.setVerticalTextPosition(SwingConstants.BOTTOM);
-		btnClientes.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnClientes.setBackground(new Color(165, 191, 201));
-		btnClientes.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnClientes.setBounds(480, 96, 110, 90);
-		pnlBarraHorizontal.add(btnClientes);
-		btnClientes.addActionListener(controlador);
-
-		
+		// 1. Citas
 		btnCitas = new JButton("Citas");
-		ImageIcon iconoCitas = new ImageIcon("img\\citas.png");
-		java.awt.Image imgCitas = iconoCitas.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-		btnCitas.setIcon(new ImageIcon(imgCitas));
-		btnCitas.setVerticalTextPosition(SwingConstants.BOTTOM);
-		btnCitas.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnCitas.setBackground(new Color(165, 191, 201));
-		btnCitas.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnCitas.setBounds(240, 96, 110, 90);
-		pnlBarraHorizontal.add(btnCitas);
-		btnCitas.addActionListener(controlador);
+		prepararBoton(btnCitas, "img\\citas.png", 240, 96, pnlBarraHorizontal, controlador);
 
+		// 2. Talleres
+		btnTalleres = new JButton("Talleres");
+		prepararBoton(btnTalleres, "img\\talleres.png", 360, 96, pnlBarraHorizontal, controlador);
+
+		// 3. Clientes
+		btnClientes = new JButton("Clientes");
+		prepararBoton(btnClientes, "img\\clientes.png", 480, 96, pnlBarraHorizontal, controlador);
+
+		// 4. Trajes
 		btnTrajes = new JButton("Trajes");
-		ImageIcon iconoTrajes = new ImageIcon("img\\trajes.png");
-		java.awt.Image imgTrajes = iconoTrajes.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-		btnTrajes.setIcon(new ImageIcon(imgTrajes));
-		// Colocamos el texto abajo
-		btnTrajes.setVerticalTextPosition(SwingConstants.BOTTOM);
-		btnTrajes.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnTrajes.setBackground(new Color(165, 191, 201));
-		btnTrajes.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnTrajes.setBounds(600, 96, 110, 90);
-		pnlBarraHorizontal.add(btnTrajes);
-		btnTrajes.addActionListener(controlador);
+		prepararBoton(btnTrajes, "img\\trajes.png", 600, 96, pnlBarraHorizontal, controlador);
 
-
-		// FONDO
+		// Fondo (Se añade al final para que quede por debajo)
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);
-		getContentPane().add(lblFondo);
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
+		getContentPane().add(lblFondo);
 	}
 
 	/**
-	 * @return the btnCitas
+	 * Método auxiliar para configurar el estilo y posición de los botones del menú
 	 */
+	private void prepararBoton(JButton boton, String rutaImg, int x, int y, JPanel panel, ActionListener listener) {
+		ImageIcon icono = new ImageIcon(rutaImg);
+		if (new java.io.File(rutaImg).exists()) {
+			java.awt.Image img = icono.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+			boton.setIcon(new ImageIcon(img));
+		}
+		boton.setVerticalTextPosition(SwingConstants.BOTTOM);
+		boton.setHorizontalTextPosition(SwingConstants.CENTER);
+		boton.setBackground(new Color(165, 191, 201));
+		boton.setFont(new Font("Verdana", Font.PLAIN, 14));
+		boton.setBounds(x, y, 110, 90);
+		boton.addActionListener(listener);
+		panel.add(boton);
+	}
+
+	// --- GETTERS PARA EL CONTROLADOR ---
+
 	public JButton getBtnCitas() {
 		return btnCitas;
 	}
 	
-	/**
-	 * @return the btnTrajes
-	 */
 	public JButton getBtnTrajes() {
 		return btnTrajes;
 	}
 
-	/**
-	 * @return the btnTalleres
-	 */
 	public JButton getBtnTalleres() {
 		return btnTalleres;
 	}
 
-	/**
-	 * @return the btnClientes
-	 */
 	public JButton getBtnClientes() {
 		return btnClientes;
+	}
+
+	public String getRangoUsuario() {
+		return rangoUsuario;
 	}
 }
