@@ -10,7 +10,7 @@ CREATE TABLE CLIENTE (
     nombre VARCHAR(100) NOT NULL,
     superpoder VARCHAR(100),
     colores VARCHAR(100)
-);
+    ) AUTO_INCREMENT = 1;
 
 CREATE TABLE TALLER (
     id_taller INT AUTO_INCREMENT PRIMARY KEY,
@@ -118,5 +118,3 @@ INSERT INTO CITA (dia, hora, duracion, id_cliente, id_taller, id_traje, id_emple
 ('2026-05-05', '09:00:00', 1, 8, 8, 8, 8), 
 ('2026-05-05', '13:00:00', 1, 9, 9, 9, 10),
 ('2026-05-06', '10:00:00', 2, 10, 10, 10, 1);
-
-SELECT * FROM CITA WHERE id_empleado_responsable = 10;

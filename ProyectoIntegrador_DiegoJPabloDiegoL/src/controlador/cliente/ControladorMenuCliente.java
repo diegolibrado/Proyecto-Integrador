@@ -45,15 +45,15 @@ public class ControladorMenuCliente implements ActionListener {
 					}
 				}
 			}
+			//  dentro de actionPerformed
 		} else if (e.getSource().equals(vGestionClientes.getBtnCrear())) {
-			// Abrimos la ventana de Crear Cliente
-			VentanaCrearCliente vCrearCliente = new VentanaCrearCliente(vGestionClientes.getRangoUsuario(), idUsuario);
-			ControladorCrearCliente cCrearCliente = new ControladorCrearCliente(vCrearCliente, idUsuario);
-			vCrearCliente.setControladorGuardar(cCrearCliente);
-			vCrearCliente.setVisible(true);
-			vGestionClientes.dispose();
-            
-		} else if (e.getSource().equals(vGestionClientes.getBtnAtras())) {
+		    VentanaCrearCliente vCrear = new VentanaCrearCliente(vGestionClientes.getRangoUsuario(), idUsuario);
+		    ControladorCrearCliente cCrear = new ControladorCrearCliente(vCrear, idUsuario);
+		    vCrear.setControladorGuardar(cCrear); // ASIGNACIÓN ÚNICA
+		    vCrear.setVisible(true);
+		    vGestionClientes.dispose();
+		}
+		else if (e.getSource().equals(vGestionClientes.getBtnAtras())) {
 			VentanaMaestro vMaestro = new VentanaMaestro("Menú Principal", rangoUsuario, idUsuario);
 			vMaestro.setVisible(true);
 			vGestionClientes.dispose();
@@ -67,7 +67,7 @@ public class ControladorMenuCliente implements ActionListener {
 				String superpoder = vGestionClientes.getSuperpoderClienteSeleccionado();
 				String colores = vGestionClientes.getColoresClienteSeleccionado();
 				
-				// Abrimos la ventana de Modificar Cliente pasándole los datos seleccionados
+				// Abrimos la ventana de Modificar Cliente
 				VentanaModificarCliente vModificarCliente = new VentanaModificarCliente(vGestionClientes.getRangoUsuario(), idCliente, nombre, superpoder, colores);
 				ControladorModificarCliente cModificarCliente = new ControladorModificarCliente(vModificarCliente, idUsuario);
 				vModificarCliente.setControladorModificar(cModificarCliente);

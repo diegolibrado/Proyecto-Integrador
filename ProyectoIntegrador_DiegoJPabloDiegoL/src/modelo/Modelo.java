@@ -15,7 +15,7 @@ public class Modelo {
 	private static final String driver = "com.mysql.cj.jdbc.Driver";
 	private static final String url = "jdbc:mysql://localhost:3306/Proyecto-Integrador";
 	private static final String usuario = "root";
-	private static final String contrasena = "2004";
+	private static final String contrasena = "1234";
 
 	/**
 	 * Método para conectar la base de datos
@@ -323,7 +323,7 @@ public class Modelo {
 	public boolean eliminarTaller(int idTaller) {
 		String query = "DELETE FROM TALLER WHERE id_taller = ?";
 		Connection conexion = getConexion();
-
+		
 		try {
 			PreparedStatement pst = conexion.prepareStatement(query);
 			pst.setInt(1, idTaller);

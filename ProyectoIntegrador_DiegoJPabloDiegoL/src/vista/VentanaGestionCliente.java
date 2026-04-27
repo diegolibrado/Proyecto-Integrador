@@ -3,8 +3,6 @@ package vista;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -42,7 +40,7 @@ public class VentanaGestionCliente extends JFrame {
     }
 
     private void inicializarComponentes() {
-        // Instanciamos el controlador
+        // --- INSTANCIAMOS EL CONTROLADOR INTERNO (Como en Talleres) ---
         ControladorMenuCliente controlador = new ControladorMenuCliente(this, rangoUsuario, idUsuario);
 
         // --- BOTÓN ATRÁS ---
@@ -52,7 +50,7 @@ public class VentanaGestionCliente extends JFrame {
         btnAtras.setIcon(new ImageIcon(imgAtras));
         btnAtras.setBackground(new Color(165, 191, 201));
         btnAtras.setBounds(22, 11, 30, 30);
-        btnAtras.addActionListener(controlador);
+        btnAtras.addActionListener(controlador); // Asignamos controlador
         getContentPane().add(btnAtras);
 
         // --- TÍTULO ---
@@ -66,7 +64,7 @@ public class VentanaGestionCliente extends JFrame {
         btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
         btnCerrarSesion.setBackground(new Color(165, 191, 201));
         btnCerrarSesion.setBounds(787, 68, 135, 30);
-        btnCerrarSesion.addActionListener(controlador);
+        btnCerrarSesion.addActionListener(controlador); // Asignamos controlador
         getContentPane().add(btnCerrarSesion);
 
         // --- PANEL CENTRAL ---
@@ -76,26 +74,26 @@ public class VentanaGestionCliente extends JFrame {
         pnlBarraHorizontal.setLayout(null);
         getContentPane().add(pnlBarraHorizontal);
 
-        // --- BOTONES LATERALES (Dentro del panel central) ---
+        // --- BOTONES LATERALES ---
         btnCrear = new JButton("Crear");
         btnCrear.setBackground(new Color(165, 191, 201));
         btnCrear.setFont(new Font("Verdana", Font.PLAIN, 14));
         btnCrear.setBounds(22, 25, 109, 30);
-        btnCrear.addActionListener(controlador);
+        btnCrear.addActionListener(controlador); // Asignamos controlador
         pnlBarraHorizontal.add(btnCrear);
 
         btnEliminar = new JButton("Eliminar");
         btnEliminar.setBackground(new Color(165, 191, 201));
         btnEliminar.setFont(new Font("Verdana", Font.PLAIN, 14));
         btnEliminar.setBounds(22, 63, 109, 30);
-        btnEliminar.addActionListener(controlador);
+        btnEliminar.addActionListener(controlador); // Asignamos controlador
         pnlBarraHorizontal.add(btnEliminar);
 
         btnModificar = new JButton("Modificar");
         btnModificar.setBackground(new Color(165, 191, 201));
         btnModificar.setFont(new Font("Verdana", Font.PLAIN, 14));
         btnModificar.setBounds(22, 101, 109, 30);
-        btnModificar.addActionListener(controlador);
+        btnModificar.addActionListener(controlador); // Asignamos controlador
         pnlBarraHorizontal.add(btnModificar);
 
         // --- PANEL DE LA TABLA ---
@@ -133,6 +131,15 @@ public class VentanaGestionCliente extends JFrame {
         getContentPane().add(lblFondo);
     }
 
+    // Método opcional para compatibilidad externa (como en Talleres)
+    public void setControlador(ControladorMenuCliente c) {
+        btnCrear.addActionListener(c);
+        btnEliminar.addActionListener(c);
+        btnModificar.addActionListener(c);
+        btnCerrarSesion.addActionListener(c);
+        btnAtras.addActionListener(c);
+    }
+
     public void cargarDatosClientes(ArrayList<Cliente> datosCliente) {
         modeloTabla.setRowCount(0);
         for(Cliente c : datosCliente) {
@@ -165,28 +172,10 @@ public class VentanaGestionCliente extends JFrame {
         return (fila != -1) ? modeloTabla.getValueAt(fila, 3).toString() : null;
     }
 
-    // Getters para el controlador
-    public JButton getBtnEliminar() { 
-    	return btnEliminar; 
-    }
-    
-    public JButton getBtnCrear() { 
-    	return btnCrear; 
-    }
-    
-    public JButton getBtnModificar() { 
-    	return btnModificar; 
-    }
-    
-    public JButton getBtnAtras() { 
-    	return btnAtras; 
-    }
-    
-    public JButton getBtnCerrarSesion() { 
-    	return btnCerrarSesion; 
-    }
-    
-    public String getRangoUsuario() { 
-    	return rangoUsuario; 
-    }
+    public JButton getBtnEliminar() { return btnEliminar; }
+    public JButton getBtnCrear() { return btnCrear; }
+    public JButton getBtnModificar() { return btnModificar; }
+    public JButton getBtnAtras() { return btnAtras; }
+    public JButton getBtnCerrarSesion() { return btnCerrarSesion; }
+    public String getRangoUsuario() { return rangoUsuario; }
 }
