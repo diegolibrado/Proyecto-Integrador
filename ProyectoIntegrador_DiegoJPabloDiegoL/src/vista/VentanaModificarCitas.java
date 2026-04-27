@@ -7,6 +7,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
@@ -16,15 +20,26 @@ import controlador.cita.ControladorModificarCita; // Asegúrate de que la ruta s
 public class VentanaModificarCitas extends JFrame {
 
 	private String rangoUsuario;
-	private DefaultTableModel modeloTabla;
-	private JTable table;
-	private JButton btnCrearCita, btnEliminarCita, btnModificarCita, btnGuardarCambios, btnAtras, btnCerrarSesionTop;
+	private int idUsuario;
+	private JButton btnGuardarCambios;
+	private JButton btnCerrarSesion;
+	private JButton btnAtras;
+	private JTextField txtIdCita;
+	private JComboBox cmbNombreCliente;
+	private JComboBox cmbNombreTaller;
+	private JComboBox cmbNumAprendices;
+	private JComboBox cmbNombreTraje;
+	private JComboBox cmbNombreResponsable;
+	private JSpinner spinnerFecha;
+	private JSpinner spinnerHora;
+	private JSpinner spinnerDuracion;
 
-	public VentanaModificarCitas(String rango) {
-		this.rangoUsuario = rango;
-		configInicial();
-		inicializarComponentes();
-		cargarDatosCitas();
+	public VentanaModificarCitas(String rango, int id) {
+	    this.rangoUsuario = rango;
+	    this.idUsuario = id;
+	    inicializarComponentes();
+	    configInicial();
+	    txtIdCita.setEditable(false);
 	}
 
 	private void configInicial() {
@@ -37,162 +52,217 @@ public class VentanaModificarCitas extends JFrame {
 
 	private void inicializarComponentes() {
 
-		// --- FOOTER ---
+		// Footer
 		JPanel pnlFooter = new JPanel();
 		pnlFooter.setBackground(new Color(72, 119, 109));
 		pnlFooter.setBounds(0, 481, 944, 20);
 		getContentPane().add(pnlFooter);
 
-		JLabel lblCopyright = new JLabel("© 2026 Payo-Vallecano, Inc. Todos los derechos reservados");
-		lblCopyright.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCopyright.setForeground(Color.WHITE);
-		lblCopyright.setFont(new Font("Verdana", Font.PLAIN, 10));
-		pnlFooter.add(lblCopyright);
+		// Copyright
+		JLabel lblNewLabel_1 = new JLabel("© 2026 Payo-Vallecano, Inc. Todos los derechos reservados");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setForeground(new Color(255, 255, 255));
+		lblNewLabel_1.setFont(new Font("Verdana", Font.PLAIN, 10));
+		pnlFooter.add(lblNewLabel_1);
 
-		// --- TITULO ---
-		JLabel lblTitulo = new JLabel("Gestión de Citas");
-		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
-		lblTitulo.setBounds(22, 63, 400, 40);
-		getContentPane().add(lblTitulo);
-
-		// --- BOTÓN ATRÁS ---
-		btnAtras = new JButton("");
-		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
-		Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-		btnAtras.setIcon(new ImageIcon(imgAtras));
-		btnAtras.setBackground(Color.WHITE);
-		btnAtras.setBounds(22, 11, 40, 30);
-		getContentPane().add(btnAtras);
-
-		// --- BOTÓN CERRAR SESIÓN ---
-		btnCerrarSesionTop = new JButton("Cerrar sesión");
-		btnCerrarSesionTop.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnCerrarSesionTop.setBackground(new Color(165, 191, 201));
-		btnCerrarSesionTop.setBounds(787, 68, 135, 30);
-		getContentPane().add(btnCerrarSesionTop);
-
-		// --- PANEL CENTRAL ---
+		// Panel horizontal principal
 		JPanel pnlBarraHorizontal = new JPanel();
+		pnlBarraHorizontal.setForeground(new Color(196, 204, 203));
 		pnlBarraHorizontal.setBackground(new Color(196, 204, 203));
 		pnlBarraHorizontal.setBounds(0, 111, 944, 282);
-		pnlBarraHorizontal.setLayout(null);
 		getContentPane().add(pnlBarraHorizontal);
+		pnlBarraHorizontal.setLayout(null);
 
-		// --- BOTONES LATERALES ---
-		btnCrearCita = new JButton("Crear");
-		btnCrearCita.setBackground(new Color(165, 191, 201));
-		btnCrearCita.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnCrearCita.setBounds(22, 25, 109, 30);
-		pnlBarraHorizontal.add(btnCrearCita);
+		// Boton Cerrar Sesion
+		btnCerrarSesion = new JButton("Cerrar sesión");
+		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnCerrarSesion.setBackground(new Color(165, 191, 201));
+		btnCerrarSesion.setBounds(787, 68, 135, 30);
+		getContentPane().add(btnCerrarSesion);
 
-		btnEliminarCita = new JButton("Eliminar");
-		btnEliminarCita.setBackground(new Color(165, 191, 201));
-		btnEliminarCita.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnEliminarCita.setBounds(22, 63, 109, 30);
-		pnlBarraHorizontal.add(btnEliminarCita);
+		// Titulo Pagina
+		JLabel lblTitulo = new JLabel("Crear Cita");
+		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
+		lblTitulo.setBounds(22, 63, 333, 40);
+		getContentPane().add(lblTitulo);
 
-		btnModificarCita = new JButton("Modificar");
-		btnModificarCita.setBackground(new Color(165, 191, 201));
-		btnModificarCita.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnModificarCita.setBounds(22, 101, 109, 30);
-		pnlBarraHorizontal.add(btnModificarCita);
-
+		// Botón Guardar Cambios
 		btnGuardarCambios = new JButton("Guardar");
 		btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnGuardarCambios.setBackground(new Color(165, 191, 201));
 		btnGuardarCambios.setBounds(22, 231, 109, 30);
 		pnlBarraHorizontal.add(btnGuardarCambios);
 
-		// --- CONTENEDOR TABLA ---
-		JPanel pnlTabla = new JPanel();
-		pnlTabla.setBorder(new LineBorder(Color.DARK_GRAY));
-		pnlTabla.setBackground(new Color(165, 191, 201));
-		pnlTabla.setBounds(150, 25, 770, 240);
-		pnlTabla.setLayout(null);
-		pnlBarraHorizontal.add(pnlTabla);
+		// Botón Atrás
+		btnAtras = new JButton("");
+		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
+		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		btnAtras.setIcon(new ImageIcon(imgAtras));
+		btnAtras.setBackground(new Color(165, 191, 201));
+		btnAtras.setBounds(22, 11, 30, 30);
+		getContentPane().add(btnAtras);
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(5, 5, 760, 230);
-		pnlTabla.add(scrollPane);
-		
-		// TABLA
-		modeloTabla = new DefaultTableModel();
-		modeloTabla.addColumn("ID");
-		modeloTabla.addColumn("DÍA");
-		modeloTabla.addColumn("HORA");
-		modeloTabla.addColumn("DURACIÓN");
-		modeloTabla.addColumn("CLIENTE");
-		modeloTabla.addColumn("TALLER");
-		modeloTabla.addColumn("RESPONSABLE");
-		modeloTabla.addColumn("TRAJE");
-		table = new JTable(modeloTabla);
-		scrollPane.setViewportView(table);
-		
+		// Panel con informacion (EL FORMULARIO)
+		JPanel pnlFormulario = new JPanel();
+		pnlFormulario.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
+		pnlFormulario.setLayout(null);
+		pnlFormulario.setBackground(new Color(165, 191, 201));
+		pnlFormulario.setBounds(139, 25, 782, 236);
+		pnlBarraHorizontal.add(pnlFormulario);
+
+		// COMPONENTES DEL FORMULARIO
+		JLabel lblIdCita = new JLabel("ID de la Cita:");
+		lblIdCita.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblIdCita.setBounds(484, 146, 106, 30);
+		pnlFormulario.add(lblIdCita);
+		txtIdCita = new JTextField();
+		txtIdCita.setFont(new Font("Verdana", Font.PLAIN, 14));
+		txtIdCita.setBounds(602, 146, 98, 30);
+		pnlFormulario.add(txtIdCita);
+
+		JLabel lblNombreCliente = new JLabel("Nombre del Cliente:");
+		lblNombreCliente.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblNombreCliente.setBounds(49, 23, 204, 30);
+		pnlFormulario.add(lblNombreCliente);
+		cmbNombreCliente = new JComboBox();
+		cmbNombreCliente.setFont(new Font("Verdana", Font.PLAIN, 14));
+		cmbNombreCliente.setBounds(263, 23, 150, 30);
+		pnlFormulario.add(cmbNombreCliente);
+
+		JLabel lblNombreTraje = new JLabel("Nombre del Traje:");
+		lblNombreTraje.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblNombreTraje.setBounds(49, 146, 204, 30);
+		pnlFormulario.add(lblNombreTraje);
+		cmbNombreTraje = new JComboBox();
+		cmbNombreTraje.setFont(new Font("Verdana", Font.PLAIN, 14));
+		cmbNombreTraje.setBounds(263, 146, 150, 30);
+		pnlFormulario.add(cmbNombreTraje);
+
+		JLabel lblNombreResponsable = new JLabel("Nombre del Responsable:");
+		lblNombreResponsable.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblNombreResponsable.setBounds(49, 105, 235, 30);
+		pnlFormulario.add(lblNombreResponsable);
+		cmbNombreResponsable = new JComboBox();
+		cmbNombreResponsable.setFont(new Font("Verdana", Font.PLAIN, 14));
+		cmbNombreResponsable.setBounds(263, 105, 150, 30);
+		pnlFormulario.add(cmbNombreResponsable);
+
+		JLabel lblNombreTaller = new JLabel("Nombre del Taller:");
+		lblNombreTaller.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblNombreTaller.setBounds(49, 64, 204, 30);
+		pnlFormulario.add(lblNombreTaller);
+		cmbNombreTaller = new JComboBox();
+		cmbNombreTaller.setFont(new Font("Verdana", Font.PLAIN, 14));
+		cmbNombreTaller.setBounds(263, 64, 150, 30);
+		pnlFormulario.add(cmbNombreTaller);
+
+		JLabel lblNumAprendices = new JLabel("Numero de Aprendices:");
+		lblNumAprendices.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblNumAprendices.setBounds(49, 187, 204, 30);
+		pnlFormulario.add(lblNumAprendices);
+		cmbNumAprendices = new JComboBox<>(new String[] { "0", "1", "2" });
+		cmbNumAprendices.setFont(new Font("Verdana", Font.PLAIN, 14));
+		cmbNumAprendices.setBounds(263, 187, 150, 30);
+		cmbNumAprendices.setBackground(Color.WHITE);
+		pnlFormulario.add(cmbNumAprendices);
+
+		JLabel lblFecha = new JLabel("Día:");
+		lblFecha.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblFecha.setBounds(484, 23, 37, 30);
+		pnlFormulario.add(lblFecha);
+		spinnerFecha = new JSpinner();
+		spinnerFecha.setModel(new SpinnerDateModel(new Date(1776808800000L), null, null, Calendar.DAY_OF_MONTH));
+		spinnerFecha.setEditor(new JSpinner.DateEditor(spinnerFecha, "mm/dd/yyyy"));
+		spinnerFecha.setFont(new Font("Verdana", Font.PLAIN, 12));
+		spinnerFecha.setBounds(602, 27, 98, 23);
+		pnlFormulario.add(spinnerFecha);
+
+		JLabel lblHora = new JLabel("Hora:");
+		lblHora.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblHora.setBounds(484, 64, 50, 30);
+		pnlFormulario.add(lblHora);
+		spinnerHora = new JSpinner();
+		spinnerHora.setModel(new SpinnerDateModel(new Date(1776808800000L), null, null, Calendar.MINUTE));
+		spinnerHora.setEditor(new JSpinner.DateEditor(spinnerHora, "HH:mm"));
+		spinnerHora.setFont(new Font("Verdana", Font.PLAIN, 12));
+		spinnerHora.setBounds(602, 68, 98, 23);
+		pnlFormulario.add(spinnerHora);
+
+		JLabel lblDuracion = new JLabel("Duración (h):");
+		lblDuracion.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblDuracion.setBounds(484, 105, 188, 30);
+		pnlFormulario.add(lblDuracion);
+		spinnerDuracion = new JSpinner();
+		spinnerDuracion.setModel(new SpinnerNumberModel(Integer.valueOf(1), null, null, Integer.valueOf(1)));
+		spinnerDuracion.setFont(new Font("Verdana", Font.PLAIN, 12));
+		spinnerDuracion.setBounds(602, 109, 98, 23);
+		pnlFormulario.add(spinnerDuracion);
+
 		// FONDO
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);
-		// Asegúrate de que la carpeta 'img' y el archivo 'fondo.jpeg' existen en la
-		// raíz de tu proyecto
-		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
 		getContentPane().add(lblFondo);
-
-		
+		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
 
 	}
 
-	// --- MÉTODOS DE DATOS ---
+	// METODOS
 
-	public void cargarDatosCitas() {
-		modeloTabla.setRowCount(0);
-		Modelo conector = new Modelo();
-		Connection conexion = conector.getConexion();
-		if (conexion == null)
-			return;
-
-		String query = "SELECT c.id_cita, c.dia, c.hora, c.duracion, cl.nombre AS cliente, ta.nombre_sala AS taller, e.nombre AS empleado, tr.nombre AS traje "
-				+ "FROM CITA c " + "JOIN CLIENTE cl ON c.id_cliente = cl.id_cliente "
-				+ "JOIN TALLER ta ON c.id_taller = ta.id_taller "
-				+ "JOIN EMPLEADO e ON c.id_empleado_responsable = e.id_empleado "
-				+ "JOIN TRAJE tr ON c.id_traje = tr.id_traje";
-
-		try (Statement st = conexion.createStatement(); ResultSet rs = st.executeQuery(query)) {
-			while (rs.next()) {
-				modeloTabla.addRow(new Object[] { rs.getInt("id_cita"), rs.getDate("dia"), rs.getTime("hora"),
-						rs.getInt("duracion"), rs.getString("cliente"), rs.getString("taller"),
-						rs.getString("empleado"), rs.getString("traje") });
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			conector.cerrarConexion(conexion);
-		}
-	}
-
-	// --- MÉTODO SET CONTROLADOR (COMO EN TALLERES) ---
-
+	/**
+	 * Método para añadir los controladores a los listener de los botones
+	 * @param c
+	 */
 	public void setControlador(ControladorModificarCita c) {
-		btnCrearCita.addActionListener(c);
-		btnEliminarCita.addActionListener(c);
-		btnModificarCita.addActionListener(c);
 		btnGuardarCambios.addActionListener(c);
 		btnAtras.addActionListener(c);
-		btnCerrarSesionTop.addActionListener(c);
+		btnCerrarSesion.addActionListener(c);
 	}
+	
+	/**
+	 * Metodo para cargar los datos que ya tenemos en la cita y que aparezcan en las celdas del formulario
+	 * @param id
+	 * @param fecha
+	 * @param hora
+	 * @param duracion
+	 * @param cliente
+	 * @param taller
+	 * @param responsable
+	 * @param traje
+	 */
+	public void cargarDatosEnFormulario(int id, Date fecha, Date hora, int duracion, String cliente, String taller, String responsable, String traje) {
+	    txtIdCita.setText(String.valueOf(id));
+	    spinnerFecha.setValue(fecha);
+	    spinnerHora.setValue(hora);
+	    spinnerDuracion.setValue(duracion);
+	    
+	    cmbNombreCliente.setSelectedItem(cliente);
+	    cmbNombreTaller.setSelectedItem(taller);
+	    cmbNombreResponsable.setSelectedItem(responsable);
+	    cmbNombreTraje.setSelectedItem(traje);
+	}
+	
+	public void rellenarComboBox(ArrayList<String> listaClientes, ArrayList<String> listaTalleres, ArrayList<String> empleados, ArrayList<String> trajes) {
+	    cmbNombreCliente.removeAllItems();
+	    cmbNombreTraje.removeAllItems();
+	    cmbNombreTaller.removeAllItems();
+	    cmbNombreResponsable.removeAllItems();
 
+	    for(String c : listaClientes) {
+	    	cmbNombreCliente.addItem(c);
+	    }
+	    for(String tr : trajes) {
+	    	cmbNombreTraje.addItem(tr);
+	    }
+	    for(String ta : listaTalleres) {
+	    	cmbNombreTaller.addItem(ta);
+	    }
+	    for(String e : empleados) {
+	    	cmbNombreResponsable.addItem(e);
+	    }
+	}
+	
 	// --- GETTERS PARA EL CONTROLADOR ---
-
-	public JButton getBtnCrear() {
-		return btnCrearCita;
-	}
-
-	public JButton getBtnEliminar() {
-		return btnEliminarCita;
-	}
-
-	public JButton getBtnModificar() {
-		return btnModificarCita;
-	}
-
 	public JButton getBtnGuardar() {
 		return btnGuardarCambios;
 	}
@@ -202,16 +272,90 @@ public class VentanaModificarCitas extends JFrame {
 	}
 
 	public JButton getBtnCerrarSesion() {
-		return btnCerrarSesionTop;
+		return btnCerrarSesion;
 	}
 
 	public String getRangoUsuario() {
 		return rangoUsuario;
 	}
 
-	public int getIdCitaSeleccionada() {
-		int fila = table.getSelectedRow();
-		return (fila != -1) ? (int) modeloTabla.getValueAt(fila, 0) : -1;
+	/**
+	 * @return the idUsuario
+	 */
+	public int getIdUsuario() {
+		return idUsuario;
 	}
+
+	/**
+	 * @return the btnGuardarCambios
+	 */
+	public JButton getBtnGuardarCambios() {
+		return btnGuardarCambios;
+	}
+
+	/**
+	 * @return the txtIdCita
+	 */
+	public JTextField getTxtIdCita() {
+		return txtIdCita;
+	}
+
+	/**
+	 * @return the cmbNombreCliente
+	 */
+	public JComboBox getCmbNombreCliente() {
+		return cmbNombreCliente;
+	}
+
+	/**
+	 * @return the cmbNombreTaller
+	 */
+	public JComboBox getCmbNombreTaller() {
+		return cmbNombreTaller;
+	}
+
+	/**
+	 * @return the cmbNumAprendices
+	 */
+	public JComboBox getCmbNumAprendices() {
+		return cmbNumAprendices;
+	}
+
+	/**
+	 * @return the cmbNombreTraje
+	 */
+	public JComboBox getCmbNombreTraje() {
+		return cmbNombreTraje;
+	}
+
+	/**
+	 * @return the cmbNombreResponsable
+	 */
+	public JComboBox getCmbNombreResponsable() {
+		return cmbNombreResponsable;
+	}
+
+	/**
+	 * @return the spinnerFecha
+	 */
+	public JSpinner getSpinnerFecha() {
+		return spinnerFecha;
+	}
+
+	/**
+	 * @return the spinnerHora
+	 */
+	public JSpinner getSpinnerHora() {
+		return spinnerHora;
+	}
+
+	/**
+	 * @return the spinnerDuracion
+	 */
+	public JSpinner getSpinnerDuracion() {
+		return spinnerDuracion;
+	}
+
+	
 
 }

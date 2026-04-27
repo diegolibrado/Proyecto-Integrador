@@ -3,6 +3,8 @@ package modelo;
 import java.sql.Date;
 import java.sql.Time;
 
+import javax.swing.JSpinner;
+
 /**
  * 
  */
@@ -64,10 +66,10 @@ public class Cita {
 		this.hora = time;
 	}
 	public int getDuracion() {
-		return duracion;
+		return (int) duracion;
 	}
-	public void setDuracion(int duracion) {
-		this.duracion = duracion;
+	public void setDuracion(int i) {
+		this.duracion = i;
 	}
 	/**
 	 * @return the nombreCliente
@@ -116,13 +118,5 @@ public class Cita {
 	 */
 	public void setNombreTraje(String nombreTraje) {
 		this.nombreTraje = nombreTraje;
-	}
-	public String getHoraString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public void setHoraString(String horaCita) {
-		// TODO Auto-generated method stub
-		
 	}
 }

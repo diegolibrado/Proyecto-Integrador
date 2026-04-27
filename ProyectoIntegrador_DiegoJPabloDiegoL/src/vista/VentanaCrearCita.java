@@ -9,29 +9,34 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import controlador.cita.ControladorCrearCita;
+import modelo.Cliente;
 import modelo.Modelo;
+import modelo.Taller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class VentanaCrearCita extends JFrame {
 
 	private String rangoUsuario;
-	private JTextField txtNombreTraje;
-	private JTextField txtNombreResponsable;
 	private JButton btnGuardarCambios;
 	private JButton btnCerrarSesion;
 	private JButton btnAtras;
 	private JTextField txtIdCita;
-	private JTextField txtNombreCliente;
-	private JTextField txtNombreTaller;
+	private JComboBox cmbNombreCliente;
+	private JComboBox cmbNombreTaller;
 	private JComboBox cmbNumAprendices;
-	private JSpinner spinnerFecha ;
+	private JComboBox cmbNombreTraje;
+	private JComboBox cmbNombreResponsable;
+	private JSpinner spinnerFecha;
 	private JSpinner spinnerHora;
 	private JSpinner spinnerDuracion;
 	
@@ -123,19 +128,47 @@ public class VentanaCrearCita extends JFrame {
 		lblNombreCliente.setFont(new Font("Verdana", Font.BOLD, 14));
 		lblNombreCliente.setBounds(49, 23, 204, 30);
 		pnlFormulario.add(lblNombreCliente);
-		txtNombreCliente = new JTextField();
-		txtNombreCliente.setFont(new Font("Verdana", Font.PLAIN, 14));
-		txtNombreCliente.setBounds(263, 23, 150, 30);
-		pnlFormulario.add(txtNombreCliente);
+		cmbNombreCliente = new JComboBox();
+		cmbNombreCliente.setFont(new Font("Verdana", Font.PLAIN, 14));
+		cmbNombreCliente.setBounds(263, 23, 150, 30);
+		pnlFormulario.add(cmbNombreCliente);
 		
 		JLabel lblNombreTraje = new JLabel("Nombre del Traje:");
 		lblNombreTraje.setFont(new Font("Verdana", Font.BOLD, 14));
 		lblNombreTraje.setBounds(49, 146, 204, 30);
 		pnlFormulario.add(lblNombreTraje);
-		txtNombreTraje = new JTextField();
-		txtNombreTraje.setFont(new Font("Verdana", Font.PLAIN, 14));
-		txtNombreTraje.setBounds(263, 146, 150, 30);
-		pnlFormulario.add(txtNombreTraje);
+		cmbNombreTraje = new JComboBox();
+		cmbNombreTraje.setFont(new Font("Verdana", Font.PLAIN, 14));
+		cmbNombreTraje.setBounds(263, 146, 150, 30);
+		pnlFormulario.add(cmbNombreTraje);
+			
+		JLabel lblNombreResponsable = new JLabel("Nombre del Responsable:");
+		lblNombreResponsable.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblNombreResponsable.setBounds(49, 105, 235, 30);
+		pnlFormulario.add(lblNombreResponsable);
+		cmbNombreResponsable = new JComboBox();
+		cmbNombreResponsable.setFont(new Font("Verdana", Font.PLAIN, 14));
+		cmbNombreResponsable.setBounds(263, 105, 150, 30);
+		pnlFormulario.add(cmbNombreResponsable);
+		
+		JLabel lblNombreTaller = new JLabel("Nombre del Taller:");
+		lblNombreTaller.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblNombreTaller.setBounds(49, 64, 204, 30);
+		pnlFormulario.add(lblNombreTaller);
+		cmbNombreTaller = new JComboBox();
+		cmbNombreTaller.setFont(new Font("Verdana", Font.PLAIN, 14));
+		cmbNombreTaller.setBounds(263, 64, 150, 30);
+		pnlFormulario.add(cmbNombreTaller);
+
+		JLabel lblNumAprendices = new JLabel("Numero de Aprendices:");
+		lblNumAprendices.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblNumAprendices.setBounds(49, 187, 204, 30);
+		pnlFormulario.add(lblNumAprendices);
+		cmbNumAprendices = new JComboBox<>(new String[] {"0", "1", "2"});
+		cmbNumAprendices.setFont(new Font("Verdana", Font.PLAIN, 14));
+		cmbNumAprendices.setBounds(263, 187, 150, 30);
+		cmbNumAprendices.setBackground(Color.WHITE); 
+		pnlFormulario.add(cmbNumAprendices);
 		
 		JLabel lblFecha = new JLabel("Día:");
 		lblFecha.setFont(new Font("Verdana", Font.BOLD, 14));
@@ -143,7 +176,7 @@ public class VentanaCrearCita extends JFrame {
 		pnlFormulario.add(lblFecha);
 		spinnerFecha = new JSpinner();
 		spinnerFecha.setModel(new SpinnerDateModel(new Date(1776808800000L), null, null, Calendar.DAY_OF_MONTH));
-		spinnerFecha.setEditor(new JSpinner.DateEditor(spinnerFecha, "dd/MM/yyyy"));
+		spinnerFecha.setEditor(new JSpinner.DateEditor(spinnerFecha, "mm/dd/yyyy"));
 		spinnerFecha.setFont(new Font("Verdana", Font.PLAIN, 12));
 		spinnerFecha.setBounds(602, 27, 98, 23);
 		pnlFormulario.add(spinnerFecha);
@@ -168,35 +201,7 @@ public class VentanaCrearCita extends JFrame {
 		spinnerDuracion.setFont(new Font("Verdana", Font.PLAIN, 12));
 		spinnerDuracion.setBounds(602, 109, 98, 23);
 		pnlFormulario.add(spinnerDuracion);
-		
-		JLabel lblNombreTaller = new JLabel("Nombre del Taller:");
-		lblNombreTaller.setFont(new Font("Verdana", Font.BOLD, 14));
-		lblNombreTaller.setBounds(49, 64, 204, 30);
-		pnlFormulario.add(lblNombreTaller);
-		txtNombreTaller = new JTextField();
-		txtNombreTaller.setFont(new Font("Verdana", Font.PLAIN, 14));
-		txtNombreTaller.setBounds(263, 64, 150, 30);
-		pnlFormulario.add(txtNombreTaller);
-		
-		JLabel lblNombreResponsable = new JLabel("Nombre del Responsable:");
-		lblNombreResponsable.setFont(new Font("Verdana", Font.BOLD, 14));
-		lblNombreResponsable.setBounds(49, 105, 235, 30);
-		pnlFormulario.add(lblNombreResponsable);
-		txtNombreResponsable = new JTextField();
-		txtNombreResponsable.setFont(new Font("Verdana", Font.PLAIN, 14));
-		txtNombreResponsable.setBounds(263, 105, 150, 30);
-		pnlFormulario.add(txtNombreResponsable);
-		
-		JLabel lblNumAprendices = new JLabel("Numero de Aprendices:");
-		lblNumAprendices.setFont(new Font("Verdana", Font.BOLD, 14));
-		lblNumAprendices.setBounds(49, 187, 204, 30);
-		pnlFormulario.add(lblNumAprendices);
-		cmbNumAprendices = new JComboBox<>(new String[] {"0", "1", "2"});
-		cmbNumAprendices.setFont(new Font("Verdana", Font.PLAIN, 14));
-		cmbNumAprendices.setBounds(263, 187, 150, 30);
-		cmbNumAprendices.setBackground(Color.WHITE); 
-		pnlFormulario.add(cmbNumAprendices);
-		
+
 		// FONDO
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);
@@ -204,21 +209,61 @@ public class VentanaCrearCita extends JFrame {
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
 	}
 
+	/**
+	 * Metodo para rellenar de opciones los comboBox
+	 * @param listaClientes
+	 */
+	public void rellenarComboBox(ArrayList<String> listaClientes, ArrayList<String> listaTalleres, ArrayList<String> empleados, ArrayList<String> trajes) {
+		cmbNombreCliente.removeAllItems();
+		cmbNombreTraje.removeAllItems();
+		cmbNombreTaller.removeAllItems();
+		cmbNombreResponsable.removeAllItems();
+		
+		// ComboBox CLIENTES
+		cmbNombreCliente.addItem("- Crear nuevo cliente -");
+		for(String c : listaClientes) {
+			cmbNombreCliente.addItem(c);
+		}
+		
+		// ComboBox TRAJES
+		cmbNombreTraje.addItem("- Crear nuevo traje -");
+		for(String tr : trajes) {
+			cmbNombreTraje.addItem(tr);
+		}
+		
+		// ComboBox TALLERES
+		for(String ta : listaTalleres) {
+			cmbNombreTaller.addItem(ta);
+		}
+		
+		// ComboBox EMPLEADOS
+		for(String e : empleados) {
+			cmbNombreResponsable.addItem(e);
+		}
+	}
+	
+	public void setControlador(ControladorCrearCita c) {
+	    btnGuardarCambios.addActionListener(c);
+	    btnCerrarSesion.addActionListener(c);
+	    cmbNombreCliente.addActionListener(c);
+	    cmbNombreTraje.addActionListener(c);
+	}
+	
 	// Getters y Setters
-	public String getNombreCliente() { 
-		return txtNombreCliente.getText(); 
+	public JComboBox<String> getNombreCliente() { 
+		return cmbNombreCliente; 
 	}
 	
-	public String getNombreTaller() { 
-		return txtNombreTaller.getText(); 
+	public JComboBox<String> getNombreTaller() { 
+		return cmbNombreTaller; 
 	}
 	
-	public String getNombreResponsable() { 
-		return txtNombreResponsable.getText(); 
+	public JComboBox<String> getNombreResponsable() { 
+		return cmbNombreResponsable; 
 	}
 	
-	public String getNombreTraje() { 
-		return txtNombreTraje.getText(); 
+	public JComboBox<String> getNombreTraje() { 
+		return cmbNombreTraje; 
 	}
 	
 	public String getTipoSala() {
@@ -235,15 +280,12 @@ public class VentanaCrearCita extends JFrame {
 	
 	// Fecha desde el spinnerFecha
 	public Date getFechaCita(){
-		Date fecha = (Date) spinnerFecha.getValue();
-		return new java.sql.Date(fecha.getTime());
-	}
-	
+	    return (Date) spinnerFecha.getValue();
+	}	
 	// Fecha desde el spinnerHora
-	public String getHoraCita() {
-	    Date hora = (Date) spinnerHora.getValue();
-	    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm:ss");
-	    return sdf.format(hora);
+	public java.sql.Time getHoraCita() {
+	    java.util.Date hora = (java.util.Date) spinnerHora.getValue();
+	    return new java.sql.Time(hora.getTime());
 	}
 	
 	// Duracion desde el spinnerDuracion
@@ -253,10 +295,6 @@ public class VentanaCrearCita extends JFrame {
 	
 	public JButton getBtnGuardarCambios() {
 		return btnGuardarCambios;
-	}
-	
-	public void setControladorGuardar(ActionListener c) {
-		btnGuardarCambios.addActionListener(c);
 	}
 
 	/**

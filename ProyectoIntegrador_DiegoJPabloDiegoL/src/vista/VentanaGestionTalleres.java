@@ -15,7 +15,7 @@ import modelo.Taller;
 public class VentanaGestionTalleres extends JFrame {
 
 	private String rangoUsuario;
-	public int idUsuario;
+	private int idUsuario;
 	private JButton btnEliminar;
 	private JButton btnCrear;
 	private JButton btnModificar;
@@ -117,9 +117,22 @@ public class VentanaGestionTalleres extends JFrame {
 		scrollPane.setBounds(10, 10, 762, 216);
 		pnlTablaContainer.add(scrollPane);
 
-		modeloTabla = new DefaultTableModel(new Object[][] {}, new String[] { "ID", "NOMBRE", "TIPO" });
+		table = new JTable();
+		scrollPane.setViewportView(table);
+
+		modeloTabla = new DefaultTableModel();
+		modeloTabla.addColumn("ID");     
+		modeloTabla.addColumn("NOMBRE"); 
+		modeloTabla.addColumn("TIPO");   
+
 		table = new JTable(modeloTabla);
 		scrollPane.setViewportView(table);
+		
+		// Hacemos esto para poder utilizar el id pero tenerlo oculto de la tabla,
+		// hacemos que la anchura sea de 0 y asi se "oculta" 
+		table.getColumnModel().getColumn(0).setMinWidth(0);
+		table.getColumnModel().getColumn(0).setMaxWidth(0);
+		table.getColumnModel().getColumn(0).setPreferredWidth(0);
 
 		// Fondo
 		JLabel lblFondo = new JLabel("");
@@ -148,18 +161,30 @@ public class VentanaGestionTalleres extends JFrame {
 	}
 
 	public int getIdTallerSeleccionado() {
-		int filaSeleccionada = table.getSelectedRow();
-		return (filaSeleccionada != -1) ? (int) modeloTabla.getValueAt(filaSeleccionada, 0) : -1;
+	    int filaSeleccionada = table.getSelectedRow();
+	    if (filaSeleccionada != -1) {
+	        return (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+	    } else {
+	        return -1;
+	    }
 	}
 
 	public String getNombreTallerSeleccionado() {
-		int fila = table.getSelectedRow();
-		return (fila != -1) ? modeloTabla.getValueAt(fila, 1).toString() : null;
+	    int fila = table.getSelectedRow();
+	    if (fila != -1) {
+	        return modeloTabla.getValueAt(fila, 1).toString();
+	    } else {
+	        return null;
+	    }
 	}
 
 	public String getTipoTallerSeleccionado() {
-		int fila = table.getSelectedRow();
-		return (fila != -1) ? modeloTabla.getValueAt(fila, 2).toString() : null;
+	    int fila = table.getSelectedRow();
+	    if (fila != -1) {
+	        return modeloTabla.getValueAt(fila, 2).toString();
+	    } else {
+	        return null;
+	    }
 	}
 
 	public JButton getBtnEliminar() { 

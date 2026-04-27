@@ -18,8 +18,7 @@ public class Modelo {
 	private static final String contrasena = "2004";
 
 	/**
-	 * Método para conectar la base de datos
-	 * * @return
+	 * Método para conectar la base de datos * @return
 	 */
 	public Connection getConexion() {
 		Connection conexion = null;
@@ -40,8 +39,7 @@ public class Modelo {
 	}
 
 	/**
-	 * Metodo para cerrar la conexion de la base de datos con el proyecto
-	 * * @param c
+	 * Metodo para cerrar la conexion de la base de datos con el proyecto * @param c
 	 */
 	public void cerrarConexion(Connection c) {
 		// Control de excepciones para cerrar la conexion
@@ -61,12 +59,18 @@ public class Modelo {
 		ArrayList<Cita> citas = new ArrayList<Cita>();
 		Connection conexion = getConexion();
 
-		String query = "SELECT c.id_cita, c.dia, c.hora, c.duracion, cl.nombre AS nombre_cliente, ta.nombre_sala AS nombre_taller, e.nombre AS nombre_empleado, tr.nombre AS nombre_traje, c.id_cliente, c.id_taller, c.id_traje, c.id_empleado_responsable "
-	            + "FROM CITA c "
-	            + "JOIN CLIENTE cl ON c.id_cliente = cl.id_cliente "
-	            + "JOIN TALLER ta ON c.id_taller = ta.id_taller "
-	            + "JOIN TRAJE tr ON c.id_traje = tr.id_traje "   
-	            + "JOIN EMPLEADO e ON c.id_empleado_responsable = e.id_empleado";
+		String query = "SELECT c.id_cita, c.dia, c.hora, c.duracion, " +
+		        "cl.nombre AS nombre_cliente, " +
+		        "ta.nombre_sala AS nombre_taller, " +
+		        "e.nombre AS nombre_empleado, " +
+		        "tr.nombre AS nombre_traje, " +
+		        "c.id_cliente, c.id_taller, c.id_traje, c.id_empleado_responsable " +
+		        "FROM CITA c " +
+		        "JOIN CLIENTE cl ON c.id_cliente = cl.id_cliente " +
+		        "JOIN TALLER ta ON c.id_taller = ta.id_taller " +
+		        "JOIN TRAJE tr ON c.id_traje = tr.id_traje " +
+		        "JOIN EMPLEADO e ON c.id_empleado_responsable = e.id_empleado " +
+		        "ORDER BY c.dia";
 		try {
 			Statement st = conexion.createStatement();
 			ResultSet rs = st.executeQuery(query);
@@ -76,19 +80,19 @@ public class Modelo {
 				Cita c = new Cita();
 
 				c.setId_cita(rs.getInt("id_cita"));
-	            c.setDia(rs.getDate("dia"));
-	            c.setHora(rs.getTime("hora"));
-	            c.setDuracion(rs.getInt("duracion"));
-	            // Los id no se mostraran pero son necesarios
-	            c.setId_cliente(rs.getInt("id_cliente"));
-	            c.setId_taller(rs.getInt("id_taller"));
-	            c.setId_empleado(rs.getInt("id_empleado_responsable"));
-	            c.setId_traje(rs.getInt("id_traje"));
-	            // En lugar de los id se mostrara esto.
-	            c.setNombreCliente(rs.getString("nombre_cliente"));
-	            c.setNombreTaller(rs.getString("nombre_taller"));
-	            c.setNombreEmpleadoResponsable(rs.getString("nombre_empleado"));
-	            c.setNombreTraje(rs.getString("nombre_traje"));
+				c.setDia(rs.getDate("dia"));
+				c.setHora(rs.getTime("hora"));
+				c.setDuracion(rs.getInt("duracion"));
+				// Los id no se mostraran pero son necesarios
+				c.setId_cliente(rs.getInt("id_cliente"));
+				c.setId_taller(rs.getInt("id_taller"));
+				c.setId_empleado(rs.getInt("id_empleado_responsable"));
+				c.setId_traje(rs.getInt("id_traje"));
+				// En lugar de los id se mostrara esto.
+				c.setNombreCliente(rs.getString("nombre_cliente"));
+				c.setNombreTaller(rs.getString("nombre_taller"));
+				c.setNombreEmpleadoResponsable(rs.getString("nombre_empleado"));
+				c.setNombreTraje(rs.getString("nombre_traje"));
 
 				citas.add(c);
 
@@ -106,52 +110,48 @@ public class Modelo {
 
 	/**
 	 * Metodo para crear la tabla de citas propias del aprendiz
+	 * 
 	 * @param idAprendiz
 	 * @return
 	 */
 	public ArrayList<Cita> recuperarCitasPropias(int idEmpleado) {
 		ArrayList<Cita> citasPropias = new ArrayList<>();
 		Connection conexion = getConexion();
-		
-		String query = "SELECT c.id_cita, c.dia, c.hora, c.duracion, "
-                + "cl.nombre AS nombre_cliente, "
-                + "ta.nombre_sala AS nombre_taller, "
-                + "e.nombre AS nombre_empleado, "
-                + "tr.nombre AS nombre_traje, "
-                + "c.id_cliente, c.id_taller, c.id_traje, c.id_empleado_responsable "
-                + "FROM CITA c "
-                + "JOIN CLIENTE cl ON c.id_cliente = cl.id_cliente "
-                + "JOIN TALLER ta ON c.id_taller = ta.id_taller "
-                + "JOIN TRAJE tr ON c.id_traje = tr.id_traje "
-                + "JOIN EMPLEADO e ON c.id_empleado_responsable = e.id_empleado "
-                + "WHERE c.id_empleado_responsable = ?";
-		
+
+		String query = "SELECT c.id_cita, c.dia, c.hora, c.duracion, " + "cl.nombre AS nombre_cliente, "
+				+ "ta.nombre_sala AS nombre_taller, " + "e.nombre AS nombre_empleado, " + "tr.nombre AS nombre_traje, "
+				+ "c.id_cliente, c.id_taller, c.id_traje, c.id_empleado_responsable " + "FROM CITA c "
+				+ "JOIN CLIENTE cl ON c.id_cliente = cl.id_cliente " + "JOIN TALLER ta ON c.id_taller = ta.id_taller "
+				+ "JOIN TRAJE tr ON c.id_traje = tr.id_traje "
+				+ "JOIN EMPLEADO e ON c.id_empleado_responsable = e.id_empleado "
+				+ "WHERE c.id_empleado_responsable = ?";
+
 		try {
 			PreparedStatement pst = conexion.prepareStatement(query);
 			pst.setInt(1, idEmpleado);
 			ResultSet rs = pst.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				Cita c = new Cita();
-				
+
 				c.setId_cita(rs.getInt("id_cita"));
-	            c.setDia(rs.getDate("dia"));
-	            c.setHora(rs.getTime("hora"));
-	            c.setDuracion(rs.getInt("duracion"));
-	            
-	            // Guardamos los nombres para la tabla
-	            c.setNombreCliente(rs.getString("nombre_cliente"));
-	            c.setNombreTaller(rs.getString("nombre_taller"));
-	            c.setNombreEmpleadoResponsable(rs.getString("nombre_empleado"));
-	            c.setNombreTraje(rs.getString("nombre_traje"));
-	            
-	            // Igual que en recuperarCitas, aqui hacen falta los id
-	            c.setId_empleado(rs.getInt("id_empleado_responsable"));
-	            c.setId_cliente(rs.getInt("id_cliente"));
-	            
-	            citasPropias.add(c);
+				c.setDia(rs.getDate("dia"));
+				c.setHora(rs.getTime("hora"));
+				c.setDuracion(rs.getInt("duracion"));
+
+				// Guardamos los nombres para la tabla
+				c.setNombreCliente(rs.getString("nombre_cliente"));
+				c.setNombreTaller(rs.getString("nombre_taller"));
+				c.setNombreEmpleadoResponsable(rs.getString("nombre_empleado"));
+				c.setNombreTraje(rs.getString("nombre_traje"));
+
+				// Igual que en recuperarCitas, aqui hacen falta los id
+				c.setId_empleado(rs.getInt("id_empleado_responsable"));
+				c.setId_cliente(rs.getInt("id_cliente"));
+
+				citasPropias.add(c);
 			}
-		} catch(SQLException sqlex) {
+		} catch (SQLException sqlex) {
 			System.err.println("Error en citas propias: " + sqlex.getMessage());
 		} finally {
 			cerrarConexion(conexion);
@@ -189,53 +189,123 @@ public class Modelo {
 		return talleres;
 	}
 
-
 	public ArrayList<Cliente> recuperarClientes() {
-	    ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-	    Connection conexion = getConexion();
-	    String query = "SELECT id_cliente, nombre, superpoder, colores FROM CLIENTE";
+		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+		Connection conexion = getConexion();
+		String query = "SELECT id_cliente, nombre, superpoder, colores FROM CLIENTE";
 
-	    try {
-	        Statement st = conexion.createStatement();
-	        ResultSet rs = st.executeQuery(query);
+		try {
+			Statement st = conexion.createStatement();
+			ResultSet rs = st.executeQuery(query);
 
-	        while (rs.next()) {
-	            Cliente c = new Cliente();
-	            // Agregado el ID para que los controladores puedan identificar al cliente
-	            c.setId(rs.getInt("id_cliente")); 
-	            c.setNombre(rs.getString("nombre"));
-	            c.setSuperpoder(rs.getString("superpoder"));
-	            c.setColores(rs.getString("colores"));
-	            clientes.add(c);
-	        }
-	    } catch (SQLException e) {
-	        JOptionPane.showMessageDialog(null, "Error de SQL al recuperar clientes: " + e.getMessage());
-	    } finally {
-	        cerrarConexion(conexion);
-	    }
-	    return clientes;
+			while (rs.next()) {
+				Cliente c = new Cliente();
+				// Agregado el ID para que los controladores puedan identificar al cliente
+				c.setId(rs.getInt("id_cliente"));
+				c.setNombre(rs.getString("nombre"));
+				c.setSuperpoder(rs.getString("superpoder"));
+				c.setColores(rs.getString("colores"));
+				clientes.add(c);
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error de SQL al recuperar clientes: " + e.getMessage());
+		} finally {
+			cerrarConexion(conexion);
+		}
+		return clientes;
+	}
+
+	public ArrayList<String> recuperarNombresTrajes() {
+		ArrayList<String> lista = new ArrayList<>();
+		String query = "SELECT nombre FROM TRAJE";
+		try {
+			Connection con = getConexion();
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			while (rs.next()) {
+				lista.add(rs.getString("nombre"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lista;
+	}
+
+	public ArrayList<String> recuperarNombresEmpleados() {
+		ArrayList<String> lista = new ArrayList<>();
+		String query = "SELECT nombre FROM EMPLEADO"; // O el filtro que necesites
+		try {
+			Connection con = getConexion();
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			while (rs.next()) {
+				lista.add(rs.getString("nombre"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lista;
+	}
+
+	public ArrayList<String> recuperarNombresTalleres() {
+		ArrayList<String> lista = new ArrayList<>();
+		String sql = "SELECT nombre_sala FROM TALLER"; // Asegúrate de que la columna es la correcta
+		try (Connection con = getConexion();
+				Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery(sql)) {
+
+			while (rs.next()) {
+				// EL TRUCO: Tienes que sacar el String de la columna, no crear un objeto Taller
+				lista.add(rs.getString("nombre_sala"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lista;
+	}
+
+	public ArrayList<String> recuperarNombresClientes() {
+		ArrayList<String> lista = new ArrayList<>();
+		// Ajusta el nombre de la tabla y columna según tu base de datos
+		String sql = "SELECT nombre FROM CLIENTE";
+
+		try (Connection con = getConexion();
+				Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery(sql)) {
+
+			while (rs.next()) {
+				// Extraemos solo la cadena de texto de la columna "nombre"
+				lista.add(rs.getString("nombre"));
+			}
+
+		} catch (SQLException e) {
+			System.err.println("Error al recuperar nombres de clientes: " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return lista;
 	}
 
 	public boolean crearCliente(Cliente cliente) {
-	    // No incluimos el id_cliente porque es autoincremental en la BBDD
-	    String query = "INSERT INTO CLIENTE (nombre, superpoder, colores) VALUES (?, ?, ?)";
-	    Connection conexion = getConexion();
-	    
-	    try {
-	        PreparedStatement pst = conexion.prepareStatement(query);
-	        pst.setString(1, cliente.getNombre());
-	        pst.setString(2, cliente.getSuperpoder());
-	        pst.setString(3, cliente.getColores());
-	        
-	        int filasAfectadas = pst.executeUpdate();
-	        return filasAfectadas > 0;
-	        
-	    } catch(SQLException sqlex) {
-	        System.err.println("Error al crear el cliente: " + sqlex.getMessage());
-	        return false;
-	    } finally {
-	        cerrarConexion(conexion);
-	    }
+		// No incluimos el id_cliente porque es autoincremental en la BBDD
+		String query = "INSERT INTO CLIENTE (nombre, superpoder, colores) VALUES (?, ?, ?)";
+		Connection conexion = getConexion();
+
+		try {
+			PreparedStatement pst = conexion.prepareStatement(query);
+			pst.setString(1, cliente.getNombre());
+			pst.setString(2, cliente.getSuperpoder());
+			pst.setString(3, cliente.getColores());
+
+			int filasAfectadas = pst.executeUpdate();
+			return filasAfectadas > 0;
+
+		} catch (SQLException sqlex) {
+			System.err.println("Error al crear el cliente: " + sqlex.getMessage());
+			return false;
+		} finally {
+			cerrarConexion(conexion);
+		}
 	}
 
 	// método de eliminar cliente
@@ -247,15 +317,15 @@ public class Modelo {
 			pst.setInt(1, idCliente);
 			int resultado = pst.executeUpdate();
 			return resultado > 0;
-		} catch(SQLException sqlex) {
+		} catch (SQLException sqlex) {
 			System.err.println("Error al eliminar cliente: " + sqlex.getMessage());
 			return false;
 		} finally {
 			cerrarConexion(conexion);
-		}	
+		}
 	}
 
-	//  metodo de modificar cliente
+	// metodo de modificar cliente
 	public boolean modificarCliente(Cliente cliente) {
 		String query = "UPDATE CLIENTE SET nombre = ?, superpoder = ?, colores = ? WHERE id_cliente = ?";
 		Connection conexion = getConexion();
@@ -267,7 +337,7 @@ public class Modelo {
 			pst.setInt(4, cliente.getId());
 			int filasAfectadas = pst.executeUpdate();
 			return filasAfectadas > 0;
-		} catch(SQLException sqlex) {
+		} catch (SQLException sqlex) {
 			System.err.println("Error al modificar el cliente: " + sqlex.getMessage());
 			return false;
 		} finally {
@@ -361,31 +431,33 @@ public class Modelo {
 
 		return false;
 	}
-
+	
 	public boolean crearCita(Cita cita) {
 		String query = "INSERT INTO CITA (id_cita, dia, hora, duracion, id_cliente, id_taller, id_empleado_responsable, id_traje) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		Connection conexion = getConexion();
 
-		try (PreparedStatement pst = conexion.prepareStatement(query)) {
-	        pst.setInt(1, cita.getId_cita());
-	        pst.setDate(2, new java.sql.Date(cita.getDia().getTime()));
-	        pst.setString(3, cita.getHoraString());
-	        pst.setInt(4, cita.getDuracion());
-	        
-	        pst.setInt(5, cita.getId_cliente());
-	        pst.setInt(6, cita.getId_taller());
-	        pst.setInt(7, cita.getId_empleado());
-	        pst.setInt(8, cita.getId_traje());
+		try {
+			PreparedStatement pst = conexion.prepareStatement(query);
+			pst.setInt(1, cita.getId_cita());
+			pst.setDate(2, new java.sql.Date(cita.getDia().getTime()));
+			pst.setTime(3, cita.getHora());			
+			pst.setInt(4, cita.getDuracion());
+			pst.setInt(5, cita.getId_cliente());
+			pst.setInt(6, cita.getId_taller());
+			pst.setInt(7, cita.getId_empleado());
+			pst.setInt(8, cita.getId_traje());
 
-	        return pst.executeUpdate() > 0;
-	    } catch (SQLException e) {
-	        System.err.println("Error al insertar cita: " + e.getMessage());
-	        return false;
-	    } finally {
-	        cerrarConexion(conexion);
-	    }
+			int filasAfectadas = pst.executeUpdate();
+			return filasAfectadas > 0;
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Detalle del error de SQL:\n" + e.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
+			System.err.println("Error al insertar cita: " + e.getMessage());
+			return false;
+		} finally {
+			cerrarConexion(conexion);
+		}
 	}
-	
+
 	public boolean eliminarCita(int idCita) {
 		String query = "DELETE FROM CITA WHERE id_cita = ?";
 		Connection conexion = getConexion();
@@ -403,6 +475,90 @@ public class Modelo {
 		} finally {
 			cerrarConexion(conexion);
 		}
+	}
+
+	public boolean modificarCita(Cita cita) {
+		String query = "UPDATE CITA SET dia = ?, hora = ?, duracion = ?, id_cliente = ?, id_taller = ?, id_empleado_responsable = ?, id_traje = ? WHERE id_cita = ?";
+		Connection conexion = getConexion();
+
+		try {
+			PreparedStatement pst = conexion.prepareStatement(query);
+
+			pst.setDate(1, new java.sql.Date(cita.getDia().getTime()));
+	        pst.setTime(2, cita.getHora());
+	        pst.setInt(3, cita.getDuracion());
+	        pst.setInt(4, cita.getId_cliente());
+	        pst.setInt(5, cita.getId_taller());
+	        pst.setInt(6, cita.getId_empleado());
+	        pst.setInt(7, cita.getId_traje());
+	        pst.setInt(8, cita.getId_cita());
+
+			int filasAfectadas = pst.executeUpdate();
+			return filasAfectadas > 0;
+
+		} catch (SQLException sqlex) {
+			System.err.println("Error al modificar la cita: " + sqlex.getMessage());
+			return false;
+		} finally {
+			cerrarConexion(conexion);
+		}
+	}
+	
+	// Métodos para obtener los Id a partir del nombre (crearCita)
+	public int obtenerIdClientePorNombre(String nombre) {
+		int id = -1;
+		String query = "SELECT id_cliente FROM CLIENTE WHERE nombre = ?";
+		try (Connection conexion = getConexion(); PreparedStatement ps = conexion.prepareStatement(query)) {
+			ps.setString(1, nombre); // 1. Primero el valor
+			ResultSet rs = ps.executeQuery(); // 2. Luego la ejecución
+			if (rs.next())
+				id = rs.getInt("id_cliente");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
+
+	public int obtenerIdTallerPorNombre(String nombre) {
+		int id = -1;
+		String query = "SELECT id_taller FROM TALLER WHERE nombre_sala = ?";
+		try (Connection conexion = getConexion(); PreparedStatement ps = conexion.prepareStatement(query)) {
+			ps.setString(1, nombre);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next())
+				id = rs.getInt("id_taller");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
+
+	public int obtenerIdEmpleadoPorNombre(String nombre) {
+		int id = -1;
+		String query = "SELECT id_empleado FROM EMPLEADO WHERE nombre = ?";
+		try (Connection conexion = getConexion(); PreparedStatement ps = conexion.prepareStatement(query)) {
+			ps.setString(1, nombre);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next())
+				id = rs.getInt("id_empleado");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
+
+	public int obtenerIdTrajePorNombre(String nombre) {
+		int id = -1;
+		String query = "SELECT id_traje FROM TRAJE WHERE nombre = ?";
+		try (Connection conexion = getConexion(); PreparedStatement ps = conexion.prepareStatement(query)) {
+			ps.setString(1, nombre);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next())
+				id = rs.getInt("id_traje");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return id;
 	}
 
 }

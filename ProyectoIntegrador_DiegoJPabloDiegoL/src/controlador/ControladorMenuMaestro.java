@@ -33,7 +33,6 @@ public class ControladorMenuMaestro implements ActionListener {
 
 		if (e.getSource().equals(vMaestro.getBtnCitas())) {
 			VentanaGestionCita vGestionCitas = new VentanaGestionCita(rangoUsuario, idUsuario);
-
 			ControladorMenuCita cCitas = new ControladorMenuCita(vGestionCitas, rangoUsuario, idUsuario);
 			vGestionCitas.setControlador(cCitas);
 
@@ -51,7 +50,7 @@ public class ControladorMenuMaestro implements ActionListener {
 			vGestionCitas.setVisible(true);
 			vMaestro.dispose();
 		} else if (e.getSource().equals(vMaestro.getBtnTalleres())) {
-			VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres("Gestion de Talleres", idUsuario);
+			VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(rangoUsuario, idUsuario);
 			ControladorMenuTaller cMenuTaller = new ControladorMenuTaller(vGestionTalleres, rangoUsuario, idUsuario);
 			vGestionTalleres.setControlador(cMenuTaller);
 			ArrayList<Taller> datosTalleres = m.recuperarTalleres();

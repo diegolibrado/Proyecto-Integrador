@@ -11,19 +11,20 @@ import vista.VentanaCrearCita;
 import vista.VentanaGestionCita;
 import vista.VentanaLogin;
 import vista.VentanaMaestro;
+import vista.VentanaModificarCitas;
 
 public class ControladorMenuCita implements ActionListener {
 
 	private VentanaGestionCita vGestionCita;
 	private Modelo m;
 	private String rangoUsuario;
-	private int idEmpleadoLogin;
+	private int idUsuario;
 
-	public ControladorMenuCita(VentanaGestionCita v, String rango, int idUsuario) {
+	public ControladorMenuCita(VentanaGestionCita v, String rango, int id) {
 		vGestionCita = v;
 		m = new Modelo();
 		rangoUsuario = rango;
-		idEmpleadoLogin = idUsuario;
+		idUsuario = id;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -49,8 +50,8 @@ public class ControladorMenuCita implements ActionListener {
 		// CREAR
 		} else if (e.getSource().equals(vGestionCita.getBtnCrearCita())) {
 			VentanaCrearCita vCrearCita = new VentanaCrearCita(rangoUsuario);
-			ControladorCrearCita cCrearCita = new ControladorCrearCita(vCrearCita, rangoUsuario, idEmpleadoLogin);
-			vCrearCita.getBtnGuardarCambios().addActionListener(cCrearCita);
+			ControladorCrearCita cCrearCita = new ControladorCrearCita(vCrearCita, rangoUsuario, idUsuario);
+			vCrearCita.setControlador(cCrearCita);
 			vCrearCita.setVisible(true);
 			vGestionCita.dispose();
 		// ATRAS
@@ -58,7 +59,7 @@ public class ControladorMenuCita implements ActionListener {
 			// Verificamos si es Maestro para volver al menú o al Login
 		    if (rangoUsuario.equalsIgnoreCase("Maestro")) {
 		        // ERROR: Solo creabas la ventana, pero no el controlador
-		        VentanaMaestro vMaestro = new VentanaMaestro("Menú Maestro", rangoUsuario, idEmpleadoLogin);
+		        VentanaMaestro vMaestro = new VentanaMaestro("Menú Maestro", rangoUsuario, idUsuario);
 		        vMaestro.setVisible(true); 
 		    } else {
 		        // Si es aprendiz u oficial, vuelve al login
@@ -70,20 +71,36 @@ public class ControladorMenuCita implements ActionListener {
 		    vGestionCita.dispose();
 		// MODIFICAR
 		} else if (e.getSource().equals(vGestionCita.getBtnModificarCita())) {
-//			int idTaller = vGestionCita.getIdCitaSeleccionado();
-//			if (idTaller == -1) {
-//				JOptionPane.showMessageDialog(vGestionCita, "Selecciona un taller para modificar");
-//			} else {
-//				String nombreTaller = vGestionCita.getNombreTallerSeleccionado();
-//				String tipoTaller = vGestionCita.getTipoTallerSeleccionado();
-//				
-//				// 3. Abrimos la ventana de Modificar pasándole el rango Y el ID del taller
-//				VentanaModificarTaller vModificarTaller = new VentanaModificarTaller(vGestionCita.getRangoUsuario(), idTaller, nombreTaller, tipoTaller);
-//				ControladorModificarTaller cModificarTaller = new ControladorModificarTaller(vModificarTaller);
-//				vModificarTaller.setControladorModificar(cModificarTaller);
-//				vModificarTaller.setVisible(true);
-//				vGestionCita.dispose();
-//			}
+			int filaSeleccionada = vGestionCita.getTable().getSelectedRow();
+			
+			if (filaSeleccionada == -1) {
+				JOptionPane.showMessageDialog(vGestionCita, "Seleccione una cita para modificar");
+			} else {
+				try {
+					// Datos tabla
+					int idCita = (int) vGestionCita.getModeloTabla().getValueAt(filaSeleccionada, 0);
+			        java.util.Date fecha = (java.util.Date) vGestionCita.getModeloTabla().getValueAt(filaSeleccionada, 1);
+			        java.sql.Time hora = (java.sql.Time) vGestionCita.getModeloTabla().getValueAt(filaSeleccionada, 2);
+			        int duracion = (int) vGestionCita.getModeloTabla().getValueAt(filaSeleccionada, 3);
+			        String cliente = (String) vGestionCita.getModeloTabla().getValueAt(filaSeleccionada, 4);
+			        String taller = (String) vGestionCita.getModeloTabla().getValueAt(filaSeleccionada, 5);
+			        String empleado = (String) vGestionCita.getModeloTabla().getValueAt(filaSeleccionada, 6);
+			        String traje = (String) vGestionCita.getModeloTabla().getValueAt(filaSeleccionada, 7);
+			        
+			        // Ventana y controlador
+			        VentanaModificarCitas vModificarCitas = new VentanaModificarCitas(rangoUsuario, idUsuario);
+			        ControladorModificarCita cModificarCita = new ControladorModificarCita(vModificarCitas, rangoUsuario, idUsuario);
+			        
+			        vModificarCitas.setControlador(cModificarCita);
+			        vModificarCitas.cargarDatosEnFormulario(idCita, fecha, hora, duracion, cliente, taller, empleado, traje);
+			        
+			        vModificarCitas.setVisible(true);
+			        vGestionCita.dispose();
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(vGestionCita, "Error en la modificacion del la cita.");
+					ex.printStackTrace();
+				}    
+			}
 		// CERRAR SESION
 		} else if (e.getSource().equals(vGestionCita.getBtnCerrarSesion())) {
 			VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");

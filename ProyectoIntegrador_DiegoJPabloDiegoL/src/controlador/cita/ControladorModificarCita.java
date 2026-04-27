@@ -2,81 +2,103 @@ package controlador.cita;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-import controlador.ControladorLogin;
+import modelo.Cita;
 import modelo.Modelo;
-import modelo.Taller;
-import vista.VentanaModificarTaller;
-import vista.VentanaGestionTalleres;
+import vista.VentanaModificarCitas;
+import vista.VentanaGestionCita;
 import vista.VentanaLogin;
-import vista.VentanaModificarTaller;
+import controlador.ControladorLogin;
 
 public class ControladorModificarCita implements ActionListener {
 
-	private VentanaModificarTaller vista;
+	private VentanaModificarCitas vista;
+	private String rangoUsuario;
 	private int idUsuario;
+	private Modelo modelo;
 
-	public ControladorModificarCita(VentanaModificarTaller vista, int id) {
+	public ControladorModificarCita(VentanaModificarCitas vista, String rango, int id) {
 		this.vista = vista;
+		this.rangoUsuario = rango;
 		this.idUsuario = id;
+		this.modelo = new Modelo();
+
+		// 1. Al cargar, rellenamos los combos de la vista (importante para que se pueda
+		// seleccionar)
+		cargarCombos();
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		Modelo modelo = new Modelo();
+	private void cargarCombos() {
+		ArrayList<String> clientes = modelo.recuperarNombresClientes();
+		ArrayList<String> talleres = modelo.recuperarNombresTalleres();
+		ArrayList<String> empleados = modelo.recuperarNombresEmpleados();
+		ArrayList<String> trajes = modelo.recuperarNombresTrajes();
+		vista.rellenarComboBox(clientes, talleres, empleados, trajes);
+	}
 
-		// Si se pulsa el boton de atras
-		if (e.getSource().equals(vista.getBtnAtras())) {
-			VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(vista.getRangoUsuario(), idUsuario);
-			vGestionTalleres.cargarDatosTalleres(modelo.recuperarTalleres());
-			vGestionTalleres.setVisible(true);
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Modelo m = new Modelo();
+
+		if (e.getSource().equals(vista.getBtnGuardar())) {
+			try {
+				Cita cita = new Cita();
+
+				// 1. Sacamos los datos de la vista
+				cita.setId_cita(Integer.parseInt(vista.getTxtIdCita().getText()));
+				cita.setDia(new java.sql.Date(((java.util.Date) vista.getSpinnerFecha().getValue()).getTime()));
+				java.util.Date dHora = (java.util.Date) vista.getSpinnerHora().getValue();
+				cita.setHora(new java.sql.Time(dHora.getTime()));
+				cita.setDuracion((int) vista.getSpinnerDuracion().getValue());
+
+				// 2. Buscamos los IDs según lo que hay seleccionado en los Combos
+				int idClienteCmb = m.obtenerIdClientePorNombre(vista.getCmbNombreCliente().getSelectedItem().toString());
+				int idTallerCmb = m.obtenerIdTallerPorNombre(vista.getCmbNombreTaller().getSelectedItem().toString());
+				int idResponsableCmb = m.obtenerIdEmpleadoPorNombre(vista.getCmbNombreResponsable().getSelectedItem().toString());
+				int idTrajeCmb = m.obtenerIdTrajePorNombre(vista.getCmbNombreTraje().getSelectedItem().toString());
+
+				cita.setId_cliente(idClienteCmb);
+				cita.setId_taller(idTallerCmb);
+				cita.setId_empleado(idResponsableCmb);
+				cita.setId_traje(idTrajeCmb);
+
+				// 3. Intentamos modificar
+				if (m.modificarCita(cita)) {
+					JOptionPane.showMessageDialog(vista, "Cita actualizada correctamente");
+
+					// Volvemos a la gestión
+					VentanaGestionCita vG = new VentanaGestionCita(rangoUsuario, idUsuario);
+					vG.setControlador(new ControladorMenuCita(vG, rangoUsuario, idUsuario));
+					if (rangoUsuario.equalsIgnoreCase("Maestro")) {
+						vG.cargarDatosCitas(m.recuperarCitas());
+					} else {
+						vG.cargarDatosCitas(m.recuperarCitasPropias(idUsuario));
+					}
+					vG.setVisible(true);
+					vista.dispose();
+				} else {
+					JOptionPane.showMessageDialog(vista, "Error al guardar en la base de datos");
+				}
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(vista, "Error: " + ex.getMessage());
+			}
+		} else if (e.getSource().equals(vista.getBtnAtras())) {
+			VentanaGestionCita vG = new VentanaGestionCita(rangoUsuario, idUsuario);
+			vG.setControlador(new ControladorMenuCita(vG, rangoUsuario, idUsuario));
+			if (rangoUsuario.equalsIgnoreCase("Maestro")) {
+				vG.cargarDatosCitas(m.recuperarCitas());
+			} else {
+				vG.cargarDatosCitas(m.recuperarCitasPropias(idUsuario));
+			}
+			vG.setVisible(true);
 			vista.dispose();
-			return;
-		}else if (e.getSource().equals(vista.getBtnCerrarSesion())){
+		} else if (e.getSource().equals(vista.getBtnCerrarSesion())) {
 			VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
-			ControladorLogin c = new ControladorLogin(vLogin);
-			vLogin.setControlador(c);
+			vLogin.setControlador(new ControladorLogin(vLogin));
 			vLogin.setVisible(true);
 			vista.dispose();
-		}else if (e.getSource().equals(vista.getBtnGuardarCambios())){
-			// Si se pulsa el de giardar
-			String idStr = vista.getIdTaller();
-			String nombre = vista.getNombreTaller();
-			String tipo = vista.getTipoSala();
-
-			if (nombre.isEmpty()) {
-				JOptionPane.showMessageDialog(vista, "El nombre del taller no puede estar vacío.");
-				return;
-			}
-
-			int idTaller;
-			try {
-				idTaller = Integer.parseInt(idStr);
-			} catch (NumberFormatException nfe) {
-				JOptionPane.showMessageDialog(vista, "Error: El ID del taller es invalido.");
-				return;
-			}
-
-			Taller tallerModificado = new Taller();
-			tallerModificado.setId_taller(idTaller);
-			tallerModificado.setNombre(nombre);
-			tallerModificado.setTipo_sala(tipo);
-
-			boolean exito = modelo.modificarTaller(tallerModificado);
-
-			if (exito) {
-				JOptionPane.showMessageDialog(vista, "Taller actualizado correctamente.");
-				VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(vista.getRangoUsuario(), idUsuario);
-				vGestionTalleres.cargarDatosTalleres(modelo.recuperarTalleres());
-				vGestionTalleres.setVisible(true);
-				vista.dispose();
-			} else {
-				JOptionPane.showMessageDialog(vista, "Error: No se pudo actualizar el taller");
-			}
 		}
 	}
 }

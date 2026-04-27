@@ -64,15 +64,15 @@ public class VentanaGestionCita extends JFrame {
 		} else if (rangoUsuario.equals("Oficial")) {
 			btnCrearCita.setVisible(false);
 			btnEliminarCita.setVisible(true);
-	        btnModificarCita.setVisible(true);
-	        lblTitulo.setText("Gestion de citas");
-		}else if(rangoUsuario.equals("Aprendiz")) {
+			btnModificarCita.setVisible(true);
+			lblTitulo.setText("Gestion de citas");
+		} else if (rangoUsuario.equals("Aprendiz")) {
 			btnCrearCita.setVisible(false);
-	        btnEliminarCita.setVisible(false);
-	        btnModificarCita.setVisible(false);
-	        lblTitulo.setText("Mis Citas");
+			btnEliminarCita.setVisible(false);
+			btnModificarCita.setVisible(false);
+			lblTitulo.setText("Mis Citas");
 		}
-		
+
 	}
 
 	private void inicializarComponentes() {
@@ -136,7 +136,7 @@ public class VentanaGestionCita extends JFrame {
 		btnAtras = new JButton("");
 		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
 		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
-		btnAtras.setIcon(new ImageIcon(imgAtras));		
+		btnAtras.setIcon(new ImageIcon(imgAtras));
 		btnAtras.setBackground(new Color(165, 191, 201));
 		btnAtras.setFont(new Font("Verdana", Font.PLAIN, 5));
 		btnAtras.setBounds(22, 11, 30, 30); // Posición arriba a la izquierda
@@ -160,6 +160,7 @@ public class VentanaGestionCita extends JFrame {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		modeloTabla = new DefaultTableModel();
+		modeloTabla.addColumn("ID");
 		modeloTabla.addColumn("DÍA");
 		modeloTabla.addColumn("HORA");
 		modeloTabla.addColumn("DURACIÓN");
@@ -171,39 +172,46 @@ public class VentanaGestionCita extends JFrame {
 		table = new JTable(modeloTabla);
 		scrollPane.setViewportView(table);
 
+		// Hacemos esto para poder utilizar el id pero tenerlo oculto de la tabla,
+		// hacemos que la anchura sea de 0 y asi se "oculta"
+		table.getColumnModel().getColumn(0).setMinWidth(0);
+		table.getColumnModel().getColumn(0).setMaxWidth(0);
+		table.getColumnModel().getColumn(0).setPreferredWidth(0);
+
 		// FONDO
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);
 		getContentPane().add(lblFondo);
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
 	}
-	
+
 	public int getIdCitaSeleccionado() {
 		int filaSeleccionada = table.getSelectedRow();
 		if (filaSeleccionada == -1)
 			return -1;
 		return (int) modeloTabla.getValueAt(filaSeleccionada, 0);
 	}
-	
+
 	public void setControlador(ControladorMenuCita c) {
-	    btnEliminarCita.addActionListener(c);
-	    btnCrearCita.addActionListener(c);
-	    btnModificarCita.addActionListener(c);
-	    btnAtras.addActionListener(c);
-	    btnCerrarSesion.addActionListener(c);
+		btnEliminarCita.addActionListener(c);
+		btnCrearCita.addActionListener(c);
+		btnModificarCita.addActionListener(c);
+		btnAtras.addActionListener(c);
+		btnCerrarSesion.addActionListener(c);
 	}
 
 	public void cargarDatosCitas(ArrayList<Cita> datosCitas) {
 		modeloTabla.setRowCount(0);
 		for (Cita c : datosCitas) {
-			Object[] fila = new Object[7]; // Ajusta el número según tus columnas visibles
-			fila[0] = c.getDia();
-			fila[1] = c.getHora();
-			fila[2] = c.getDuracion();
-			fila[3] = c.getNombreCliente(); // <--- Usamos los nombres que sacamos con JOIN
-			fila[4] = c.getNombreTaller();
-			fila[5] = c.getNombreEmpleadoResponsable();
-			fila[6] = c.getNombreTraje();
+			Object[] fila = new Object[8]; 	        
+			fila[0] = c.getId_cita();      	        
+			fila[1] = c.getDia();
+	        fila[2] = c.getHora();
+	        fila[3] = c.getDuracion();
+	        fila[4] = c.getNombreCliente();
+	        fila[5] = c.getNombreTaller();
+	        fila[6] = c.getNombreEmpleadoResponsable();
+	        fila[7] = c.getNombreTraje();
 
 			modeloTabla.addRow(fila);
 		}
@@ -242,5 +250,26 @@ public class VentanaGestionCita extends JFrame {
 	 */
 	public JButton getBtnAtras() {
 		return btnAtras;
+	}
+
+	/**
+	 * @return the rangoUsuario
+	 */
+	public String getRangoUsuario() {
+		return rangoUsuario;
+	}
+
+	/**
+	 * @return the modeloTabla
+	 */
+	public DefaultTableModel getModeloTabla() {
+		return modeloTabla;
+	}
+
+	/**
+	 * @return the table
+	 */
+	public JTable getTable() {
+		return table;
 	}
 }

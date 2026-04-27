@@ -25,7 +25,7 @@ public class VentanaCrearCliente extends JFrame {
 		configInicial();
 		
 		ControladorCrearCliente controlador = new ControladorCrearCliente(this, idUsuario);
-		setControladorGuardar(controlador);
+		setControlador(controlador);
 	}
 
 	private void configInicial() {
@@ -136,7 +136,7 @@ public class VentanaCrearCliente extends JFrame {
 		getContentPane().add(lblFondo);
 	}
 	
-	public void setControladorGuardar(ActionListener c) {
+	public void setControlador(ActionListener c) {
 		btnGuardarCambios.addActionListener(c);
 		btnAtras.addActionListener(c);
 		btnCerrarSesion.addActionListener(c);
