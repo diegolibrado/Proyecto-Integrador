@@ -10,6 +10,7 @@ import controlador.cliente.ControladorCrearCliente;
 public class VentanaCrearCliente extends JFrame {
 
 	private String rangoUsuario;
+	private int idUsuario;
 	private JTextField txtNombreCliente;
 	private JTextField txtSuperpoder;
 	private JTextField txtColores;
@@ -17,12 +18,13 @@ public class VentanaCrearCliente extends JFrame {
 	private JButton btnAtras;
 	private JButton btnCerrarSesion;
 
-	public VentanaCrearCliente(String rango) {
+	public VentanaCrearCliente(String rango, int id) {
 		this.rangoUsuario = rango;
+		this.idUsuario = id;
 		inicializarComponentes();
 		configInicial();
 		
-		ControladorCrearCliente controlador = new ControladorCrearCliente(this);
+		ControladorCrearCliente controlador = new ControladorCrearCliente(this, idUsuario);
 		setControladorGuardar(controlador);
 	}
 

@@ -16,10 +16,14 @@ public class ControladorMenuCliente implements ActionListener {
 
 	private VentanaGestionCliente vGestionClientes;
 	private Modelo m;
+	private String rangoUsuario;
+	private int idUsuario;
 
-	public ControladorMenuCliente(VentanaGestionCliente v) {
+	public ControladorMenuCliente(VentanaGestionCliente v, String rango, int id) {
 		vGestionClientes = v;
 		m = new Modelo();
+		this.rangoUsuario = rango;
+		this.idUsuario = id;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -43,14 +47,14 @@ public class ControladorMenuCliente implements ActionListener {
 			}
 		} else if (e.getSource().equals(vGestionClientes.getBtnCrear())) {
 			// Abrimos la ventana de Crear Cliente
-			VentanaCrearCliente vCrearCliente = new VentanaCrearCliente(vGestionClientes.getRangoUsuario());
-			ControladorCrearCliente cCrearCliente = new ControladorCrearCliente(vCrearCliente);
+			VentanaCrearCliente vCrearCliente = new VentanaCrearCliente(vGestionClientes.getRangoUsuario(), idUsuario);
+			ControladorCrearCliente cCrearCliente = new ControladorCrearCliente(vCrearCliente, idUsuario);
 			vCrearCliente.setControladorGuardar(cCrearCliente);
 			vCrearCliente.setVisible(true);
 			vGestionClientes.dispose();
             
 		} else if (e.getSource().equals(vGestionClientes.getBtnAtras())) {
-			VentanaMaestro vMaestro = new VentanaMaestro("Menú Principal");
+			VentanaMaestro vMaestro = new VentanaMaestro("Menú Principal", rangoUsuario, idUsuario);
 			vMaestro.setVisible(true);
 			vGestionClientes.dispose();
             
@@ -65,7 +69,7 @@ public class ControladorMenuCliente implements ActionListener {
 				
 				// Abrimos la ventana de Modificar Cliente pasándole los datos seleccionados
 				VentanaModificarCliente vModificarCliente = new VentanaModificarCliente(vGestionClientes.getRangoUsuario(), idCliente, nombre, superpoder, colores);
-				ControladorModificarCliente cModificarCliente = new ControladorModificarCliente(vModificarCliente);
+				ControladorModificarCliente cModificarCliente = new ControladorModificarCliente(vModificarCliente, idUsuario);
 				vModificarCliente.setControladorModificar(cModificarCliente);
 				vModificarCliente.setVisible(true);
 				vGestionClientes.dispose();

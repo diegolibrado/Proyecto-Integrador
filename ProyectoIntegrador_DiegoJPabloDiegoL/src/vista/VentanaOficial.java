@@ -15,8 +15,11 @@ import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
 
 public class VentanaOficial extends JFrame {
-	public VentanaOficial(String titulo) {
+	private int idUsuario;
+	
+	public VentanaOficial(String titulo, int id) {
 		super(titulo);
+		this.idUsuario = id;
 		configInicial();
 		inicializarComponentes();
 	}
@@ -80,7 +83,7 @@ public class VentanaOficial extends JFrame {
 		JButton btnCitas = new JButton("Citas");
 		btnCitas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaGestionCita vGestionCitas = new VentanaGestionCita("Gestion de citas");
+				VentanaGestionCita vGestionCitas = new VentanaGestionCita("Gestion de citas", idUsuario);
 				vGestionCitas.setVisible(true);
 				dispose();
 			}

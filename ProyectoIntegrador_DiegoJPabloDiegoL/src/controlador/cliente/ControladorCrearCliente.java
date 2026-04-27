@@ -14,9 +14,11 @@ import vista.VentanaLogin;
 public class ControladorCrearCliente implements ActionListener {
 
 	private VentanaCrearCliente vista;
+	private int idUsuario;
 
-	public ControladorCrearCliente(VentanaCrearCliente vista) {
+	public ControladorCrearCliente(VentanaCrearCliente vista, int id) {
 		this.vista = vista;
+		int idUsuario = id;
 	}
 
 	@Override
@@ -25,7 +27,7 @@ public class ControladorCrearCliente implements ActionListener {
 
 		// Botón Atrás: Volver a la gestión de clientes
 		if (e.getSource().equals(vista.getBtnAtras())) {
-			VentanaGestionCliente vGestion = new VentanaGestionCliente(vista.getRangoUsuario());
+			VentanaGestionCliente vGestion = new VentanaGestionCliente(vista.getRangoUsuario(), idUsuario);
 			// Cargamos los datos actualizados desde el modelo
 			vGestion.cargarDatosClientes(modelo.recuperarClientes()); 
 			vGestion.setVisible(true);
@@ -65,7 +67,7 @@ public class ControladorCrearCliente implements ActionListener {
 				JOptionPane.showMessageDialog(vista, "Cliente creado exitosamente");
 				
 				// Tras exito, volvemos a la ventana de gestión refrescada
-				VentanaGestionCliente vGestion = new VentanaGestionCliente(vista.getRangoUsuario());
+				VentanaGestionCliente vGestion = new VentanaGestionCliente(vista.getRangoUsuario(), idUsuario);
 				vGestion.cargarDatosClientes(modelo.recuperarClientes());
 				vGestion.setVisible(true);
 				vista.dispose();

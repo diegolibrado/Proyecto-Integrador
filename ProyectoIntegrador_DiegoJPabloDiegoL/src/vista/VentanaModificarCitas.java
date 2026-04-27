@@ -2,106 +2,83 @@ package vista;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-
-import modelo.Modelo;
-
+import java.awt.Image;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+import modelo.Modelo;
+import controlador.cita.ControladorModificarCita; // Asegúrate de que la ruta sea correcta
 
 public class VentanaModificarCitas extends JFrame {
 
-	// Declaracion de variables
 	private String rangoUsuario;
-	private JButton btnEliminarCita;
-	private JButton btnCrearCita;
-	private JButton btnModificarCita;
-	private JButton btnGuardarCambios;
 	private DefaultTableModel modeloTabla;
 	private JTable table;
+	private JButton btnCrearCita, btnEliminarCita, btnModificarCita, btnGuardarCambios, btnAtras, btnCerrarSesionTop;
 
 	public VentanaModificarCitas(String rango) {
 		this.rangoUsuario = rango;
-		inicializarComponentes();
 		configInicial();
-		configurarPermisos();
+		inicializarComponentes();
+		cargarDatosCitas();
 	}
 
-	/**
-	 * Metodo para determinar la configuracion inicial de la ventana.
-	 */
-	private void configInicial() {		
+	private void configInicial() {
+		setTitle("Gestión de Citas");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		setSize(960, 540);
 		setLocationRelativeTo(null);
 	}
 
-	/**
-	 * Metodo para que dependiendo de que tipo de empleado haya ingresado, se
-	 * muestren unas cosas u otras
-	 */
-	private void configurarPermisos() {
-
-	}
-
 	private void inicializarComponentes() {
 
-		// Footer
+		// --- FOOTER ---
 		JPanel pnlFooter = new JPanel();
 		pnlFooter.setBackground(new Color(72, 119, 109));
 		pnlFooter.setBounds(0, 481, 944, 20);
 		getContentPane().add(pnlFooter);
 
-		// Copyright
-		JLabel lblNewLabel_1 = new JLabel("© 2026 Payo-Vallecano, Inc. Todos los derechos reservados");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setForeground(new Color(255, 255, 255));
-		lblNewLabel_1.setFont(new Font("Verdana", Font.PLAIN, 10));
-		pnlFooter.add(lblNewLabel_1);
+		JLabel lblCopyright = new JLabel("© 2026 Payo-Vallecano, Inc. Todos los derechos reservados");
+		lblCopyright.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCopyright.setForeground(Color.WHITE);
+		lblCopyright.setFont(new Font("Verdana", Font.PLAIN, 10));
+		pnlFooter.add(lblCopyright);
 
-		// Panel horizontal
-		JPanel pnlBarraHorizontal = new JPanel();
-		pnlBarraHorizontal.setForeground(new Color(196, 204, 203));
-		pnlBarraHorizontal.setBackground(new Color(196, 204, 203));
-		pnlBarraHorizontal.setBounds(0, 111, 944, 282);
-		getContentPane().add(pnlBarraHorizontal);
-		pnlBarraHorizontal.setLayout(null);
-
-		// Boton Cerrar Sesion
-		JButton btnCerrarSesion = new JButton("Cerrar sesión");
-		btnCerrarSesion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
-				// Creo objeto tipo controlador asociado a la nueva ventana para que pueda
-				// volver a iniciar sesion
-				controlador.ControladorLogin c = new controlador.ControladorLogin(vLogin);
-				vLogin.setControlador(c);
-				vLogin.setVisible(true);
-				dispose();
-			}
-		});
-		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
-		btnCerrarSesion.setBackground(new Color(165, 191, 201));
-		btnCerrarSesion.setBounds(787, 68, 135, 30);
-		getContentPane().add(btnCerrarSesion);
-
-		// Titulo Pagina
+		// --- TITULO ---
 		JLabel lblTitulo = new JLabel("Gestión de Citas");
-		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
-		lblTitulo.setBounds(22, 63, 298, 40);
+		lblTitulo.setBounds(22, 63, 400, 40);
 		getContentPane().add(lblTitulo);
 
-		// BOTONES
+		// --- BOTÓN ATRÁS ---
+		btnAtras = new JButton("");
+		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
+		Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		btnAtras.setIcon(new ImageIcon(imgAtras));
+		btnAtras.setBackground(Color.WHITE);
+		btnAtras.setBounds(22, 11, 40, 30);
+		getContentPane().add(btnAtras);
+
+		// --- BOTÓN CERRAR SESIÓN ---
+		btnCerrarSesionTop = new JButton("Cerrar sesión");
+		btnCerrarSesionTop.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnCerrarSesionTop.setBackground(new Color(165, 191, 201));
+		btnCerrarSesionTop.setBounds(787, 68, 135, 30);
+		getContentPane().add(btnCerrarSesionTop);
+
+		// --- PANEL CENTRAL ---
+		JPanel pnlBarraHorizontal = new JPanel();
+		pnlBarraHorizontal.setBackground(new Color(196, 204, 203));
+		pnlBarraHorizontal.setBounds(0, 111, 944, 282);
+		pnlBarraHorizontal.setLayout(null);
+		getContentPane().add(pnlBarraHorizontal);
+
+		// --- BOTONES LATERALES ---
 		btnCrearCita = new JButton("Crear");
 		btnCrearCita.setBackground(new Color(165, 191, 201));
 		btnCrearCita.setFont(new Font("Verdana", Font.PLAIN, 14));
@@ -126,43 +103,21 @@ public class VentanaModificarCitas extends JFrame {
 		btnGuardarCambios.setBounds(22, 231, 109, 30);
 		pnlBarraHorizontal.add(btnGuardarCambios);
 
-		JButton btnAtras = new JButton("");
-		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
-		// Para que se autoescale y se coloque el tamaño correctamente
-		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
-		btnAtras.setIcon(new ImageIcon(imgAtras));
-		btnAtras.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Dependiendo del tipo de empleado volveremos a una pagina u otra
-				// De momento solo a la de maestro
-				VentanaMaestro vMaestro = new VentanaMaestro("Gestion de citas");
-				vMaestro.setVisible(true);
-				dispose();
-			}
-		});
-		btnAtras.setBackground(new Color(165, 191, 201));
-		btnAtras.setFont(new Font("Verdana", Font.PLAIN, 5));
-		btnAtras.setBounds(22, 11, 30, 30); // Posición arriba a la izquierda
-		getContentPane().add(btnAtras);
+		// --- CONTENEDOR TABLA ---
+		JPanel pnlTabla = new JPanel();
+		pnlTabla.setBorder(new LineBorder(Color.DARK_GRAY));
+		pnlTabla.setBackground(new Color(165, 191, 201));
+		pnlTabla.setBounds(150, 25, 770, 240);
+		pnlTabla.setLayout(null);
+		pnlBarraHorizontal.add(pnlTabla);
 
-		// Panel con informacion
-		JPanel pnlBarraHorizontal_1 = new JPanel();
-		pnlBarraHorizontal_1.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
-		pnlBarraHorizontal_1.setLayout(null);
-		pnlBarraHorizontal_1.setForeground(new Color(196, 204, 203));
-		pnlBarraHorizontal_1.setBackground(new Color(165, 191, 201));
-		pnlBarraHorizontal_1.setBounds(139, 25, 782, 236);
-		pnlBarraHorizontal.add(pnlBarraHorizontal_1);
-
-		// ScrollPane para la tabla
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 10, 762, 216);
-		pnlBarraHorizontal_1.add(scrollPane);
-
-		// Tabla
-		table = new JTable();
-		scrollPane.setViewportView(table);
+		scrollPane.setBounds(5, 5, 760, 230);
+		pnlTabla.add(scrollPane);
+		
+		// TABLA
 		modeloTabla = new DefaultTableModel();
+		modeloTabla.addColumn("ID");
 		modeloTabla.addColumn("DÍA");
 		modeloTabla.addColumn("HORA");
 		modeloTabla.addColumn("DURACIÓN");
@@ -170,51 +125,93 @@ public class VentanaModificarCitas extends JFrame {
 		modeloTabla.addColumn("TALLER");
 		modeloTabla.addColumn("RESPONSABLE");
 		modeloTabla.addColumn("TRAJE");
-
 		table = new JTable(modeloTabla);
 		scrollPane.setViewportView(table);
-
-		cargarDatosCitas();
-
+		
 		// FONDO
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);
-		getContentPane().add(lblFondo);
+		// Asegúrate de que la carpeta 'img' y el archivo 'fondo.jpeg' existen en la
+		// raíz de tu proyecto
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
+		getContentPane().add(lblFondo);
+
+		
+
 	}
+
+	// --- MÉTODOS DE DATOS ---
 
 	public void cargarDatosCitas() {
 		modeloTabla.setRowCount(0);
-
 		Modelo conector = new Modelo();
 		Connection conexion = conector.getConexion();
+		if (conexion == null)
+			return;
 
-		String query = "SELECT c.dia, c.hora, c.duracion, cl.nombre AS cliente, ta.nombre_sala AS taller, e.nombre AS empleado, tr.nombre AS traje "
+		String query = "SELECT c.id_cita, c.dia, c.hora, c.duracion, cl.nombre AS cliente, ta.nombre_sala AS taller, e.nombre AS empleado, tr.nombre AS traje "
 				+ "FROM CITA c " + "JOIN CLIENTE cl ON c.id_cliente = cl.id_cliente "
 				+ "JOIN TALLER ta ON c.id_taller = ta.id_taller "
 				+ "JOIN EMPLEADO e ON c.id_empleado_responsable = e.id_empleado "
 				+ "JOIN TRAJE tr ON c.id_traje = tr.id_traje";
+
 		try (Statement st = conexion.createStatement(); ResultSet rs = st.executeQuery(query)) {
-
-			// Añadimos los datos
 			while (rs.next()) {
-				Object[] fila = new Object[7];
-				fila[0] = rs.getDate("dia");
-				fila[1] = rs.getTime("hora");
-				fila[2] = rs.getInt("duracion");
-				fila[3] = rs.getString("cliente");
-				fila[4] = rs.getString("taller");
-				fila[5] = rs.getString("empleado");
-				fila[6] = rs.getString("traje");
-
-				modeloTabla.addRow(fila);
-
+				modeloTabla.addRow(new Object[] { rs.getInt("id_cita"), rs.getDate("dia"), rs.getTime("hora"),
+						rs.getInt("duracion"), rs.getString("cliente"), rs.getString("taller"),
+						rs.getString("empleado"), rs.getString("traje") });
 			}
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Error de SQL: " + e.getMessage());
-			// Si o si cerramos la conexion, haya errores o no.
+			e.printStackTrace();
 		} finally {
 			conector.cerrarConexion(conexion);
 		}
 	}
+
+	// --- MÉTODO SET CONTROLADOR (COMO EN TALLERES) ---
+
+	public void setControlador(ControladorModificarCita c) {
+		btnCrearCita.addActionListener(c);
+		btnEliminarCita.addActionListener(c);
+		btnModificarCita.addActionListener(c);
+		btnGuardarCambios.addActionListener(c);
+		btnAtras.addActionListener(c);
+		btnCerrarSesionTop.addActionListener(c);
+	}
+
+	// --- GETTERS PARA EL CONTROLADOR ---
+
+	public JButton getBtnCrear() {
+		return btnCrearCita;
+	}
+
+	public JButton getBtnEliminar() {
+		return btnEliminarCita;
+	}
+
+	public JButton getBtnModificar() {
+		return btnModificarCita;
+	}
+
+	public JButton getBtnGuardar() {
+		return btnGuardarCambios;
+	}
+
+	public JButton getBtnAtras() {
+		return btnAtras;
+	}
+
+	public JButton getBtnCerrarSesion() {
+		return btnCerrarSesionTop;
+	}
+
+	public String getRangoUsuario() {
+		return rangoUsuario;
+	}
+
+	public int getIdCitaSeleccionada() {
+		int fila = table.getSelectedRow();
+		return (fila != -1) ? (int) modeloTabla.getValueAt(fila, 0) : -1;
+	}
+
 }

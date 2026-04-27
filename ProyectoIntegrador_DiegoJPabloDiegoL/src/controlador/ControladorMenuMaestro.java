@@ -59,7 +59,7 @@ public class ControladorMenuMaestro implements ActionListener {
 			vGestionTalleres.setVisible(true);
 			vMaestro.dispose();
 		} else if (e.getSource().equals(vMaestro.getBtnClientes())) {
-			VentanaGestionCliente vGestionCilientes = new VentanaGestionCliente("Gestion de clientes");
+			VentanaGestionCliente vGestionCilientes = new VentanaGestionCliente("Gestion de clientes", idUsuario);
 			vGestionCilientes.setVisible(true);
 			vMaestro.dispose();
 		} else if (e.getSource().equals(vMaestro.getBtnCerrarSesion())) {

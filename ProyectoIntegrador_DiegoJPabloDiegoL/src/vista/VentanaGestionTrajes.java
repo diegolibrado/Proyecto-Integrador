@@ -19,6 +19,7 @@ public class VentanaGestionTrajes extends JFrame {
 
 	// Declaracion de variables
 	private String rangoUsuario;
+	private int idUsuario;
 	private JButton btnEliminarCita;
 	private JButton btnCrearCita;
 	private JButton btnModificarCita;
@@ -26,8 +27,9 @@ public class VentanaGestionTrajes extends JFrame {
 	private DefaultTableModel modeloTabla;
 	private JTable table;
 
-	public VentanaGestionTrajes(String rango) {
+	public VentanaGestionTrajes(String rango, int id) {
 		this.rangoUsuario = rango;
+		this.idUsuario = id;
 		inicializarComponentes();
 		configInicial();
 		configurarPermisos();
@@ -108,7 +110,7 @@ public class VentanaGestionTrajes extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// Dependiendo del tipo de empleado volveremos a una pagina u otra
 				// De momento solo a la de maestro
-				VentanaMaestro vMaestro = new VentanaMaestro("Gestion de citas");
+				VentanaMaestro vMaestro = new VentanaMaestro("Gestion de citas", rangoUsuario, idUsuario);
 				vMaestro.setVisible(true);
 				dispose();
 			}

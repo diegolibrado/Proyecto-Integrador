@@ -14,9 +14,11 @@ import vista.VentanaLogin;
 public class ControladorModificarCliente implements ActionListener {
 
 	private VentanaModificarCliente vista;
+	private int idUsuario;
 
-	public ControladorModificarCliente(VentanaModificarCliente vista) {
+	public ControladorModificarCliente(VentanaModificarCliente vista, int id) {
 		this.vista = vista;
+		this.idUsuario = id;
 	}
 
 	@Override
@@ -25,7 +27,7 @@ public class ControladorModificarCliente implements ActionListener {
 
 		// Si se pulsa el botón de atrás
 		if (e.getSource().equals(vista.getBtnAtras())) {
-			VentanaGestionCliente vGestionClientes = new VentanaGestionCliente(vista.getRangoUsuario());
+			VentanaGestionCliente vGestionClientes = new VentanaGestionCliente(vista.getRangoUsuario(), idUsuario);
 			vGestionClientes.cargarDatosClientes(modelo.recuperarClientes());
 			vGestionClientes.setVisible(true);
 			vista.dispose();
@@ -72,7 +74,7 @@ public class ControladorModificarCliente implements ActionListener {
 
 			if (exito) {
 				JOptionPane.showMessageDialog(vista, "Cliente actualizado correctamente.");
-				VentanaGestionCliente vGestionClientes = new VentanaGestionCliente(vista.getRangoUsuario());
+				VentanaGestionCliente vGestionClientes = new VentanaGestionCliente(vista.getRangoUsuario(), idUsuario);
 				vGestionClientes.cargarDatosClientes(modelo.recuperarClientes());
 				vGestionClientes.setVisible(true);
 				vista.dispose();

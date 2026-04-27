@@ -19,9 +19,11 @@ import vista.VentanaModificarTaller;
 public class ControladorModificarCita implements ActionListener {
 
 	private VentanaModificarTaller vista;
+	private int idUsuario;
 
-	public ControladorModificarCita(VentanaModificarTaller vista) {
+	public ControladorModificarCita(VentanaModificarTaller vista, int id) {
 		this.vista = vista;
+		this.idUsuario = id;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -29,7 +31,7 @@ public class ControladorModificarCita implements ActionListener {
 
 		// Si se pulsa el boton de atras
 		if (e.getSource().equals(vista.getBtnAtras())) {
-			VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(vista.getRangoUsuario());
+			VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(vista.getRangoUsuario(), idUsuario);
 			vGestionTalleres.cargarDatosTalleres(modelo.recuperarTalleres());
 			vGestionTalleres.setVisible(true);
 			vista.dispose();
@@ -68,7 +70,7 @@ public class ControladorModificarCita implements ActionListener {
 
 			if (exito) {
 				JOptionPane.showMessageDialog(vista, "Taller actualizado correctamente.");
-				VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(vista.getRangoUsuario());
+				VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(vista.getRangoUsuario(), idUsuario);
 				vGestionTalleres.cargarDatosTalleres(modelo.recuperarTalleres());
 				vGestionTalleres.setVisible(true);
 				vista.dispose();

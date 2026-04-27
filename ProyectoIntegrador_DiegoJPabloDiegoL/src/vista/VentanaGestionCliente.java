@@ -17,6 +17,7 @@ import modelo.Cliente;
 public class VentanaGestionCliente extends JFrame {
 
     private String rangoUsuario;
+    private int idUsuario;
     private JButton btnEliminar;
     private JButton btnCrear;
     private JButton btnModificar;
@@ -25,8 +26,9 @@ public class VentanaGestionCliente extends JFrame {
     private DefaultTableModel modeloTabla;
     private JTable table;
 
-    public VentanaGestionCliente(String rango) {
+    public VentanaGestionCliente(String rango, int id) {
         this.rangoUsuario = rango;
+        this.idUsuario = id;
         configInicial();
         inicializarComponentes();
     }
@@ -41,7 +43,7 @@ public class VentanaGestionCliente extends JFrame {
 
     private void inicializarComponentes() {
         // Instanciamos el controlador
-        ControladorMenuCliente controlador = new ControladorMenuCliente(this);
+        ControladorMenuCliente controlador = new ControladorMenuCliente(this, rangoUsuario, idUsuario);
 
         // --- BOTÓN ATRÁS ---
         btnAtras = new JButton("");
