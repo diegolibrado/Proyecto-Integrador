@@ -1,6 +1,7 @@
 /citas.png
 /clientes.png
 /controlador/
+<<<<<<< HEAD
 /flecha_izq.png
 /fondo.jpeg
 /logo.png
@@ -9,3 +10,8 @@
 /talleres.png
 /trajes.png
 /vista/
+=======
+/vista/
+/main/
+/modelo/
+>>>>>>> cb5f2ff78d6246972dbc52c726b8763122d9314f

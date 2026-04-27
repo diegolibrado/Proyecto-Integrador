@@ -393,7 +393,7 @@ public class Modelo {
 	public boolean eliminarTaller(int idTaller) {
 		String query = "DELETE FROM TALLER WHERE id_taller = ?";
 		Connection conexion = getConexion();
-
+		
 		try {
 			PreparedStatement pst = conexion.prepareStatement(query);
 			pst.setInt(1, idTaller);
