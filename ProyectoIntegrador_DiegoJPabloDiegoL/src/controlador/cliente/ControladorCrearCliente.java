@@ -24,7 +24,7 @@ public class ControladorCrearCliente implements ActionListener {
 
         if (e.getSource().equals(vista.getBtnAtras())) {
             volver(m);
-        } else if (e.getSource().equals(vista.getBtnGuardarCambios())) {
+        } else if (e.getSource().equals(vista.getBtnGuardarCambios())) { //para guardar los cambios
             Cliente c = new Cliente();
             c.setNombre(vista.getNombreCliente());
             c.setSuperpoder(vista.getSuperpoderCliente());
@@ -39,8 +39,11 @@ public class ControladorCrearCliente implements ActionListener {
         }
     }
 
+    // metodo de volver 
     private void volver(Modelo m) {
         VentanaGestionCliente vG = new VentanaGestionCliente(vista.getRangoUsuario(), idUsuario);
+        ControladorMenuCliente cG = new ControladorMenuCliente(vG, vista.getRangoUsuario(), idUsuario);
+        vG.setControlador(cG);
         vG.cargarDatosClientes(m.recuperarClientes());
         vG.setVisible(true);
         vista.dispose();

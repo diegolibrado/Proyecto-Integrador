@@ -22,10 +22,10 @@ public class VentanaModificarCliente extends JFrame {
 		inicializarComponentes();
 		configInicial();
 		
-		// CARGAMOS LOS DATOS EN EL FORMULARIO
+		// cargamos datos en el formulario
 		txtIdCliente.setText(String.valueOf(id));
 		txtIdCliente.setEditable(false); 
-		txtIdCliente.setBackground(new Color(210, 210, 210)); //no olvidar el gris
+		txtIdCliente.setBackground(new Color(210, 210, 210));
 		txtNombreCliente.setText(nombre);
 		txtSuperpoder.setText(superpoder);
 		txtColores.setText(colores);
@@ -41,7 +41,7 @@ public class VentanaModificarCliente extends JFrame {
 
 	private void inicializarComponentes() {
 
-		// Footer creo que completo, mirar
+		// footer franja inferior
 		JPanel pnlFooter = new JPanel();
 		pnlFooter.setBackground(new Color(72, 119, 109));
 		pnlFooter.setBounds(0, 481, 944, 20);
@@ -53,45 +53,43 @@ public class VentanaModificarCliente extends JFrame {
 		lblCopyright.setFont(new Font("Verdana", Font.PLAIN, 10));
 		pnlFooter.add(lblCopyright);
 
-		// Panel horizontal principal
+		// panel horizontal principal
 		JPanel pnlBarraHorizontal = new JPanel();
 		pnlBarraHorizontal.setBackground(new Color(196, 204, 203));
 		pnlBarraHorizontal.setBounds(0, 111, 944, 282);
 		getContentPane().add(pnlBarraHorizontal);
 		pnlBarraHorizontal.setLayout(null);
 
-		// Boton Cerrar Sesion 
+		// boton cerrar sesion 
 		btnCerrarSesion = new JButton("Cerrar sesión");
 		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCerrarSesion.setBackground(new Color(165, 191, 201));
 		btnCerrarSesion.setBounds(787, 68, 135, 30);
 		getContentPane().add(btnCerrarSesion);
 
-		// Titulo Pagina
+		// titulo pagina
 		JLabel lblTitulo = new JLabel("Modificar Cliente");
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
 		lblTitulo.setBounds(22, 63, 400, 40);
 		getContentPane().add(lblTitulo);
 
-		// Botón Guardar Cambios
+		// boton guardar cambios
 		btnGuardarCambios = new JButton("Guardar");
 		btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnGuardarCambios.setBackground(new Color(165, 191, 201));
 		btnGuardarCambios.setBounds(22, 231, 109, 30);
 		pnlBarraHorizontal.add(btnGuardarCambios);
 
-		// Botón Atrás (Ahora es atributo y no tiene lógica interna)
+		// boton atras flecha
 		btnAtras = new JButton("");
 		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
-		if (new java.io.File("img\\flecha_izq.png").exists()) {
-			java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
-			btnAtras.setIcon(new ImageIcon(imgAtras));
-		}
+		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		btnAtras.setIcon(new ImageIcon(imgAtras));
 		btnAtras.setBackground(new Color(165, 191, 201));
 		btnAtras.setBounds(22, 11, 30, 30);
 		getContentPane().add(btnAtras);
 
-		// Panel Formulario
+		// panel formulario
 		JPanel pnlFormulario = new JPanel();
 		pnlFormulario.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
 		pnlFormulario.setLayout(null);
@@ -99,7 +97,7 @@ public class VentanaModificarCliente extends JFrame {
 		pnlFormulario.setBounds(139, 25, 782, 236);
 		pnlBarraHorizontal.add(pnlFormulario);
 
-		// 1. ID Cliente
+		// etiqueta y campo id cliente
 		JLabel lblIdCliente = new JLabel("ID del Cliente:");
 		lblIdCliente.setFont(new Font("Verdana", Font.BOLD, 14));
 		lblIdCliente.setBounds(50, 20, 150, 30);
@@ -110,7 +108,7 @@ public class VentanaModificarCliente extends JFrame {
 		txtIdCliente.setBounds(200, 20, 255, 30);
 		pnlFormulario.add(txtIdCliente);
 
-		// 2. Nombre
+		// etiqueta y campo nombre
 		JLabel lblNombre = new JLabel("Nombre:");
 		lblNombre.setFont(new Font("Verdana", Font.BOLD, 14));
 		lblNombre.setBounds(50, 70, 150, 30);
@@ -121,7 +119,7 @@ public class VentanaModificarCliente extends JFrame {
 		txtNombreCliente.setBounds(200, 70, 255, 30);
 		pnlFormulario.add(txtNombreCliente);
 
-		// 3. Superpoder
+		// etiqueta y campo superpoder
 		JLabel lblSuperpoder = new JLabel("Superpoder:");
 		lblSuperpoder.setFont(new Font("Verdana", Font.BOLD, 14));
 		lblSuperpoder.setBounds(50, 120, 150, 30);
@@ -132,7 +130,7 @@ public class VentanaModificarCliente extends JFrame {
 		txtSuperpoder.setBounds(200, 120, 255, 30);
 		pnlFormulario.add(txtSuperpoder);
 
-		// 4. Colores
+		// etiqueta y campo colores
 		JLabel lblColores = new JLabel("Colores:");
 		lblColores.setFont(new Font("Verdana", Font.BOLD, 14));
 		lblColores.setBounds(50, 170, 150, 30);
@@ -143,27 +141,28 @@ public class VentanaModificarCliente extends JFrame {
 		txtColores.setBounds(200, 170, 255, 30);
 		pnlFormulario.add(txtColores);
 
-		// FONDO
+		// imagen de fondo
 		JLabel lblFondo = new JLabel("");
 		lblFondo.setBounds(0, 0, 944, 501);
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
 		getContentPane().add(lblFondo);
 	}
 	
-	// Registramos todos los botones en el controlador
+	// metodo para asignar el controlador a los botones
 	public void setControladorModificar(ActionListener c) {
 		btnGuardarCambios.addActionListener(c);
 		btnAtras.addActionListener(c);
 		btnCerrarSesion.addActionListener(c);
 	}
 
-	// GETTERS
+	// metodos para obtener el texto de los campos
 	public String getRangoUsuario() { return rangoUsuario; }
 	public String getIdCliente() { return txtIdCliente.getText(); }
 	public String getNombreCliente() { return txtNombreCliente.getText(); }
 	public String getSuperpoderCliente() { return txtSuperpoder.getText(); }
 	public String getColorCliente() { return txtColores.getText(); }
 	
+	// getters para el controlador
 	public JButton getBtnGuardarCambios() { return btnGuardarCambios; }
 	public JButton getBtnAtras() { return btnAtras; }
 	public JButton getBtnCerrarSesion() { return btnCerrarSesion; }

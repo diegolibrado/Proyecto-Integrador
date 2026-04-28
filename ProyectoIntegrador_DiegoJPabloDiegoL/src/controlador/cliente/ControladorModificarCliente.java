@@ -25,24 +25,19 @@ public class ControladorModificarCliente implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Modelo modelo = new Modelo();
 
-		// Si se pulsa el botón de atrás
+		// si se pulsa el boton de atrás
 		if (e.getSource().equals(vista.getBtnAtras())) {
-			VentanaGestionCliente vGestionClientes = new VentanaGestionCliente(vista.getRangoUsuario(), idUsuario);
-			vGestionClientes.cargarDatosClientes(modelo.recuperarClientes());
-			vGestionClientes.setVisible(true);
-			vista.dispose();
-			return;
+			regresarGestion(modelo);
 
-		// Si se pulsa cerrar sesión
+		// si se pulsa cerrar sesión
 		} else if (e.getSource().equals(vista.getBtnCerrarSesion())) {
 			VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
 			ControladorLogin cLogin = new ControladorLogin(vLogin);
 			vLogin.setControlador(cLogin);
 			vLogin.setVisible(true);
 			vista.dispose();
-			return;
 
-		// Si se pulsa el botón de guardar cambios
+		// si se pulsa el botón de guardar cambios
 		} else if (e.getSource().equals(vista.getBtnGuardarCambios())) {
 			String idStr = vista.getIdCliente();
 			String nombre = vista.getNombreCliente();
@@ -62,25 +57,32 @@ public class ControladorModificarCliente implements ActionListener {
 				return;
 			}
 
-			// Creamos el objeto cliente con los datos modificados
+			// creamos el objeto cliente con los datos modificados
 			Cliente clienteModificado = new Cliente();
 			clienteModificado.setId(idCliente);
 			clienteModificado.setNombre(nombre);
 			clienteModificado.setSuperpoder(superpoder);
 			clienteModificado.setColores(colores);
 
-			// Llamamos al método del modelo
+			// llamamos al metodo del modelo
 			boolean exito = modelo.modificarCliente(clienteModificado);
 
 			if (exito) {
 				JOptionPane.showMessageDialog(vista, "Cliente actualizado correctamente.");
-				VentanaGestionCliente vGestionClientes = new VentanaGestionCliente(vista.getRangoUsuario(), idUsuario);
-				vGestionClientes.cargarDatosClientes(modelo.recuperarClientes());
-				vGestionClientes.setVisible(true);
-				vista.dispose();
+				regresarGestion(modelo);
 			} else {
 				JOptionPane.showMessageDialog(vista, "Error: No se pudo actualizar el cliente.");
 			}
 		}
+	}
+
+	// metodo para volver a la gestion con el controlador activado
+	private void regresarGestion(Modelo modelo) {
+		VentanaGestionCliente vG = new VentanaGestionCliente(vista.getRangoUsuario(), idUsuario);
+		ControladorMenuCliente cG = new ControladorMenuCliente(vG, vista.getRangoUsuario(), idUsuario);
+		vG.setControlador(cG); // esto es lo que hace que botones funcionen al volver
+		vG.cargarDatosClientes(modelo.recuperarClientes());
+		vG.setVisible(true);
+		vista.dispose();
 	}
 }

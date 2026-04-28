@@ -8,127 +8,139 @@ import javax.swing.border.LineBorder;
 
 public class VentanaCrearCliente extends JFrame {
 
-    private String rangoUsuario;
-    private int idUsuario;
-    private JTextField txtNombreCliente;
-    private JTextField txtSuperpoder;
-    private JTextField txtColores;
-    private JButton btnGuardarCambios;
-    private JButton btnAtras;
-    private JButton btnCerrarSesion;
+	private String rangoUsuario;
+	private int idUsuario;
+	private JTextField txtNombreCliente;
+	private JTextField txtSuperpoder;
+	private JTextField txtColores;
+	private JButton btnGuardarCambios;
+	private JButton btnAtras;
+	private JButton btnCerrarSesion;
 
-    public VentanaCrearCliente(String rango, int id) {
-        this.rangoUsuario = rango;
-        this.idUsuario = id;
-        inicializarComponentes();
-        configInicial();
-    }
+	public VentanaCrearCliente(String rango, int id) {
+		this.rangoUsuario = rango;
+		this.idUsuario = id;
+		inicializarComponentes();
+		configInicial();
+	}
 
-    private void configInicial() {
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null);
-        setSize(960, 540);
-        setLocationRelativeTo(null);
-        setTitle("Crear Nuevo Cliente");
-    }
+	private void configInicial() {
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		getContentPane().setLayout(null);
+		setSize(960, 540);
+		setLocationRelativeTo(null);
+		setTitle("Crear Nuevo Cliente");
+	}
 
-    private void inicializarComponentes() {
-        // Footer
-        JPanel pnlFooter = new JPanel();
-        pnlFooter.setBackground(new Color(72, 119, 109));
-        pnlFooter.setBounds(0, 481, 944, 20);
-        getContentPane().add(pnlFooter);
+	private void inicializarComponentes() {
+		// footer franja inferior
+		JPanel pnlFooter = new JPanel();
+		pnlFooter.setBackground(new Color(72, 119, 109));
+		pnlFooter.setBounds(0, 481, 944, 20);
+		getContentPane().add(pnlFooter);
 
-        JLabel lblCopyright = new JLabel("© 2026 Payo-Vallecano, Inc. Todos los derechos reservados");
-        lblCopyright.setHorizontalAlignment(SwingConstants.CENTER);
-        lblCopyright.setForeground(Color.WHITE);
-        lblCopyright.setFont(new Font("Verdana", Font.PLAIN, 10));
-        pnlFooter.add(lblCopyright);
+		JLabel lblCopyright = new JLabel("© 2026 Payo-Vallecano, Inc. Todos los derechos reservados");
+		lblCopyright.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCopyright.setForeground(Color.WHITE);
+		lblCopyright.setFont(new Font("Verdana", Font.PLAIN, 10));
+		pnlFooter.add(lblCopyright);
 
-        JPanel pnlBarraHorizontal = new JPanel();
-        pnlBarraHorizontal.setBackground(new Color(196, 204, 203));
-        pnlBarraHorizontal.setBounds(0, 111, 944, 282);
-        pnlBarraHorizontal.setLayout(null);
-        getContentPane().add(pnlBarraHorizontal);
+		// panel gris central
+		JPanel pnlBarraHorizontal = new JPanel();
+		pnlBarraHorizontal.setBackground(new Color(196, 204, 203));
+		pnlBarraHorizontal.setBounds(0, 111, 944, 282);
+		pnlBarraHorizontal.setLayout(null);
+		getContentPane().add(pnlBarraHorizontal);
 
-        btnCerrarSesion = new JButton("Cerrar sesión");
-        btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
-        btnCerrarSesion.setBackground(new Color(165, 191, 201));
-        btnCerrarSesion.setBounds(787, 68, 135, 30);
-        getContentPane().add(btnCerrarSesion);
+		// boton para cerrar sesion
+		btnCerrarSesion = new JButton("Cerrar sesión");
+		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnCerrarSesion.setBackground(new Color(165, 191, 201));
+		btnCerrarSesion.setBounds(787, 68, 135, 30);
+		getContentPane().add(btnCerrarSesion);
 
-        JLabel lblTitulo = new JLabel("Crear Cliente");
-        lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
-        lblTitulo.setBounds(22, 63, 333, 40);
-        getContentPane().add(lblTitulo);
+		// titulo de la ventana
+		JLabel lblTitulo = new JLabel("Crear Cliente");
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
+		lblTitulo.setBounds(22, 63, 333, 40);
+		getContentPane().add(lblTitulo);
 
-        btnGuardarCambios = new JButton("Guardar");
-        btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
-        btnGuardarCambios.setBackground(new Color(165, 191, 201));
-        btnGuardarCambios.setBounds(22, 231, 109, 30);
-        pnlBarraHorizontal.add(btnGuardarCambios);
+		// boton para guardar los datos del nuevo cliente
+		btnGuardarCambios = new JButton("Guardar");
+		btnGuardarCambios.setFont(new Font("Verdana", Font.PLAIN, 14));
+		btnGuardarCambios.setBackground(new Color(165, 191, 201));
+		btnGuardarCambios.setBounds(22, 231, 109, 30);
+		pnlBarraHorizontal.add(btnGuardarCambios);
 
-        btnAtras = new JButton("");
-        ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
-        java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
-        btnAtras.setIcon(new ImageIcon(imgAtras));
-        btnAtras.setBackground(new Color(165, 191, 201));
-        btnAtras.setBounds(22, 11, 30, 30);
-        getContentPane().add(btnAtras);
+		// boton para volver atras flecha
+		btnAtras = new JButton("");
+		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
+		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		btnAtras.setIcon(new ImageIcon(imgAtras));
+		btnAtras.setBackground(new Color(165, 191, 201));
+		btnAtras.setBounds(22, 11, 30, 30);
+		getContentPane().add(btnAtras);
 
-        JPanel pnlFormulario = new JPanel();
-        pnlFormulario.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
-        pnlFormulario.setLayout(null);
-        pnlFormulario.setBackground(new Color(165, 191, 201));
-        pnlFormulario.setBounds(139, 25, 782, 236);
-        pnlBarraHorizontal.add(pnlFormulario);
+		// panel contenedor del formulario
+		JPanel pnlFormulario = new JPanel();
+		pnlFormulario.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
+		pnlFormulario.setLayout(null);
+		pnlFormulario.setBackground(new Color(165, 191, 201));
+		pnlFormulario.setBounds(139, 25, 782, 236);
+		pnlBarraHorizontal.add(pnlFormulario);
 
-        JLabel lblNombre = new JLabel("Nombre:");
-        lblNombre.setFont(new Font("Verdana", Font.BOLD, 14));
-        lblNombre.setBounds(50, 45, 150, 30);
-        pnlFormulario.add(lblNombre);
-        
-        txtNombreCliente = new JTextField();
-        txtNombreCliente.setBounds(200, 45, 255, 30);
-        pnlFormulario.add(txtNombreCliente);
+		// etiqueta y campo para el nombre
+		JLabel lblNombre = new JLabel("Nombre:");
+		lblNombre.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblNombre.setBounds(50, 45, 150, 30);
+		pnlFormulario.add(lblNombre);
+		
+		txtNombreCliente = new JTextField();
+		txtNombreCliente.setBounds(200, 45, 255, 30);
+		pnlFormulario.add(txtNombreCliente);
 
-        JLabel lblSuperpoder = new JLabel("Superpoder:");
-        lblSuperpoder.setFont(new Font("Verdana", Font.BOLD, 14));
-        lblSuperpoder.setBounds(50, 105, 150, 30);
-        pnlFormulario.add(lblSuperpoder);
-        
-        txtSuperpoder = new JTextField();
-        txtSuperpoder.setBounds(200, 105, 255, 30);
-        pnlFormulario.add(txtSuperpoder);
+		// etiqueta y campo para el superpoder
+		JLabel lblSuperpoder = new JLabel("Superpoder:");
+		lblSuperpoder.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblSuperpoder.setBounds(50, 105, 150, 30);
+		pnlFormulario.add(lblSuperpoder);
+		
+		txtSuperpoder = new JTextField();
+		txtSuperpoder.setBounds(200, 105, 255, 30);
+		pnlFormulario.add(txtSuperpoder);
 
-        JLabel lblColores = new JLabel("Colores:");
-        lblColores.setFont(new Font("Verdana", Font.BOLD, 14));
-        lblColores.setBounds(50, 165, 150, 30);
-        pnlFormulario.add(lblColores);
-        
-        txtColores = new JTextField();
-        txtColores.setBounds(200, 165, 255, 30);
-        pnlFormulario.add(txtColores);
+		// etiqueta y campo para los colores
+		JLabel lblColores = new JLabel("Colores:");
+		lblColores.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblColores.setBounds(50, 165, 150, 30);
+		pnlFormulario.add(lblColores);
+		
+		txtColores = new JTextField();
+		txtColores.setBounds(200, 165, 255, 30);
+		pnlFormulario.add(txtColores);
 
-        JLabel lblFondo = new JLabel("");
-        lblFondo.setBounds(0, 0, 944, 501);
-        lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
-        getContentPane().add(lblFondo);
-    }
+		// imagen de fondo
+		JLabel lblFondo = new JLabel("");
+		lblFondo.setBounds(0, 0, 944, 501);
+		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
+		getContentPane().add(lblFondo);
+	}
 
-    // ASIGNACIÓN controlador de guardar, atras y cerrar sesión
-    public void setControlador(ActionListener c) {
-        btnGuardarCambios.addActionListener(c);
-        btnAtras.addActionListener(c);
-        btnCerrarSesion.addActionListener(c);
-    }
+	// metodo para asignar el controlador a los botones
+	public void setControlador(ActionListener c) {
+		btnGuardarCambios.addActionListener(c);
+		btnAtras.addActionListener(c);
+		btnCerrarSesion.addActionListener(c);
+	}
 
-    // GETTERS
-    public String getNombreCliente() { return txtNombreCliente.getText(); }
-    public String getSuperpoderCliente() { return txtSuperpoder.getText(); }
-    public String getColorCliente() { return txtColores.getText(); }
-    public JButton getBtnGuardarCambios() { return btnGuardarCambios; }
-    public JButton getBtnAtras() { return btnAtras; }
-    public JButton getBtnCerrarSesion() { return btnCerrarSesion; }
-    public String getRangoUsuario() { return rangoUsuario; }
+	// metodos para obtener el texto de los campos
+	public String getNombreCliente() { return txtNombreCliente.getText(); }
+	public String getSuperpoderCliente() { return txtSuperpoder.getText(); }
+	public String getColorCliente() { return txtColores.getText(); }
+	
+	// getters para que el controlador acceda a los botones
+	public JButton getBtnGuardarCambios() { return btnGuardarCambios; }
+	public JButton getBtnAtras() { return btnAtras; }
+	public JButton getBtnCerrarSesion() { return btnCerrarSesion; }
+	public String getRangoUsuario() { return rangoUsuario; }
 }
