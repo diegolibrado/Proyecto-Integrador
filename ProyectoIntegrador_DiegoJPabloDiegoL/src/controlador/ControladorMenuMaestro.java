@@ -36,50 +36,53 @@ public class ControladorMenuMaestro implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		// EVENTO CITAS
-		if (e.getSource().equals(vMaestro.getBtnCitas())) {
-			VentanaGestionCita vGestionCitas = new VentanaGestionCita(rangoUsuario, idUsuario);
-			ControladorMenuCita cCitas = new ControladorMenuCita(vGestionCitas, rangoUsuario, idUsuario);
-			vGestionCitas.setControlador(cCitas);
+	    // EVENTO CITAS
+	    if (e.getSource().equals(vMaestro.getBtnCitas())) {
+	        VentanaGestionCita vGestionCitas = new VentanaGestionCita(rangoUsuario, idUsuario);
+	        ControladorMenuCita cCitas = new ControladorMenuCita(vGestionCitas, rangoUsuario, idUsuario);
+	        vGestionCitas.setControlador(cCitas);
 
-			ArrayList<Cita> datosCitas = (rangoUsuario.equals("Aprendiz")) ? m.recuperarCitasPropias(idUsuario) : m.recuperarCitas();
-			
-			vGestionCitas.cargarDatosCitas(datosCitas);
-			vGestionCitas.setVisible(true);
-			vMaestro.dispose();
+	        ArrayList<Cita> datosCitas = (rangoUsuario.equals("Aprendiz")) ? m.recuperarCitasPropias(idUsuario) : m.recuperarCitas();
+	        
+	        vGestionCitas.cargarDatosCitas(datosCitas);
+	        vGestionCitas.setVisible(true);
+	        vMaestro.dispose();
 
-		// EVENTO TALLERES
-		} else if (e.getSource().equals(vMaestro.getBtnTalleres())) {
-			VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(rangoUsuario, idUsuario);
-			ControladorMenuTaller cMenuTaller = new ControladorMenuTaller(vGestionTalleres, rangoUsuario, idUsuario);
-			vGestionTalleres.setControlador(cMenuTaller);
-			vGestionTalleres.cargarDatosTalleres(m.recuperarTalleres());
-			vGestionTalleres.setVisible(true);
-			vMaestro.dispose();
+	    // EVENTO TALLERES
+	    } else if (e.getSource().equals(vMaestro.getBtnTalleres())) {
+	        VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(rangoUsuario, idUsuario);
+	        ControladorMenuTaller cMenuTaller = new ControladorMenuTaller(vGestionTalleres, rangoUsuario, idUsuario);
+	        vGestionTalleres.setControlador(cMenuTaller);
+	        vGestionTalleres.cargarDatosTalleres(m.recuperarTalleres());
+	        vGestionTalleres.setVisible(true);
+	        vMaestro.dispose();
 
-		// EVENTO CLIENTES
-		} else if (e.getSource().equals(vMaestro.getBtnClientes())) {
-		    VentanaGestionCliente vGestionClientes = new VentanaGestionCliente(rangoUsuario, idUsuario);
-		    ArrayList<Cliente> datosActualizados = m.recuperarClientes();
-		    vGestionClientes.cargarDatosClientes(datosActualizados);
-		    vGestionClientes.setVisible(true);
-		    vMaestro.dispose();
-		} else if (e.getSource().equals(vMaestro.getBtnCerrarSesion())) {
+	    // EVENTO CLIENTES
+	    } else if (e.getSource().equals(vMaestro.getBtnClientes())) {
+	        VentanaGestionCliente vGestionClientes = new VentanaGestionCliente(rangoUsuario, idUsuario);
+	        // OJO: Aquí te faltaba el controlador para que no se te quede muerta la ventana de clientes
+	        controlador.cliente.ControladorMenuCliente cClientes = new controlador.cliente.ControladorMenuCliente(vGestionClientes, rangoUsuario, idUsuario);
+	        vGestionClientes.setControlador(cClientes);
+	        
+	        ArrayList<Cliente> datosActualizados = m.recuperarClientes();
+	        vGestionClientes.cargarDatosClientes(datosActualizados);
+	        vGestionClientes.setVisible(true);
+	        vMaestro.dispose();
 
-		// EVENTO TRAJES 
-		} else if (e.getSource().equals(vMaestro.getBtnTrajes())) {
-		    VentanaGestionTrajes vTrajes = new VentanaGestionTrajes(rangoUsuario, idUsuario);
-		    ControladorMenuTraje cTrajes = new ControladorMenuTraje(vTrajes, rangoUsuario, idUsuario);
-		    vTrajes.setControlador(cTrajes); 
-		    vTrajes.setVisible(true);
-		    vMaestro.dispose();
+	    // EVENTO TRAJES 
+	    } else if (e.getSource().equals(vMaestro.getBtnTrajes())) {
+	        VentanaGestionTrajes vTrajes = new VentanaGestionTrajes(rangoUsuario, idUsuario);
+	        ControladorMenuTraje cTrajes = new ControladorMenuTraje(vTrajes, rangoUsuario, idUsuario);
+	        vTrajes.setControlador(cTrajes); 
+	        vTrajes.setVisible(true);
+	        vMaestro.dispose();
 
-		// CERRAR SESIÓN
-		} else if (e.getSource().equals(vMaestro.getBtnCerrarSesion())) {
-			VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
-			vLogin.setControlador(new ControladorLogin(vLogin));
-			vLogin.setVisible(true);
-			vMaestro.dispose();
-		}
+	    // CERRAR SESIÓN (Ahora este es el único que hay)
+	    } else if (e.getSource().equals(vMaestro.getBtnCerrarSesion())) {
+	        VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
+	        vLogin.setControlador(new ControladorLogin(vLogin));
+	        vLogin.setVisible(true);
+	        vMaestro.dispose();
+	    }
 	}
 }

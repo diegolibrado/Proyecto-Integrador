@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import controlador.ControladorLogin;
-// IMPORTANTE: He añadido este import para que reconozca el controlador del menú principal
 import controlador.ControladorMenuMaestro; 
 import modelo.Modelo;
 import vista.VentanaCrearCliente;
@@ -48,7 +47,8 @@ public class ControladorMenuCliente implements ActionListener {
 					}
 				}
 			}
-		} else if (e.getSource().equals(vGestionClientes.getBtnCrear())) {
+		} 
+		else if (e.getSource().equals(vGestionClientes.getBtnCrear())) {
 			VentanaCrearCliente vCrear = new VentanaCrearCliente(vGestionClientes.getRangoUsuario(), idUsuario);
 			ControladorCrearCliente cCrear = new ControladorCrearCliente(vCrear, idUsuario);
 			vCrear.setControlador(cCrear); 
@@ -56,16 +56,16 @@ public class ControladorMenuCliente implements ActionListener {
 			vCrear.setVisible(true);
 			vGestionClientes.dispose();
 			
-		} else if (e.getSource().equals(vGestionClientes.getBtnAtras())) {
+		} 
+		else if (e.getSource().equals(vGestionClientes.getBtnAtras())) {
 			VentanaMaestro vMaestro = new VentanaMaestro("Menú Principal", rangoUsuario, idUsuario);
 			ControladorMenuMaestro cMaestro = new ControladorMenuMaestro(vMaestro, rangoUsuario, idUsuario);
 			vMaestro.setControlador(cMaestro);
 			vMaestro.setVisible(true);
 			vGestionClientes.dispose();
-			
-			// ------------------------------------------------------------
             
-		} else if (e.getSource().equals(vGestionClientes.getBtnModificar())) {
+		} 
+		else if (e.getSource().equals(vGestionClientes.getBtnModificar())) {
 			int idCliente = vGestionClientes.getIdClienteSeleccionado();
 			if (idCliente == -1) {
 				JOptionPane.showMessageDialog(vGestionClientes, "Selecciona un cliente para modificar");
@@ -81,7 +81,8 @@ public class ControladorMenuCliente implements ActionListener {
 				vGestionClientes.dispose();
 			}
             
-		} else if (e.getSource().equals(vGestionClientes.getBtnCerrarSesion())) {
+		} 
+		else if (e.getSource().equals(vGestionClientes.getBtnCerrarSesion())) {
 			VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
 			ControladorLogin c = new ControladorLogin(vLogin);
 			vLogin.setControlador(c);
