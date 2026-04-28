@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.JButton;
-import controlador.ControladorMenuMaestro;
+// ActionListener
 
 public class VentanaMaestro extends JFrame {
 	
@@ -24,8 +24,8 @@ public class VentanaMaestro extends JFrame {
 
 	public VentanaMaestro(String titulo, String rango, int id) {
 		super(titulo);
-		rangoUsuario = rango;
-		idUsuario = id;
+		this.rangoUsuario = rango;
+		this.idUsuario = id;
 		configInicial();
 		inicializarComponentes();
 	}
@@ -67,7 +67,6 @@ public class VentanaMaestro extends JFrame {
 		lblTitulo.setBounds(22, 63, 298, 40);
 		getContentPane().add(lblTitulo);
 
-		// BOTÓN TALLERES
 		btnTalleres = new JButton("Talleres");
 		btnTalleres.setIcon(new ImageIcon(new ImageIcon("img\\talleres.png").getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH)));
 		btnTalleres.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -76,7 +75,6 @@ public class VentanaMaestro extends JFrame {
 		btnTalleres.setBounds(360, 96, 110, 90);
 		pnlBarraHorizontal.add(btnTalleres);
 
-		// BOTÓN CLIENTES (Corregido: ya no se redeclara la variable)
 		btnClientes = new JButton("Clientes");
 		btnClientes.setIcon(new ImageIcon(new ImageIcon("img\\clientes.png").getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH)));
 		btnClientes.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -85,7 +83,6 @@ public class VentanaMaestro extends JFrame {
 		btnClientes.setBounds(480, 96, 110, 90);
 		pnlBarraHorizontal.add(btnClientes);
 
-		// BOTÓN CITAS
 		btnCitas = new JButton("Citas");
 		btnCitas.setIcon(new ImageIcon(new ImageIcon("img\\citas.png").getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH)));
 		btnCitas.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -94,7 +91,6 @@ public class VentanaMaestro extends JFrame {
 		btnCitas.setBounds(240, 96, 110, 90);
 		pnlBarraHorizontal.add(btnCitas);
 
-		// BOTÓN TRAJES
 		btnTrajes = new JButton("Trajes");
 		btnTrajes.setIcon(new ImageIcon(new ImageIcon("img\\trajes.png").getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH)));
 		btnTrajes.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -108,7 +104,8 @@ public class VentanaMaestro extends JFrame {
 		getContentPane().add(lblFondo);
 	}
 
-	public void setControlador(ControladorMenuMaestro c) {
+	// ActionListener no está genérico para evitar errores de casteo
+	public void setControlador(ActionListener c) {
 		btnCitas.addActionListener(c);
 		btnTalleres.addActionListener(c);
 		btnTrajes.addActionListener(c);
@@ -121,4 +118,5 @@ public class VentanaMaestro extends JFrame {
 	public JButton getBtnTalleres() { return btnTalleres; }
 	public JButton getBtnClientes() { return btnClientes; }
 	public JButton getBtnCerrarSesion() { return btnCerrarSesion; }
+    public String getRangoUsuario() { return rangoUsuario; }
 }

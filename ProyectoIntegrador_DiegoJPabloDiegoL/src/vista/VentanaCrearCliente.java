@@ -3,10 +3,8 @@ package vista;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import controlador.cliente.ControladorCrearCliente;
 
 public class VentanaCrearCliente extends JFrame {
 
@@ -19,15 +17,12 @@ public class VentanaCrearCliente extends JFrame {
     private JButton btnAtras;
     private JButton btnCerrarSesion;
 
-	public VentanaCrearCliente(String rango, int id) {
-		this.rangoUsuario = rango;
-		this.idUsuario = id;
-		inicializarComponentes();
-		configInicial();
-		
-		ControladorCrearCliente controlador = new ControladorCrearCliente(this, idUsuario);
-		setControlador(controlador);
-	}
+    public VentanaCrearCliente(String rango, int id) {
+        this.rangoUsuario = rango;
+        this.idUsuario = id;
+        inicializarComponentes();
+        configInicial();
+    }
 
     private void configInicial() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -120,20 +115,15 @@ public class VentanaCrearCliente extends JFrame {
         lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
         getContentPane().add(lblFondo);
     }
-    
-    public void setControladorGuardar(ControladorCrearCliente c) {
+
+    // ASIGNACIÓN controlador de guardar, atras y cerrar sesión
+    public void setControlador(ActionListener c) {
         btnGuardarCambios.addActionListener(c);
         btnAtras.addActionListener(c);
         btnCerrarSesion.addActionListener(c);
-	}
-	
-	public void setControlador(ActionListener c) {
-		btnGuardarCambios.addActionListener(c);
-		btnAtras.addActionListener(c);
-		btnCerrarSesion.addActionListener(c);
-	}
+    }
 
-	//GETTERS
+    // GETTERS
     public String getNombreCliente() { return txtNombreCliente.getText(); }
     public String getSuperpoderCliente() { return txtSuperpoder.getText(); }
     public String getColorCliente() { return txtColores.getText(); }

@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import controlador.ControladorLogin;
+// IMPORTANTE: He añadido este import para que reconozca el controlador del menú principal
+import controlador.ControladorMenuMaestro; 
 import modelo.Modelo;
 import vista.VentanaCrearCliente;
 import vista.VentanaGestionCliente;
@@ -26,6 +28,7 @@ public class ControladorMenuCliente implements ActionListener {
 		this.idUsuario = id;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource().equals(vGestionClientes.getBtnEliminar())) {
@@ -45,18 +48,22 @@ public class ControladorMenuCliente implements ActionListener {
 					}
 				}
 			}
-			//  dentro de actionPerformed
 		} else if (e.getSource().equals(vGestionClientes.getBtnCrear())) {
-		    VentanaCrearCliente vCrear = new VentanaCrearCliente(vGestionClientes.getRangoUsuario(), idUsuario);
-		    ControladorCrearCliente cCrear = new ControladorCrearCliente(vCrear, idUsuario);
-		    vCrear.setControladorGuardar(cCrear); // ASIGNACIÓN ÚNICA
-		    vCrear.setVisible(true);
-		    vGestionClientes.dispose();
-		}
-		else if (e.getSource().equals(vGestionClientes.getBtnAtras())) {
+			VentanaCrearCliente vCrear = new VentanaCrearCliente(vGestionClientes.getRangoUsuario(), idUsuario);
+			ControladorCrearCliente cCrear = new ControladorCrearCliente(vCrear, idUsuario);
+			vCrear.setControlador(cCrear); 
+			
+			vCrear.setVisible(true);
+			vGestionClientes.dispose();
+			
+		} else if (e.getSource().equals(vGestionClientes.getBtnAtras())) {
 			VentanaMaestro vMaestro = new VentanaMaestro("Menú Principal", rangoUsuario, idUsuario);
+			ControladorMenuMaestro cMaestro = new ControladorMenuMaestro(vMaestro, rangoUsuario, idUsuario);
+			vMaestro.setControlador(cMaestro);
 			vMaestro.setVisible(true);
 			vGestionClientes.dispose();
+			
+			// ------------------------------------------------------------
             
 		} else if (e.getSource().equals(vGestionClientes.getBtnModificar())) {
 			int idCliente = vGestionClientes.getIdClienteSeleccionado();
@@ -67,7 +74,6 @@ public class ControladorMenuCliente implements ActionListener {
 				String superpoder = vGestionClientes.getSuperpoderClienteSeleccionado();
 				String colores = vGestionClientes.getColoresClienteSeleccionado();
 				
-				// Abrimos la ventana de Modificar Cliente
 				VentanaModificarCliente vModificarCliente = new VentanaModificarCliente(vGestionClientes.getRangoUsuario(), idCliente, nombre, superpoder, colores);
 				ControladorModificarCliente cModificarCliente = new ControladorModificarCliente(vModificarCliente, idUsuario);
 				vModificarCliente.setControladorModificar(cModificarCliente);
