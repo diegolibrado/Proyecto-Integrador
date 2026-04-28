@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import controlador.ControladorLogin;
+import controlador.ControladorMenuMaestro;
 import modelo.Cita;
 import modelo.Modelo;
 import modelo.Taller;
@@ -60,6 +61,8 @@ public class ControladorMenuTaller implements ActionListener {
 			vGestionTalleres.dispose();
 		} else if (e.getSource().equals(vGestionTalleres.getBtnAtras())) {
 			VentanaMaestro vMaestro = new VentanaMaestro("Gestion de citas", rangoUsuario, idUsuario);
+			ControladorMenuMaestro cMaestro = new ControladorMenuMaestro(vMaestro, rangoUsuario, idUsuario);
+			vMaestro.setControlador(cMaestro);
 			vMaestro.setVisible(true);
 			vGestionTalleres.dispose();
 		} else if (e.getSource().equals(vGestionTalleres.getBtnModificar())) {

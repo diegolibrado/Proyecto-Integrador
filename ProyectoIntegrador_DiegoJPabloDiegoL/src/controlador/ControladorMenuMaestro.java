@@ -66,12 +66,13 @@ public class ControladorMenuMaestro implements ActionListener {
 		    vMaestro.dispose();
 		} else if (e.getSource().equals(vMaestro.getBtnCerrarSesion())) {
 
-		// EVENTO TRAJES (Añadido)
+		// EVENTO TRAJES 
 		} else if (e.getSource().equals(vMaestro.getBtnTrajes())) {
-			VentanaGestionTrajes vTrajes = new VentanaGestionTrajes(rangoUsuario, idUsuario);
-			// vTrajes.cargarDatosTrajes(m.recuperarTrajes());
-			vTrajes.setVisible(true);
-			vMaestro.dispose();
+		    VentanaGestionTrajes vTrajes = new VentanaGestionTrajes(rangoUsuario, idUsuario);
+		    ControladorMenuTraje cTrajes = new ControladorMenuTraje(vTrajes, rangoUsuario, idUsuario);
+		    vTrajes.setControlador(cTrajes); 
+		    vTrajes.setVisible(true);
+		    vMaestro.dispose();
 
 		// CERRAR SESIÓN
 		} else if (e.getSource().equals(vMaestro.getBtnCerrarSesion())) {

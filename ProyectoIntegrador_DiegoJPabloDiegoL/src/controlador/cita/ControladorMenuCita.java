@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import controlador.ControladorLogin;
+import controlador.ControladorMenuMaestro;
 import modelo.Modelo;
 import vista.VentanaCrearCita;
 import vista.VentanaGestionCita;
@@ -58,8 +59,9 @@ public class ControladorMenuCita implements ActionListener {
 		} else if (e.getSource().equals(vGestionCita.getBtnAtras())) {
 			// Verificamos si es Maestro para volver al menú o al Login
 		    if (rangoUsuario.equalsIgnoreCase("Maestro")) {
-		        // ERROR: Solo creabas la ventana, pero no el controlador
 		        VentanaMaestro vMaestro = new VentanaMaestro("Menú Maestro", rangoUsuario, idUsuario);
+		        ControladorMenuMaestro cMaestro = new ControladorMenuMaestro(vMaestro, rangoUsuario, idUsuario);
+		        vMaestro.setControlador(cMaestro);
 		        vMaestro.setVisible(true); 
 		    } else {
 		        // Si es aprendiz u oficial, vuelve al login
