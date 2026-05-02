@@ -31,7 +31,7 @@ public class ControladorMenuTaller implements ActionListener {
 		rangoUsuario = rango;
 		idUsuario = id;
 	}
-
+ 
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource().equals(vGestionTalleres.getBtnEliminar())) {
@@ -53,7 +53,6 @@ public class ControladorMenuTaller implements ActionListener {
 				}
 			}
 		} else if (e.getSource().equals(vGestionTalleres.getBtnCrear())) {
-			// Abrimos la ventana de Crear y le pasamos el rango del usuario
 			VentanaCrearTaller vCrearTaller = new VentanaCrearTaller(vGestionTalleres.getRangoUsuario());
 			ControladorCrearTaller cCrearTaller = new ControladorCrearTaller(vCrearTaller, rangoUsuario, idUsuario);
 			vCrearTaller.setControladorGuardar(cCrearTaller);

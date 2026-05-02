@@ -58,8 +58,6 @@ public class VentanaModificarTaller extends JFrame {
 	}
 
 	private void inicializarComponentes() {
-
-		ControladorModificarTaller cModificarTaller = new ControladorModificarTaller(this, rangoUsuario, idUsuario);
 		
 		// Footer
 		JPanel pnlFooter = new JPanel();

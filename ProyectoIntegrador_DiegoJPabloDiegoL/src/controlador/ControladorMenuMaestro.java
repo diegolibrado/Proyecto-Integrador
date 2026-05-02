@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 import controlador.cita.ControladorMenuCita;
 import controlador.taller.ControladorMenuTaller;
-import controlador.cliente.ControladorMenuCliente; // Asegúrate de que este import exista
+import controlador.cliente.ControladorMenuCliente;
+import controlador.traje.ControladorMenuTraje;
 import modelo.Cita;
 import modelo.Modelo;
 import modelo.Taller;
@@ -15,7 +16,7 @@ import modelo.Traje;
 import vista.VentanaGestionCita;
 import vista.VentanaGestionCliente;
 import vista.VentanaGestionTalleres;
-import vista.VentanaGestionTrajes; // Importamos la de trajes
+import vista.VentanaGestionTrajes;
 import vista.VentanaLogin;
 import vista.VentanaMaestro;
 
@@ -33,22 +34,26 @@ public class ControladorMenuMaestro implements ActionListener {
 		idUsuario = id;
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 
-	    // EVENTO CITAS
+	    // Citas
 	    if (e.getSource().equals(vMaestro.getBtnCitas())) {
 	        VentanaGestionCita vGestionCitas = new VentanaGestionCita(rangoUsuario, idUsuario);
 	        ControladorMenuCita cCitas = new ControladorMenuCita(vGestionCitas, rangoUsuario, idUsuario);
 	        vGestionCitas.setControlador(cCitas);
 
-	        ArrayList<Cita> datosCitas = (rangoUsuario.equals("Aprendiz")) ? m.recuperarCitasPropias(idUsuario) : m.recuperarCitas();
+	        ArrayList<Cita> datosCitas;
+	        if (rangoUsuario.equals("Aprendiz")) {
+	            datosCitas = m.recuperarCitasPropias(idUsuario);
+	        } else {
+	            datosCitas = m.recuperarCitas();
+	        }
 	        
 	        vGestionCitas.cargarDatosCitas(datosCitas);
 	        vGestionCitas.setVisible(true);
 	        vMaestro.dispose();
 
-	    // EVENTO TALLERES
+	    // Talleres
 	    } else if (e.getSource().equals(vMaestro.getBtnTalleres())) {
 	        VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(rangoUsuario, idUsuario);
 	        ControladorMenuTaller cMenuTaller = new ControladorMenuTaller(vGestionTalleres, rangoUsuario, idUsuario);
@@ -57,7 +62,7 @@ public class ControladorMenuMaestro implements ActionListener {
 	        vGestionTalleres.setVisible(true);
 	        vMaestro.dispose();
 
-	    // EVENTO CLIENTES
+	    // Clientes
 	    } else if (e.getSource().equals(vMaestro.getBtnClientes())) {
 	        VentanaGestionCliente vGestionClientes = new VentanaGestionCliente(rangoUsuario, idUsuario);
 	        // OJO: Aquí te faltaba el controlador para que no se te quede muerta la ventana de clientes
@@ -69,15 +74,16 @@ public class ControladorMenuMaestro implements ActionListener {
 	        vGestionClientes.setVisible(true);
 	        vMaestro.dispose();
 
-	    // EVENTO TRAJES 
+	    // Trajes 
 	    } else if (e.getSource().equals(vMaestro.getBtnTrajes())) {
-	        VentanaGestionTrajes vTrajes = new VentanaGestionTrajes(rangoUsuario, idUsuario);
-	        ControladorMenuTraje cTrajes = new ControladorMenuTraje(vTrajes, rangoUsuario, idUsuario);
-	        vTrajes.setControlador(cTrajes); 
-	        vTrajes.setVisible(true);
+	        VentanaGestionTrajes vGestionTrajes = new VentanaGestionTrajes(rangoUsuario, idUsuario);
+	        ControladorMenuTraje cMenuTrajes = new ControladorMenuTraje(vGestionTrajes, rangoUsuario, idUsuario);
+	        vGestionTrajes.setControlador(cMenuTrajes); 
+	        vGestionTrajes.cargarDatosTrajes(m.recuperarTrajes());
+	        vGestionTrajes.setVisible(true);
 	        vMaestro.dispose();
 
-	    // CERRAR SESIÓN (Ahora este es el único que hay)
+	    // Cerrar Sesion
 	    } else if (e.getSource().equals(vMaestro.getBtnCerrarSesion())) {
 	        VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
 	        vLogin.setControlador(new ControladorLogin(vLogin));

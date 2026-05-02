@@ -65,7 +65,7 @@ public class VentanaCrearCita extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("© 2026 Payo-Vallecano, Inc. Todos los derechos reservados");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
-		lblNewLabel_1.setFont(new Font("Verdana", Font.PLAIN, 10));
+		lblNewLabel_1.setFont(new Font("Verdana", Font.PLAIN, 10)); 
 		pnlFooter.add(lblNewLabel_1);
 
 		// Panel horizontal principal
@@ -102,7 +102,7 @@ public class VentanaCrearCita extends JFrame {
 		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
 		java.awt.Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
 		btnAtras.setIcon(new ImageIcon(imgAtras));
-		btnAtras.setBackground(new Color(165, 191, 201));
+		btnAtras.setBackground(new Color(165, 191, 201)); 
 		btnAtras.setBounds(22, 11, 30, 30);
 		getContentPane().add(btnAtras);
 
@@ -247,6 +247,7 @@ public class VentanaCrearCita extends JFrame {
 	    btnCerrarSesion.addActionListener(c);
 	    cmbNombreCliente.addActionListener(c);
 	    cmbNombreTraje.addActionListener(c);
+	    btnAtras.addActionListener(c);
 	}
 	
 	// Getters y Setters

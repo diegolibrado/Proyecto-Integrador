@@ -16,20 +16,23 @@ import javax.swing.table.DefaultTableModel;
 
 import controlador.taller.ControladorCrearTaller;
 import controlador.taller.ControladorModificarTaller;
+import controlador.traje.ControladorCrearTraje;
 import modelo.Modelo;
 
-public class VentanaCrearTaller extends JFrame {
+public class VentanaCrearTraje extends JFrame {
 
 	private String rangoUsuario;
-	private JTextField txtIdTaller;
-	private JTextField txtNombreTaller;
-	private JComboBox<String> cmbTipoSala; // AHORA ES UN JCOMBOBOX
+	private String ventanaOrigen;
+	private JTextField txtIdTraje;
+	private JTextField txtNombreTraje;
+	private JComboBox<String> cmbEstado;
 	private JButton btnGuardarCambios;
 	private JButton btnAtras;
 	private JButton btnCerrarSesion;
 	
-	public VentanaCrearTaller(String rango) {
+	public VentanaCrearTraje(String rango, String origen) {
 		this.rangoUsuario = rango;
+		this.ventanaOrigen = origen;
 		inicializarComponentes();
 		configInicial();
 	}
@@ -71,7 +74,7 @@ public class VentanaCrearTaller extends JFrame {
 		getContentPane().add(btnCerrarSesion);
 
 		// Titulo Pagina
-		JLabel lblTitulo = new JLabel("Crear Taller");
+		JLabel lblTitulo = new JLabel("Crear Traje");
 		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
 		lblTitulo.setBounds(22, 63, 333, 40);
@@ -104,39 +107,39 @@ public class VentanaCrearTaller extends JFrame {
 		// --- COMPONENTES DEL FORMULARIO ---
 		
 		// 1. ID Taller
-		JLabel lblIdTaller = new JLabel("ID del Taller:");
-		lblIdTaller.setFont(new Font("Verdana", Font.BOLD, 14));
-		lblIdTaller.setBounds(50, 40, 150, 30);
-		pnlFormulario.add(lblIdTaller);
+		JLabel lblIdTraje = new JLabel("ID del Traje:");
+		lblIdTraje.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblIdTraje.setBounds(50, 40, 150, 30);
+		pnlFormulario.add(lblIdTraje);
 		
-		txtIdTaller = new JTextField();
-		txtIdTaller.setFont(new Font("Verdana", Font.PLAIN, 14));
-		txtIdTaller.setBounds(200, 40, 255, 30);
-		pnlFormulario.add(txtIdTaller);
+		txtIdTraje = new JTextField();
+		txtIdTraje.setFont(new Font("Verdana", Font.PLAIN, 14));
+		txtIdTraje.setBounds(200, 40, 255, 30);
+		pnlFormulario.add(txtIdTraje);
 
 		// 2. Nombre del Taller
-		JLabel lblNombreTaller = new JLabel("Nombre:");
-		lblNombreTaller.setFont(new Font("Verdana", Font.BOLD, 14));
-		lblNombreTaller.setBounds(50, 100, 150, 30);
-		pnlFormulario.add(lblNombreTaller);
+		JLabel lblNombreTraje = new JLabel("Nombre:");
+		lblNombreTraje.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblNombreTraje.setBounds(50, 100, 150, 30);
+		pnlFormulario.add(lblNombreTraje);
 		
-		txtNombreTaller = new JTextField();
-		txtNombreTaller.setFont(new Font("Verdana", Font.PLAIN, 14));
-		txtNombreTaller.setBounds(200, 100, 255, 30);
-		pnlFormulario.add(txtNombreTaller);
+		txtNombreTraje = new JTextField();
+		txtNombreTraje.setFont(new Font("Verdana", Font.PLAIN, 14));
+		txtNombreTraje.setBounds(200, 100, 255, 30);
+		pnlFormulario.add(txtNombreTraje);
 
 		// 3. Tipo de Sala
-		JLabel lblTipoSala = new JLabel("Tipo de Sala:");
-		lblTipoSala.setFont(new Font("Verdana", Font.BOLD, 14));
-		lblTipoSala.setBounds(50, 160, 150, 30);
-		pnlFormulario.add(lblTipoSala);
+		JLabel lblEstado = new JLabel("Estado");
+		lblEstado.setFont(new Font("Verdana", Font.BOLD, 14));
+		lblEstado.setBounds(50, 160, 150, 30);
+		pnlFormulario.add(lblEstado);
 		
 		// Opciones para el desplegable
-		cmbTipoSala = new JComboBox<>(new String[] {"Diseño", "Costura", "Pruebas"});
-		cmbTipoSala.setFont(new Font("Verdana", Font.PLAIN, 14));
-		cmbTipoSala.setBounds(200, 160, 255, 30);
-		cmbTipoSala.setBackground(Color.WHITE); 
-		pnlFormulario.add(cmbTipoSala);
+		cmbEstado = new JComboBox<>(new String[] {"en diseño", "costura", "taller"});
+		cmbEstado.setFont(new Font("Verdana", Font.PLAIN, 14));
+		cmbEstado.setBounds(200, 160, 255, 30);
+		cmbEstado.setBackground(Color.WHITE); 
+		pnlFormulario.add(cmbEstado);
 
 		// FONDO
 		JLabel lblFondo = new JLabel("");
@@ -147,41 +150,23 @@ public class VentanaCrearTaller extends JFrame {
 	
 	/**
 	 * Metodo que llamaremos desde el controlador
-	 * @param c
+	 * @param cCrearTraje
 	 */
-	public void setControladorGuardar(ControladorCrearTaller c) {
-	    btnGuardarCambios.addActionListener(c);
-	    btnAtras.addActionListener(c);
-	    btnCerrarSesion.addActionListener(c);
+	public void setControladorGuardar(ControladorCrearTraje cCrearTraje) {
+	    btnGuardarCambios.addActionListener(cCrearTraje);
+	    btnAtras.addActionListener(cCrearTraje);
+	    btnCerrarSesion.addActionListener(cCrearTraje);
 	}
 
-	public String getRangoUsuario() {
-		return rangoUsuario;
-	}
-
-	public String getIdTaller() {
-		return txtIdTaller.getText();
-	} 
-
-	public String getNombreTaller() {
-		return txtNombreTaller.getText();
-	}
-
-	public String getTipoSala() {
-		return cmbTipoSala.getSelectedItem().toString();
-	}
-
-	public JButton getBtnAtras() {
-		return btnAtras;
-	}
-
-	public JButton getBtnCerrarSesion() {
-		return btnCerrarSesion;
-	}
-
-	public JButton getBtnGuardarCambios() {
-		return btnGuardarCambios;
-	}
-	
-	
+	public String getRangoUsuario() { return rangoUsuario; }
+	public String getIdTaller() { return txtIdTraje.getText(); }
+	public String getNombreTaller() { return txtNombreTraje.getText(); }
+	public String getTipoSala() { return cmbEstado.getSelectedItem().toString(); }
+	public JButton getBtnAtras() { return btnAtras; }
+	public JButton getBtnCerrarSesion() { return btnCerrarSesion; }
+	public JButton getBtnGuardarCambios() { return btnGuardarCambios; }
+	public String getIdTraje() { return txtIdTraje.getText(); } 
+	public String getNombreTraje() { return txtNombreTraje.getText(); }
+	public String getEstado() { return cmbEstado.getSelectedItem().toString(); }
+	public String getVentanaOrigen() { return ventanaOrigen; }	
 }

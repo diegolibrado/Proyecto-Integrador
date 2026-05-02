@@ -49,7 +49,7 @@ public class ControladorMenuCliente implements ActionListener {
 			}
 		} 
 		else if (e.getSource().equals(vGestionClientes.getBtnCrear())) {
-			VentanaCrearCliente vCrear = new VentanaCrearCliente(vGestionClientes.getRangoUsuario(), idUsuario);
+			VentanaCrearCliente vCrear = new VentanaCrearCliente(vGestionClientes.getRangoUsuario(), idUsuario, "Gestion");
 			ControladorCrearCliente cCrear = new ControladorCrearCliente(vCrear, idUsuario);
 			vCrear.setControlador(cCrear); 
 			

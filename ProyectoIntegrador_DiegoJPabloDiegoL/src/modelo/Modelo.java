@@ -15,7 +15,7 @@ public class Modelo {
 	private static final String driver = "com.mysql.cj.jdbc.Driver";
 	private static final String url = "jdbc:mysql://localhost:3306/Proyecto-Integrador";
 	private static final String usuario = "root";
-	private static final String contrasena = "1234";
+	private static final String contrasena = "2004";
 
 	/**
 	 * Método para conectar la base de datos * @return
@@ -35,7 +35,7 @@ public class Modelo {
 			e.printStackTrace();
 		}
 
-		return conexion;
+		return conexion; 
 	}
 
 	/**
@@ -59,18 +59,12 @@ public class Modelo {
 		ArrayList<Cita> citas = new ArrayList<Cita>();
 		Connection conexion = getConexion();
 
-		String query = "SELECT c.id_cita, c.dia, c.hora, c.duracion, " +
-		        "cl.nombre AS nombre_cliente, " +
-		        "ta.nombre_sala AS nombre_taller, " +
-		        "e.nombre AS nombre_empleado, " +
-		        "tr.nombre AS nombre_traje, " +
-		        "c.id_cliente, c.id_taller, c.id_traje, c.id_empleado_responsable " +
-		        "FROM CITA c " +
-		        "JOIN CLIENTE cl ON c.id_cliente = cl.id_cliente " +
-		        "JOIN TALLER ta ON c.id_taller = ta.id_taller " +
-		        "JOIN TRAJE tr ON c.id_traje = tr.id_traje " +
-		        "JOIN EMPLEADO e ON c.id_empleado_responsable = e.id_empleado " +
-		        "ORDER BY c.dia";
+		String query = "SELECT c.id_cita, c.dia, c.hora, c.duracion, " + "cl.nombre AS nombre_cliente, "
+				+ "ta.nombre_sala AS nombre_taller, " + "e.nombre AS nombre_empleado, " + "tr.nombre AS nombre_traje, "
+				+ "c.id_cliente, c.id_taller, c.id_traje, c.id_empleado_responsable " + "FROM CITA c "
+				+ "JOIN CLIENTE cl ON c.id_cliente = cl.id_cliente " + "JOIN TALLER ta ON c.id_taller = ta.id_taller "
+				+ "JOIN TRAJE tr ON c.id_traje = tr.id_traje "
+				+ "JOIN EMPLEADO e ON c.id_empleado_responsable = e.id_empleado " + "ORDER BY c.dia";
 		try {
 			Statement st = conexion.createStatement();
 			ResultSet rs = st.executeQuery(query);
@@ -233,7 +227,7 @@ public class Modelo {
 
 	public ArrayList<String> recuperarNombresEmpleados() {
 		ArrayList<String> lista = new ArrayList<>();
-		String query = "SELECT nombre FROM EMPLEADO"; // O el filtro que necesites
+		String query = "SELECT nombre FROM EMPLEADO";
 		try {
 			Connection con = getConexion();
 			Statement st = con.createStatement();
@@ -249,13 +243,12 @@ public class Modelo {
 
 	public ArrayList<String> recuperarNombresTalleres() {
 		ArrayList<String> lista = new ArrayList<>();
-		String sql = "SELECT nombre_sala FROM TALLER"; // Asegúrate de que la columna es la correcta
+		String sql = "SELECT nombre_sala FROM TALLER"; 
 		try (Connection con = getConexion();
 				Statement st = con.createStatement();
 				ResultSet rs = st.executeQuery(sql)) {
 
 			while (rs.next()) {
-				// EL TRUCO: Tienes que sacar el String de la columna, no crear un objeto Taller
 				lista.add(rs.getString("nombre_sala"));
 			}
 		} catch (SQLException e) {
@@ -266,7 +259,6 @@ public class Modelo {
 
 	public ArrayList<String> recuperarNombresClientes() {
 		ArrayList<String> lista = new ArrayList<>();
-		// Ajusta el nombre de la tabla y columna según tu base de datos
 		String sql = "SELECT nombre FROM CLIENTE";
 
 		try (Connection con = getConexion();
@@ -274,7 +266,6 @@ public class Modelo {
 				ResultSet rs = st.executeQuery(sql)) {
 
 			while (rs.next()) {
-				// Extraemos solo la cadena de texto de la columna "nombre"
 				lista.add(rs.getString("nombre"));
 			}
 
@@ -393,7 +384,7 @@ public class Modelo {
 	public boolean eliminarTaller(int idTaller) {
 		String query = "DELETE FROM TALLER WHERE id_taller = ?";
 		Connection conexion = getConexion();
-		
+
 		try {
 			PreparedStatement pst = conexion.prepareStatement(query);
 			pst.setInt(1, idTaller);
@@ -431,7 +422,7 @@ public class Modelo {
 
 		return false;
 	}
-	
+
 	public boolean crearCita(Cita cita) {
 		String query = "INSERT INTO CITA (id_cita, dia, hora, duracion, id_cliente, id_taller, id_empleado_responsable, id_traje) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		Connection conexion = getConexion();
@@ -440,7 +431,7 @@ public class Modelo {
 			PreparedStatement pst = conexion.prepareStatement(query);
 			pst.setInt(1, cita.getId_cita());
 			pst.setDate(2, new java.sql.Date(cita.getDia().getTime()));
-			pst.setTime(3, cita.getHora());			
+			pst.setTime(3, cita.getHora());
 			pst.setInt(4, cita.getDuracion());
 			pst.setInt(5, cita.getId_cliente());
 			pst.setInt(6, cita.getId_taller());
@@ -450,7 +441,8 @@ public class Modelo {
 			int filasAfectadas = pst.executeUpdate();
 			return filasAfectadas > 0;
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Detalle del error de SQL:\n" + e.getMessage(), "Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Detalle del error de SQL:\n" + e.getMessage(),
+					"Error de Base de Datos", JOptionPane.ERROR_MESSAGE);
 			System.err.println("Error al insertar cita: " + e.getMessage());
 			return false;
 		} finally {
@@ -485,13 +477,13 @@ public class Modelo {
 			PreparedStatement pst = conexion.prepareStatement(query);
 
 			pst.setDate(1, new java.sql.Date(cita.getDia().getTime()));
-	        pst.setTime(2, cita.getHora());
-	        pst.setInt(3, cita.getDuracion());
-	        pst.setInt(4, cita.getId_cliente());
-	        pst.setInt(5, cita.getId_taller());
-	        pst.setInt(6, cita.getId_empleado());
-	        pst.setInt(7, cita.getId_traje());
-	        pst.setInt(8, cita.getId_cita());
+			pst.setTime(2, cita.getHora());
+			pst.setInt(3, cita.getDuracion());
+			pst.setInt(4, cita.getId_cliente());
+			pst.setInt(5, cita.getId_taller());
+			pst.setInt(6, cita.getId_empleado());
+			pst.setInt(7, cita.getId_traje());
+			pst.setInt(8, cita.getId_cita());
 
 			int filasAfectadas = pst.executeUpdate();
 			return filasAfectadas > 0;
@@ -503,7 +495,7 @@ public class Modelo {
 			cerrarConexion(conexion);
 		}
 	}
-	
+
 	// Métodos para obtener los Id a partir del nombre (crearCita)
 	public int obtenerIdClientePorNombre(String nombre) {
 		int id = -1;
@@ -559,6 +551,84 @@ public class Modelo {
 			e.printStackTrace();
 		}
 		return id;
+	}
+
+	// TRAJES
+	public ArrayList<Traje> recuperarTrajes() {
+		ArrayList<Traje> trajes = new ArrayList<Traje>();
+		Connection conexion = getConexion();
+		String query = "SELECT id_traje, nombre, estado FROM TRAJE";
+		try {
+			Statement st = conexion.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			while (rs.next()) {
+				Traje t = new Traje();
+				t.setId_traje(rs.getInt("id_traje"));
+				t.setNombre(rs.getString("nombre"));
+				t.setEstado(rs.getString("estado"));
+				trajes.add(t);
+			}
+		} catch (SQLException e) {
+			System.err.println("Error al recuperar trajes: " + e.getMessage());
+		} finally {
+			cerrarConexion(conexion);
+		}
+		return trajes;
+	}
+
+	public boolean crearTraje(Traje traje) {
+		String query = "INSERT INTO TRAJE (id_traje, nombre, estado) VALUES (?, ?, ?)";
+		Connection conexion = getConexion();
+		try {
+			PreparedStatement pst = conexion.prepareStatement(query);
+			pst.setInt(1, traje.getId_traje());
+			pst.setString(2, traje.getNombre());
+			pst.setString(3, traje.getEstado());
+			return pst.executeUpdate() > 0;
+		} catch (SQLException sqlex) {
+			System.err.println("Error al crear el traje: " + sqlex.getMessage());
+			return false;
+		} finally {
+			cerrarConexion(conexion);
+		}
+	}
+
+	public boolean eliminarTraje(int idTraje) {
+		String query = "DELETE FROM TRAJE WHERE id_traje = ?";
+		Connection conexion = getConexion();
+		try {
+			PreparedStatement pst = conexion.prepareStatement(query);
+			pst.setInt(1, idTraje);
+			return pst.executeUpdate() > 0;
+		} catch (SQLException sqlex) {
+			System.err.println("Error al eliminar traje: " + sqlex.getMessage());
+			return false;
+		} finally {
+			cerrarConexion(conexion);
+		}
+	}
+	
+	public boolean modificarTraje(Traje traje) {
+		String query = "UPDATE TRAJE SET nombre = ?, estado = ? WHERE id_traje = ?";
+		Connection conexion = getConexion();
+
+		try {
+			PreparedStatement pst = conexion.prepareStatement(query);
+
+			pst.setString(1, traje.getNombre());
+			pst.setString(2, traje.getEstado());
+			pst.setInt(3, traje.getId_traje());
+
+			int filasAfectadas = pst.executeUpdate();
+			return filasAfectadas > 0;
+
+		} catch (SQLException sqlex) {
+			System.err.println("Error al modificar el traje: " + sqlex.getMessage());
+		} finally {
+			cerrarConexion(conexion);
+		}
+
+		return false;
 	}
 
 }

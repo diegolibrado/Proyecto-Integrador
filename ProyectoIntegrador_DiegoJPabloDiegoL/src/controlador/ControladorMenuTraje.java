@@ -22,13 +22,10 @@ public class ControladorMenuTraje implements ActionListener {
 	private int idUsuario;
 
 	public ControladorMenuTraje(VentanaGestionTrajes v, String rango, int id) {
-		this.vTrajes = v;
-		this.m = new Modelo();
-		this.rangoUsuario = rango;
-		this.idUsuario = id;
-		
-		// Al instanciar el controlador, cargamos los datos directamente
-		cargarDatosTrajes();
+		vTrajes = v;
+		m = new Modelo();
+		rangoUsuario = rango;
+		idUsuario = id;
 	}
 
 	@Override
@@ -49,31 +46,14 @@ public class ControladorMenuTraje implements ActionListener {
 			vLogin.setControlador(c);
 			vLogin.setVisible(true);
 			vTrajes.dispose();
-		}
-	}
-
-	public void cargarDatosTrajes() {
-		DefaultTableModel modeloTabla = vTrajes.getModeloTabla();
-		modeloTabla.setRowCount(0); 
-
-		Connection conexion = m.getConexion();
-		String query = "SELECT t.id_traje, t.nombre, t.estado, cl.nombre AS cliente " + 
-		               "FROM TRAJE t " + 
-				       "JOIN CLIENTE cl ON t.id_cliente = cl.id_cliente";
 		
-		try (Statement st = conexion.createStatement(); ResultSet rs = st.executeQuery(query)) {
-			while (rs.next()) {
-				Object[] fila = new Object[4];
-				fila[0] = rs.getInt("id_traje");
-				fila[1] = rs.getString("nombre");
-				fila[2] = rs.getString("estado");
-				fila[3] = rs.getString("cliente");
-				modeloTabla.addRow(fila);
-			}
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Error de SQL al cargar trajes: " + e.getMessage());
-		} finally {
-			m.cerrarConexion(conexion);
+		} else if (e.getSource().equals(vTrajes.getBtnCrear())){
+			
+		} else if(e.getSource().equals(vTrajes.getBtnEliminar())) {
+			
+		} else if (e.getSource().equals(vTrajes.getBtnModificar())) {
+			
 		}
 	}
+
 }

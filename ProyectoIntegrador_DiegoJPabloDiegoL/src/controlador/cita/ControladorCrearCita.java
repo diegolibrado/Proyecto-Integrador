@@ -10,9 +10,12 @@ import modelo.Modelo;
 import vista.VentanaCrearCita;
 import vista.VentanaLogin;
 import vista.VentanaGestionCita;
+import vista.VentanaGestionTalleres;
 import vista.VentanaCrearCliente;
+import vista.VentanaCrearTraje;
 import controlador.ControladorLogin;
 import controlador.cliente.ControladorCrearCliente;
+import controlador.traje.ControladorCrearTraje;
 
 public class ControladorCrearCita implements ActionListener {
 
@@ -30,7 +33,7 @@ public class ControladorCrearCita implements ActionListener {
 		ArrayList<String> listaClientes = modelo.recuperarNombresClientes();
 		ArrayList<String> listaTalleres = modelo.recuperarNombresTalleres();
 		ArrayList<String> listaEmpleados = modelo.recuperarNombresEmpleados();
-		ArrayList<String> listaTrajes = modelo.recuperarNombresTrajes();
+		ArrayList<String> listaTrajes = modelo.recuperarNombresTrajes(); 
 
 		// Llamamos al método de la vista que acabas de corregir
 		this.vista.rellenarComboBox(listaClientes, listaTalleres, listaEmpleados, listaTrajes);
@@ -41,19 +44,19 @@ public class ControladorCrearCita implements ActionListener {
 		// --- 1. DETECTAR SELECCIÓN EN COMBO CLIENTE ---
 		if (e.getSource().equals(vista.getNombreCliente())) {
 			if (vista.getNombreCliente().getSelectedIndex() == 0) {
-				VentanaCrearCliente vCrearCliente = new VentanaCrearCliente(rangoUsuario, idUsuario);
+				VentanaCrearCliente vCrearCliente = new VentanaCrearCliente(rangoUsuario, idUsuario, "Crear Cita");
 				ControladorCrearCliente cCrearCliente = new ControladorCrearCliente(vCrearCliente, idUsuario);
 				vCrearCliente.setControlador(cCrearCliente);
 				vCrearCliente.setVisible(true);
 				vista.dispose();
 				return;
-			}
+			} 
 		} else if (e.getSource().equals(vista.getNombreTraje())) {
 			if (vista.getNombreTraje().getSelectedIndex() == 0) {
-				// Aquí abrimos la ventana de creación de trajes
-//				VentanaCrearTrajes vCrearTraje = new VentanaCrearTraje(rangoUsuario);
-//				vCrearTraje.setVisible(true);
-				JOptionPane.showMessageDialog(vista, "Redirigiendo a la creación de trajes...");
+				VentanaCrearTraje vCrearTraje = new VentanaCrearTraje(rangoUsuario, "Crear Cita");
+				controlador.traje.ControladorCrearTraje cCrearTraje = new ControladorCrearTraje(vCrearTraje, rangoUsuario, idUsuario);
+				vCrearTraje.setControladorGuardar(cCrearTraje);
+				vCrearTraje.setVisible(true);
 				vista.dispose();
 				return;
 			}
@@ -134,6 +137,12 @@ public class ControladorCrearCita implements ActionListener {
 			} catch (NullPointerException npe) {
 				JOptionPane.showMessageDialog(vista, "Error: Debe rellenar todos los campos");
 			}
+		} else if(e.getSource().equals(vista.getBtnAtras())) {
+			VentanaGestionCita vGestionCita = new VentanaGestionCita(vista.getRangoUsuario(), idUsuario);
+			vGestionCita.cargarDatosCitas(modelo.recuperarCitas());
+			vGestionCita.setVisible(true);
+		    vista.dispose();
+		    return;
 		}
 	}
 }

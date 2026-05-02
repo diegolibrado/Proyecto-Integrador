@@ -16,10 +16,12 @@ public class VentanaCrearCliente extends JFrame {
 	private JButton btnGuardarCambios;
 	private JButton btnAtras;
 	private JButton btnCerrarSesion;
+	private String ventanaOrigen;
 
-	public VentanaCrearCliente(String rango, int id) {
+	public VentanaCrearCliente(String rango, int id, String origen) {
 		this.rangoUsuario = rango;
 		this.idUsuario = id;
+		this.ventanaOrigen = origen;
 		inicializarComponentes();
 		configInicial();
 	}
@@ -137,10 +139,11 @@ public class VentanaCrearCliente extends JFrame {
 	public String getNombreCliente() { return txtNombreCliente.getText(); }
 	public String getSuperpoderCliente() { return txtSuperpoder.getText(); }
 	public String getColorCliente() { return txtColores.getText(); }
-	
+	 
 	// getters para que el controlador acceda a los botones
 	public JButton getBtnGuardarCambios() { return btnGuardarCambios; }
 	public JButton getBtnAtras() { return btnAtras; }
 	public JButton getBtnCerrarSesion() { return btnCerrarSesion; }
+	public String getVentanaOrigen() {return ventanaOrigen; }
 	public String getRangoUsuario() { return rangoUsuario; }
 }

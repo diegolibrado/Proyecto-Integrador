@@ -9,6 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
+
+import controlador.ControladorMenuMaestro;
+
 import javax.swing.JButton;
 // ActionListener
 
@@ -105,12 +108,12 @@ public class VentanaMaestro extends JFrame {
 	}
 
 	// ActionListener no está genérico para evitar errores de casteo
-	public void setControlador(ActionListener c) {
-		btnCitas.addActionListener(c);
-		btnTalleres.addActionListener(c);
-		btnTrajes.addActionListener(c);
-		btnClientes.addActionListener(c);
-		btnCerrarSesion.addActionListener(c);
+	public void setControlador(ControladorMenuMaestro c) {
+	    btnCitas.addActionListener(c);
+	    btnTalleres.addActionListener(c);
+	    btnClientes.addActionListener(c);
+	    btnTrajes.addActionListener(c);
+	    btnCerrarSesion.addActionListener(c);
 	}
 	
 	public JButton getBtnCitas() { return btnCitas; }
