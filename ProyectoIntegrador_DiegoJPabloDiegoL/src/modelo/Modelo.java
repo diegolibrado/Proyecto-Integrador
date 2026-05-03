@@ -35,7 +35,7 @@ public class Modelo {
 			e.printStackTrace();
 		}
 
-		return conexion; 
+		return conexion;
 	}
 
 	/**
@@ -243,7 +243,7 @@ public class Modelo {
 
 	public ArrayList<String> recuperarNombresTalleres() {
 		ArrayList<String> lista = new ArrayList<>();
-		String sql = "SELECT nombre_sala FROM TALLER"; 
+		String sql = "SELECT nombre_sala FROM TALLER";
 		try (Connection con = getConexion();
 				Statement st = con.createStatement();
 				ResultSet rs = st.executeQuery(sql)) {
@@ -596,6 +596,7 @@ public class Modelo {
 	public boolean eliminarTraje(int idTraje) {
 		String query = "DELETE FROM TRAJE WHERE id_traje = ?";
 		Connection conexion = getConexion();
+		
 		try {
 			PreparedStatement pst = conexion.prepareStatement(query);
 			pst.setInt(1, idTraje);
@@ -607,21 +608,18 @@ public class Modelo {
 			cerrarConexion(conexion);
 		}
 	}
-	
+
 	public boolean modificarTraje(Traje traje) {
 		String query = "UPDATE TRAJE SET nombre = ?, estado = ? WHERE id_traje = ?";
 		Connection conexion = getConexion();
 
 		try {
 			PreparedStatement pst = conexion.prepareStatement(query);
-
 			pst.setString(1, traje.getNombre());
 			pst.setString(2, traje.getEstado());
 			pst.setInt(3, traje.getId_traje());
-
 			int filasAfectadas = pst.executeUpdate();
 			return filasAfectadas > 0;
-
 		} catch (SQLException sqlex) {
 			System.err.println("Error al modificar el traje: " + sqlex.getMessage());
 		} finally {
@@ -629,6 +627,24 @@ public class Modelo {
 		}
 
 		return false;
+	}
+
+	public String obtenerNombreEmpleado(int id) {
+	    String nombre = "";
+	    String query = "SELECT nombre FROM EMPLEADO WHERE id_empleado = ?";
+    	Connection con = getConexion(); 
+
+	    try {
+	        PreparedStatement ps = con.prepareStatement(query);	
+	        ps.setInt(1, id);
+	        ResultSet rs = ps.executeQuery();    
+	        if (rs.next()) {
+	            nombre = rs.getString("nombre");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return nombre;
 	}
 
 }

@@ -7,6 +7,9 @@ import javax.swing.border.LineBorder;
 import vista.VentanaLogin;
 import javax.swing.table.DefaultTableModel;
 
+import controlador.ControladorMenuAprendiz;
+import controlador.ControladorMenuMaestro;
+import modelo.Cita;
 import modelo.Modelo;
 
 import javax.swing.JLabel;
@@ -21,6 +24,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
@@ -31,6 +35,7 @@ public class VentanaAprendiz extends JFrame {
 
 	private DefaultTableModel modeloTabla;
 	private JTable table;
+	private JButton btnCerrarSesion;
 
 	public VentanaAprendiz(String titulo) {
 		super(titulo);
@@ -69,18 +74,7 @@ public class VentanaAprendiz extends JFrame {
 		pnlBarraHorizontal.setLayout(null);
 
 		// Boton Cerrar Sesion
-		JButton btnCerrarSesion = new JButton("Cerrar sesión");
-		btnCerrarSesion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentanaLogin vLogin = new VentanaLogin("Inicio de Sesión");
-				// Creo objeto tipo controlador asociado a la nueva ventana para que pueda
-				// volver a iniciar sesion
-				controlador.ControladorLogin c = new controlador.ControladorLogin(vLogin);
-				vLogin.setControlador(c);
-				vLogin.setVisible(true);
-				dispose();
-			}
-		});
+		btnCerrarSesion = new JButton("Cerrar sesión");
 		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCerrarSesion.setBackground(new Color(165, 191, 201));
 		btnCerrarSesion.setBounds(787, 68, 135, 30);
@@ -129,4 +123,20 @@ public class VentanaAprendiz extends JFrame {
 		lblFondo.setIcon(new ImageIcon("img\\fondo.jpeg"));
 
 	}
+	
+	public void setControlador(ControladorMenuAprendiz c) {
+	    btnCerrarSesion.addActionListener(c);
+	}
+	
+	public void cargarDatosCitas(ArrayList<Cita> citas) {
+	    modeloTabla.setRowCount(0);
+	    for (modelo.Cita c : citas) {
+	        Object[] fila = {c.getDia(), c.getHora(), c.getDuracion(), c.getNombreCliente(), 
+	                         c.getNombreTaller(), c.getNombreEmpleadoResponsable(), c.getNombreTraje()};
+	        modeloTabla.addRow(fila);
+	    }
+	}
+
+	public JButton getBtnCerrarSesion() { return btnCerrarSesion; }
+	
 }

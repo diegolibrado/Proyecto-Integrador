@@ -62,7 +62,7 @@ public class VentanaGestionCita extends JFrame {
 		if (rangoUsuario.equals("Maestro")) {
 			lblTitulo.setText("Gestion de Citas");
 		} else if (rangoUsuario.equals("Oficial")) {
-			btnCrearCita.setVisible(false);
+			btnCrearCita.setVisible(true);
 			btnEliminarCita.setVisible(true);
 			btnModificarCita.setVisible(true);
 			lblTitulo.setText("Gestion de citas");

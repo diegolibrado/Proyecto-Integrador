@@ -32,22 +32,30 @@ public class ControladorMenuCita implements ActionListener {
 
 		// ELIMINAR
 		if (e.getSource().equals(vGestionCita.getBtnEliminarCita())) {
-			int idCita = vGestionCita.getIdCitaSeleccionado();
-			if (idCita == -1) {
-				JOptionPane.showMessageDialog(vGestionCita, "Selecciona la cita que desea eliminar");
-			} else {
-				int confirmacion = JOptionPane.showConfirmDialog(vGestionCita,
-						"¿Seguro que deseas eliminar el taller con ID " + idCita + "?", "Confirmar",
-						JOptionPane.YES_NO_OPTION);
-				if (confirmacion == JOptionPane.YES_OPTION) {
-					if (m.eliminarCita(idCita)) {
-						JOptionPane.showMessageDialog(vGestionCita, "Cita eliminada");
-						vGestionCita.cargarDatosCitas(m.recuperarCitas());
-					} else {
-						JOptionPane.showMessageDialog(vGestionCita, "Error al eliminar la cita");
-					}
-				}
-			}
+		    int filaSeleccionada = vGestionCita.getTable().getSelectedRow();
+		    if (filaSeleccionada == -1) {
+		        JOptionPane.showMessageDialog(vGestionCita, "Selecciona una cita");
+		        return;
+		    }
+
+		    if (rangoUsuario.equals("Oficial")) {
+		        String responsableCita = (String) vGestionCita.getModeloTabla().getValueAt(filaSeleccionada, 6);
+		        String nombreEmpleado = m.obtenerNombreEmpleado(idUsuario);
+
+		        if (!responsableCita.equalsIgnoreCase(nombreEmpleado)) {
+		            JOptionPane.showMessageDialog(vGestionCita, "Solo puedes eliminar tus propias citas.");
+		            return;
+		        }
+		    }
+
+		    int idCita = (int) vGestionCita.getModeloTabla().getValueAt(filaSeleccionada, 0); 
+		    
+		    int confirm = JOptionPane.showConfirmDialog(vGestionCita, "¿Eliminar cita con ID " + idCita + "?");
+		    if (confirm == JOptionPane.YES_OPTION) {
+		        if (m.eliminarCita(idCita)) {
+		            vGestionCita.cargarDatosCitas(m.recuperarCitas());
+		        }
+		    }
 		// CREAR
 		} else if (e.getSource().equals(vGestionCita.getBtnCrearCita())) {
 			VentanaCrearCita vCrearCita = new VentanaCrearCita(rangoUsuario);
@@ -78,6 +86,15 @@ public class ControladorMenuCita implements ActionListener {
 			if (filaSeleccionada == -1) {
 				JOptionPane.showMessageDialog(vGestionCita, "Seleccione una cita para modificar");
 			} else {
+				if (rangoUsuario.equals("Oficial")) {
+			        String responsableCita = (String) vGestionCita.getModeloTabla().getValueAt(filaSeleccionada, 6);
+			        String nombreUsuarioActual = m.obtenerNombreEmpleado(idUsuario);
+
+			        if (!responsableCita.equalsIgnoreCase(nombreUsuarioActual)) {
+			            JOptionPane.showMessageDialog(vGestionCita, "Acceso denegado: Solo puedes modificar tus propias citas.");
+			            return;
+			        }
+			    }
 				try {
 					// Datos tabla
 					int idCita = (int) vGestionCita.getModeloTabla().getValueAt(filaSeleccionada, 0);
@@ -89,13 +106,10 @@ public class ControladorMenuCita implements ActionListener {
 			        String empleado = (String) vGestionCita.getModeloTabla().getValueAt(filaSeleccionada, 6);
 			        String traje = (String) vGestionCita.getModeloTabla().getValueAt(filaSeleccionada, 7);
 			        
-			        // Ventana y controlador
 			        VentanaModificarCitas vModificarCitas = new VentanaModificarCitas(rangoUsuario, idUsuario);
 			        ControladorModificarCita cModificarCita = new ControladorModificarCita(vModificarCitas, rangoUsuario, idUsuario);
-			        
 			        vModificarCitas.setControlador(cModificarCita);
 			        vModificarCitas.cargarDatosEnFormulario(idCita, fecha, hora, duracion, cliente, taller, empleado, traje);
-			        
 			        vModificarCitas.setVisible(true);
 			        vGestionCita.dispose();
 				} catch (Exception ex) {

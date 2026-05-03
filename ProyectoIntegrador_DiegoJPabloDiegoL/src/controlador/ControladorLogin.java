@@ -17,7 +17,6 @@ import modelo.Modelo;
 import vista.VentanaGestionCita;
 import vista.VentanaLogin;
 import vista.VentanaMaestro;
-import vista.VentanaOficial;
 import vista.aprendiz.VentanaAprendiz;
 
 public class ControladorLogin implements ActionListener {
@@ -47,18 +46,16 @@ public class ControladorLogin implements ActionListener {
 		
 		if(categoria != null) {
 			idEmpleado = Integer.parseInt(vLogin.getUsuario());
-			JOptionPane.showMessageDialog(null, "¡Acceso Conseguido!");
 			vLogin.dispose();
 			
 			switch(categoria) {
 			case "Aprendiz":
-				VentanaGestionCita vGestionCitasAprendiz = new VentanaGestionCita(categoria, idEmpleado);
-				ControladorMenuCita cAprendiz = new ControladorMenuCita(vGestionCitasAprendiz, categoria, idEmpleado);
-				vGestionCitasAprendiz.setControlador(cAprendiz);
+				VentanaAprendiz vGestionCitasAprendiz = new VentanaAprendiz("Menu Aprendiz");
+				ControladorMenuAprendiz cMenuAprendiz = new ControladorMenuAprendiz(vGestionCitasAprendiz, categoria, idEmpleado);
+				vGestionCitasAprendiz.setControlador(cMenuAprendiz);
 				ArrayList<Cita> citasAprendiz = modelo.recuperarCitasPropias(idEmpleado);
 				vGestionCitasAprendiz.cargarDatosCitas(citasAprendiz);
 				vGestionCitasAprendiz.setVisible(true);
-				new VentanaAprendiz("Menu Aprendiz").setVisible(true);
 				break;
 			case "Maestro":
 				VentanaMaestro vMaestro = new VentanaMaestro("Menu Maestro", categoria, idEmpleado);

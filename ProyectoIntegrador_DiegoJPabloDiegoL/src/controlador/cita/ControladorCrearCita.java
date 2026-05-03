@@ -33,7 +33,7 @@ public class ControladorCrearCita implements ActionListener {
 		ArrayList<String> listaClientes = modelo.recuperarNombresClientes();
 		ArrayList<String> listaTalleres = modelo.recuperarNombresTalleres();
 		ArrayList<String> listaEmpleados = modelo.recuperarNombresEmpleados();
-		ArrayList<String> listaTrajes = modelo.recuperarNombresTrajes(); 
+		ArrayList<String> listaTrajes = modelo.recuperarNombresTrajes();
 
 		// Llamamos al método de la vista que acabas de corregir
 		this.vista.rellenarComboBox(listaClientes, listaTalleres, listaEmpleados, listaTrajes);
@@ -43,18 +43,18 @@ public class ControladorCrearCita implements ActionListener {
 
 		// --- 1. DETECTAR SELECCIÓN EN COMBO CLIENTE ---
 		if (e.getSource().equals(vista.getNombreCliente())) {
-			if (vista.getNombreCliente().getSelectedIndex() == 0) {
+			if (rangoUsuario.equals("Maestro") && vista.getNombreCliente().getSelectedIndex() == 0) {
 				VentanaCrearCliente vCrearCliente = new VentanaCrearCliente(rangoUsuario, idUsuario, "Crear Cita");
 				ControladorCrearCliente cCrearCliente = new ControladorCrearCliente(vCrearCliente, idUsuario);
 				vCrearCliente.setControlador(cCrearCliente);
 				vCrearCliente.setVisible(true);
 				vista.dispose();
 				return;
-			} 
+			}
 		} else if (e.getSource().equals(vista.getNombreTraje())) {
-			if (vista.getNombreTraje().getSelectedIndex() == 0) {
+			if (rangoUsuario.equals("Maestro") && vista.getNombreTraje().getSelectedIndex() == 0) {
 				VentanaCrearTraje vCrearTraje = new VentanaCrearTraje(rangoUsuario, "Crear Cita");
-				controlador.traje.ControladorCrearTraje cCrearTraje = new ControladorCrearTraje(vCrearTraje, rangoUsuario, idUsuario);
+				ControladorCrearTraje cCrearTraje = new ControladorCrearTraje(vCrearTraje, rangoUsuario, idUsuario);
 				vCrearTraje.setControladorGuardar(cCrearTraje);
 				vCrearTraje.setVisible(true);
 				vista.dispose();
@@ -75,11 +75,23 @@ public class ControladorCrearCita implements ActionListener {
 			vista.dispose();
 		} else if (e.getSource().equals(vista.getBtnGuardarCambios())) {
 			try {
-				// Controlamos que se haya seleccionado ualgo en cliente y traje
-				if (vista.getNombreCliente().getSelectedIndex() == 0
-						|| vista.getNombreTraje().getSelectedIndex() == 0) {
-					JOptionPane.showMessageDialog(vista, "Seleccione un cliente y un traje válidos o cree uno nuevo.");
-					return;
+				// Controlamos que se haya seleccionado un cliente y un traje (la primera opcion
+				// de ambos es crear uno nuevo)
+				if (rangoUsuario.equals("Maestro")) {
+					if (vista.getNombreCliente().getSelectedIndex() == 0
+							|| vista.getNombreTraje().getSelectedIndex() == 0) {
+						JOptionPane.showMessageDialog(vista,
+								"Seleccione un cliente y un traje válidos o cree uno nuevo.");
+						return;
+					}
+					// En cambio el oficial no puede crear nuevos, por tanto puede seleccionar
+					// cualquier opcion
+				} else {
+					if (vista.getNombreCliente().getSelectedIndex() == -1
+							|| vista.getNombreTraje().getSelectedIndex() == -1) {
+						JOptionPane.showMessageDialog(vista, "Debe seleccionar un cliente y un traje de la lista.");
+						return;
+					}
 				}
 
 				Cita nuevaCita = new Cita();
@@ -120,7 +132,7 @@ public class ControladorCrearCita implements ActionListener {
 					vGestionFinal.setControlador(cMenuFinal);
 
 					ArrayList<Cita> listaFinal = null;
-					if (rangoUsuario.equals("Maestro")) {
+					if (rangoUsuario.equals("Maestro") || rangoUsuario.equals("Oficial")) {
 						listaFinal = modelo.recuperarCitas();
 					} else {
 						listaFinal = modelo.recuperarCitasPropias(idUsuario);
@@ -137,12 +149,20 @@ public class ControladorCrearCita implements ActionListener {
 			} catch (NullPointerException npe) {
 				JOptionPane.showMessageDialog(vista, "Error: Debe rellenar todos los campos");
 			}
-		} else if(e.getSource().equals(vista.getBtnAtras())) {
+		} else if (e.getSource().equals(vista.getBtnAtras())) {
 			VentanaGestionCita vGestionCita = new VentanaGestionCita(vista.getRangoUsuario(), idUsuario);
-			vGestionCita.cargarDatosCitas(modelo.recuperarCitas());
+			ControladorMenuCita cMenuCita = new ControladorMenuCita(vGestionCita, rangoUsuario, idUsuario);
+			vGestionCita.setControlador(cMenuCita);
+			ArrayList<Cita> listaCitas;
+			if (rangoUsuario.equals("Maestro")) {
+				listaCitas = modelo.recuperarCitas();
+			} else {
+				listaCitas = modelo.recuperarCitasPropias(idUsuario);
+			}
+			vGestionCita.cargarDatosCitas(listaCitas);
 			vGestionCita.setVisible(true);
-		    vista.dispose();
-		    return;
+			vista.dispose();
+			return;
 		}
 	}
 }

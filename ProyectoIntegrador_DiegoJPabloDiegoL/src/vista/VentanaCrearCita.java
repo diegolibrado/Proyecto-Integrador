@@ -212,34 +212,34 @@ public class VentanaCrearCita extends JFrame {
 	/**
 	 * Metodo para rellenar de opciones los comboBox
 	 * @param listaClientes
+	 * @param listaTalleres
+	 * @param empleados
+	 * @param trajes
 	 */
 	public void rellenarComboBox(ArrayList<String> listaClientes, ArrayList<String> listaTalleres, ArrayList<String> empleados, ArrayList<String> trajes) {
-		cmbNombreCliente.removeAllItems();
-		cmbNombreTraje.removeAllItems();
-		cmbNombreTaller.removeAllItems();
-		cmbNombreResponsable.removeAllItems();
-		
-		// ComboBox CLIENTES
-		cmbNombreCliente.addItem("- Crear nuevo cliente -");
-		for(String c : listaClientes) {
-			cmbNombreCliente.addItem(c);
-		}
-		
-		// ComboBox TRAJES
-		cmbNombreTraje.addItem("- Crear nuevo traje -");
-		for(String tr : trajes) {
-			cmbNombreTraje.addItem(tr);
-		}
-		
-		// ComboBox TALLERES
-		for(String ta : listaTalleres) {
-			cmbNombreTaller.addItem(ta);
-		}
-		
-		// ComboBox EMPLEADOS
-		for(String e : empleados) {
-			cmbNombreResponsable.addItem(e);
-		}
+	    cmbNombreCliente.removeAllItems();
+	    cmbNombreTraje.removeAllItems();
+	    cmbNombreTaller.removeAllItems();
+	    cmbNombreResponsable.removeAllItems();
+	    
+	    // Si es maestro, habra una opcion para crear nuevo cliente y nuevo traje en el mismo combobox
+	    if (rangoUsuario.equals("Maestro")) {
+	        cmbNombreCliente.addItem("- Crear nuevo cliente -");
+	        cmbNombreTraje.addItem("- Crear nuevo traje -");
+	    }
+	    
+	    for(String c : listaClientes) {
+	        cmbNombreCliente.addItem(c);
+	    }
+	    for(String tr : trajes) {
+	        cmbNombreTraje.addItem(tr);
+	    }
+	    for(String ta : listaTalleres) {
+	        cmbNombreTaller.addItem(ta);
+	    }
+	    for(String e : empleados) {
+	        cmbNombreResponsable.addItem(e);
+	    }
 	}
 	
 	public void setControlador(ControladorCrearCita c) {

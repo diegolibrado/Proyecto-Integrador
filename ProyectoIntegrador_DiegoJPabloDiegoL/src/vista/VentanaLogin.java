@@ -93,15 +93,9 @@ public class VentanaLogin extends JFrame {
 		btnLogin = new JButton("Acceder");
 		btnLogin.setBounds(788, 159, 111, 40);
 		pnlBarraHorizontal.add(btnLogin);
-		// LISTENER PARA CONFIRMAR ACCESO
-		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnLogin.setBackground(new Color(165, 191, 201));
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		JLabel lblLogo = new JLabel("");
-		// Para que se autoescale y se coloque el tamaño correctamente
 		ImageIcon iconoLogo1 = new ImageIcon("img\\logo.png");
 		java.awt.Image imgLogo1 = iconoLogo1.getImage().getScaledInstance(180, 180, java.awt.Image.SCALE_SMOOTH);
 
@@ -120,6 +114,7 @@ public class VentanaLogin extends JFrame {
 		lblFondo.setBounds(0, 0, 944, 501);
 		getContentPane().add(lblFondo);
 
+		this.getRootPane().setDefaultButton(btnLogin);
 	}
 
 	public void setControlador(ActionListener c) {
