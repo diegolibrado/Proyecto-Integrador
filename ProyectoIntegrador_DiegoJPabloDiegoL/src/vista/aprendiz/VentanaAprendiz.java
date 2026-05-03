@@ -4,26 +4,16 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
 
-import vista.VentanaLogin;
 import javax.swing.table.DefaultTableModel;
 
 import controlador.ControladorMenuAprendiz;
-import controlador.ControladorMenuMaestro;
 import modelo.Cita;
-import modelo.Modelo;
 
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.swing.SwingConstants;

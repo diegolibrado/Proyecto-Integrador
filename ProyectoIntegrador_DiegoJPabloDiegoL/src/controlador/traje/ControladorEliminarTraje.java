@@ -2,14 +2,10 @@ package controlador.traje;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
 import modelo.Modelo;
-import vista.VentanaGestionTalleres;
 import vista.VentanaGestionTrajes;
 
 public class ControladorEliminarTraje implements ActionListener {

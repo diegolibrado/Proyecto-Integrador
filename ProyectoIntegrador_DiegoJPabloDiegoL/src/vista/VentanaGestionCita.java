@@ -2,24 +2,14 @@ package vista;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import controlador.ControladorLogin;
-import controlador.cita.ControladorCrearCita;
 import controlador.cita.ControladorMenuCita;
 import modelo.Cita;
-import modelo.Modelo;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 public class VentanaGestionCita extends JFrame {

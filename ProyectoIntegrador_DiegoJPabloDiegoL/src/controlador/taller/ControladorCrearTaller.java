@@ -2,9 +2,6 @@ package controlador.taller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
@@ -14,7 +11,6 @@ import modelo.Taller;
 import vista.VentanaCrearTaller;
 import vista.VentanaGestionTalleres;
 import vista.VentanaLogin;
-import vista.VentanaModificarTaller;
 
 public class ControladorCrearTaller implements ActionListener {
 

@@ -6,13 +6,10 @@ import java.util.ArrayList;
 
 import controlador.cita.ControladorMenuCita;
 import controlador.taller.ControladorMenuTaller;
-import controlador.cliente.ControladorMenuCliente;
 import controlador.traje.ControladorMenuTraje;
 import modelo.Cita;
 import modelo.Modelo;
-import modelo.Taller;
 import modelo.Cliente;
-import modelo.Traje;
 import vista.VentanaGestionCita;
 import vista.VentanaGestionCliente;
 import vista.VentanaGestionTalleres;

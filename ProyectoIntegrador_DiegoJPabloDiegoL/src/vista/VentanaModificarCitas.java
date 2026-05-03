@@ -2,20 +2,13 @@ package vista;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-import modelo.Modelo;
-import controlador.cita.ControladorModificarCita; // Asegúrate de que la ruta sea correcta
+import controlador.cita.ControladorModificarCita;
 
 public class VentanaModificarCitas extends JFrame {
 

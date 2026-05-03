@@ -2,21 +2,11 @@ package vista;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
 
 import controlador.taller.ControladorCrearTaller;
-import controlador.taller.ControladorModificarTaller;
-import modelo.Modelo;
 
 public class VentanaCrearTaller extends JFrame {
 

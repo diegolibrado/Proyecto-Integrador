@@ -2,17 +2,13 @@ package controlador.taller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
 import controlador.ControladorLogin;
 import controlador.ControladorMenuMaestro;
-import modelo.Cita;
 import modelo.Modelo;
-import modelo.Taller;
 import vista.VentanaCrearTaller;
-import vista.VentanaGestionCita;
 import vista.VentanaGestionTalleres;
 import vista.VentanaLogin;
 import vista.VentanaMaestro;

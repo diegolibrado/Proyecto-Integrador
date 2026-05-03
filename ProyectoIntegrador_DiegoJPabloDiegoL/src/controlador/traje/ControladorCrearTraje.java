@@ -2,24 +2,17 @@ package controlador.traje;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
 import controlador.ControladorLogin;
 import controlador.cita.ControladorCrearCita;
-import controlador.cliente.ControladorMenuCliente;
 import modelo.Modelo;
 import modelo.Traje;
 import vista.VentanaCrearCita;
-import vista.VentanaCrearTaller;
 import vista.VentanaCrearTraje;
-import vista.VentanaGestionCliente;
 import vista.VentanaGestionTrajes;
 import vista.VentanaLogin;
-import vista.VentanaModificarTaller;
 
 public class ControladorCrearTraje implements ActionListener {
 

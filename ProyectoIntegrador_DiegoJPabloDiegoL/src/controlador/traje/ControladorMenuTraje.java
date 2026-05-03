@@ -2,20 +2,15 @@ package controlador.traje;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import controlador.ControladorLogin;
 import controlador.ControladorMenuMaestro;
-import controlador.taller.ControladorModificarTaller;
 import modelo.Modelo;
-import modelo.Traje;
-import vista.VentanaCrearTaller;
 import vista.VentanaCrearTraje;
 import vista.VentanaGestionTrajes;
 import vista.VentanaLogin;
 import vista.VentanaMaestro;
-import vista.VentanaModificarTaller;
 import vista.VentanaModificarTraje;
 
 

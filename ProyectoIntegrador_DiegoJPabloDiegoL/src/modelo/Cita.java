@@ -1,9 +1,6 @@
 package modelo;
 
-import java.sql.Date;
 import java.sql.Time;
-
-import javax.swing.JSpinner;
 
 /**
  * 
@@ -71,51 +68,34 @@ public class Cita {
 	public void setDuracion(int i) {
 		this.duracion = i;
 	}
-	/**
-	 * @return the nombreCliente
-	 */
+
 	public String getNombreCliente() {
 		return nombreCliente;
 	}
-	/**
-	 * @return the nombreTaller
-	 */
 	public String getNombreTaller() {
 		return nombreTaller;
 	}
-	/**
-	 * @return the nombreEmpleadoResponsable
-	 */
+
 	public String getNombreEmpleadoResponsable() {
 		return nombreEmpleadoResponsable;
 	}
-	/**
-	 * @return the nombreTraje
-	 */
+
 	public String getNombreTraje() {
 		return nombreTraje;
 	}
-	/**
-	 * @param nombreCliente the nombreCliente to set
-	 */
+
 	public void setNombreCliente(String nombreCliente) {
 		this.nombreCliente = nombreCliente;
 	}
-	/**
-	 * @param nombreTaller the nombreTaller to set
-	 */
+
 	public void setNombreTaller(String nombreTaller) {
 		this.nombreTaller = nombreTaller;
 	}
-	/**
-	 * @param nombreEmpleadoResponsable the nombreEmpleadoResponsable to set
-	 */
+
 	public void setNombreEmpleadoResponsable(String nombreEmpleadoResponsable) {
 		this.nombreEmpleadoResponsable = nombreEmpleadoResponsable;
 	}
-	/**
-	 * @param nombreTraje the nombreTraje to set
-	 */
+
 	public void setNombreTraje(String nombreTraje) {
 		this.nombreTraje = nombreTraje;
 	}

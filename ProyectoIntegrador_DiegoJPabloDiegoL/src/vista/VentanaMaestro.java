@@ -2,7 +2,6 @@ package vista;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,7 +12,6 @@ import javax.swing.WindowConstants;
 import controlador.ControladorMenuMaestro;
 
 import javax.swing.JButton;
-// ActionListener
 
 public class VentanaMaestro extends JFrame {
 	

@@ -10,7 +10,6 @@ import modelo.Modelo;
 import vista.VentanaCrearCita;
 import vista.VentanaLogin;
 import vista.VentanaGestionCita;
-import vista.VentanaGestionTalleres;
 import vista.VentanaCrearCliente;
 import vista.VentanaCrearTraje;
 import controlador.ControladorLogin;

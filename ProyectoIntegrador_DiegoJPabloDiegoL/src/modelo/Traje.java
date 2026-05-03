@@ -10,7 +10,6 @@ public class Traje {
 	private int id_traje;
     private String nombre;
     private String estado;
-    private String descripcion;
 	
     //Getters y Setters
     public int getId_traje() {
