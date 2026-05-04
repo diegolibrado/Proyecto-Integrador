@@ -50,6 +50,35 @@ public class Modelo {
 	}
 
 	/**
+	 * Método apra obtener la categoria del usuario que haya iniciado sesion
+	 * 
+	 * @param id
+	 * @param contrasena
+	 * @return
+	 */
+	public String obtenerCategoria(int id, String contrasena) {
+		String categoria = null;
+		String query = "SELECT categoria FROM EMPLEADO WHERE id_empleado = ? AND contrasena = ?";
+		Connection conexion = getConexion();
+
+		try {
+			PreparedStatement ps = conexion.prepareStatement(query);
+			ps.setInt(1, id);
+			ps.setString(2, contrasena);
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				categoria = rs.getString("categoria");
+			}
+		} catch (SQLException sqlex) {
+			System.err.println("Error en ObtenerCategoriaEmpleado: " + sqlex.getMessage());
+		} finally {
+			cerrarConexion(conexion);
+		}
+		return categoria;
+	}
+
+	/**
 	 * Metodo para Crear la tabla de citas
 	 * 
 	 * @return
@@ -152,6 +181,11 @@ public class Modelo {
 		return citasPropias;
 	}
 
+	/**
+	 * Metodo para crear la tabla de talleres
+	 * 
+	 * @return
+	 */
 	public ArrayList<Taller> recuperarTalleres() {
 		ArrayList<Taller> talleres = new ArrayList<Taller>();
 
@@ -182,6 +216,11 @@ public class Modelo {
 		return talleres;
 	}
 
+	/**
+	 * Método para crear la tabla de clientes
+	 * 
+	 * @return
+	 */
 	public ArrayList<Cliente> recuperarClientes() {
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 		Connection conexion = getConexion();
@@ -208,6 +247,38 @@ public class Modelo {
 		return clientes;
 	}
 
+	/**
+	 * Método para crear la tabla trajes
+	 * 
+	 * @return
+	 */
+	public ArrayList<Traje> recuperarTrajes() {
+		ArrayList<Traje> trajes = new ArrayList<Traje>();
+		Connection conexion = getConexion();
+		String query = "SELECT id_traje, nombre, estado FROM TRAJE";
+		try {
+			Statement st = conexion.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			while (rs.next()) {
+				Traje t = new Traje();
+				t.setId_traje(rs.getInt("id_traje"));
+				t.setNombre(rs.getString("nombre"));
+				t.setEstado(rs.getString("estado"));
+				trajes.add(t);
+			}
+		} catch (SQLException e) {
+			System.err.println("Error al recuperar trajes: " + e.getMessage());
+		} finally {
+			cerrarConexion(conexion);
+		}
+		return trajes;
+	}
+
+	/**
+	 * Método para rellenar el combobox de trajes en la pagina crearCitas
+	 * 
+	 * @return
+	 */
 	public ArrayList<String> recuperarNombresTrajes() {
 		ArrayList<String> lista = new ArrayList<>();
 		String query = "SELECT nombre FROM TRAJE";
@@ -224,6 +295,11 @@ public class Modelo {
 		return lista;
 	}
 
+	/**
+	 * Método para rellenar el combobox de empleados en la pagina crearCitas
+	 * 
+	 * @return
+	 */
 	public ArrayList<String> recuperarNombresEmpleados() {
 		ArrayList<String> lista = new ArrayList<>();
 		String query = "SELECT nombre FROM EMPLEADO";
@@ -240,6 +316,11 @@ public class Modelo {
 		return lista;
 	}
 
+	/**
+	 * Método para rellenar el combobox de talleres en la pagina crearCitas
+	 * 
+	 * @return
+	 */
 	public ArrayList<String> recuperarNombresTalleres() {
 		ArrayList<String> lista = new ArrayList<>();
 		String sql = "SELECT nombre_sala FROM TALLER";
@@ -256,6 +337,11 @@ public class Modelo {
 		return lista;
 	}
 
+	/**
+	 * Método para rellenar el combobox de clientes en la pagina crearCitas
+	 * 
+	 * @return
+	 */
 	public ArrayList<String> recuperarNombresClientes() {
 		ArrayList<String> lista = new ArrayList<>();
 		String sql = "SELECT nombre FROM CLIENTE";
@@ -298,7 +384,12 @@ public class Modelo {
 		}
 	}
 
-	// método de eliminar cliente
+	/**
+	 * Método para eliminar el cliente
+	 * 
+	 * @param idCliente
+	 * @return
+	 */
 	public boolean eliminarCliente(int idCliente) {
 		String query = "DELETE FROM CLIENTE WHERE id_cliente = ?";
 		Connection conexion = getConexion();
@@ -315,7 +406,12 @@ public class Modelo {
 		}
 	}
 
-	// metodo de modificar cliente
+	/**
+	 * Método para modificar el cliente
+	 * 
+	 * @param cliente
+	 * @return
+	 */
 	public boolean modificarCliente(Cliente cliente) {
 		String query = "UPDATE CLIENTE SET nombre = ?, superpoder = ?, colores = ? WHERE id_cliente = ?";
 		Connection conexion = getConexion();
@@ -335,28 +431,12 @@ public class Modelo {
 		}
 	}
 
-	public String obtenerCategoria(int id, String contrasena) {
-		String categoria = null;
-		String query = "SELECT categoria FROM EMPLEADO WHERE id_empleado = ? AND contrasena = ?";
-		Connection conexion = getConexion();
-
-		try {
-			PreparedStatement ps = conexion.prepareStatement(query);
-			ps.setInt(1, id);
-			ps.setString(2, contrasena);
-			ResultSet rs = ps.executeQuery();
-
-			if (rs.next()) {
-				categoria = rs.getString("categoria");
-			}
-		} catch (SQLException sqlex) {
-			System.err.println("Error en ObtenerCategoriaEmpleado: " + sqlex.getMessage());
-		} finally {
-			cerrarConexion(conexion);
-		}
-		return categoria;
-	}
-
+	/**
+	 * Método para crear un taller
+	 * 
+	 * @param taller
+	 * @return
+	 */
 	public boolean crearTaller(Taller taller) {
 		String query = "INSERT INTO TALLER (id_taller, nombre_sala, tipo_sala) VALUES (?, ?, ?)";
 		Connection conexion = getConexion();
@@ -380,6 +460,12 @@ public class Modelo {
 
 	}
 
+	/**
+	 * Método para eliminar un taller
+	 * 
+	 * @param idTaller
+	 * @return
+	 */
 	public boolean eliminarTaller(int idTaller) {
 		String query = "DELETE FROM TALLER WHERE id_taller = ?";
 		Connection conexion = getConexion();
@@ -399,6 +485,12 @@ public class Modelo {
 		}
 	}
 
+	/**
+	 * Método para modificar un taller
+	 * 
+	 * @param taller
+	 * @return
+	 */
 	public boolean modificarTaller(Taller taller) {
 		String query = "UPDATE TALLER SET nombre_sala = ?, tipo_sala = ? WHERE id_taller = ?";
 		Connection conexion = getConexion();
@@ -422,6 +514,12 @@ public class Modelo {
 		return false;
 	}
 
+	/**
+	 * Método para crear una cita
+	 * 
+	 * @param cita
+	 * @return
+	 */
 	public boolean crearCita(Cita cita) {
 		String query = "INSERT INTO CITA (id_cita, dia, hora, duracion, id_cliente, id_taller, id_empleado_responsable, id_traje) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		Connection conexion = getConexion();
@@ -449,6 +547,12 @@ public class Modelo {
 		}
 	}
 
+	/**
+	 * Método para eliminar una cita
+	 * 
+	 * @param idCita
+	 * @return
+	 */
 	public boolean eliminarCita(int idCita) {
 		String query = "DELETE FROM CITA WHERE id_cita = ?";
 		Connection conexion = getConexion();
@@ -468,6 +572,12 @@ public class Modelo {
 		}
 	}
 
+	/**
+	 * Método para modificar una cita
+	 * 
+	 * @param cita
+	 * @return
+	 */
 	public boolean modificarCita(Cita cita) {
 		String query = "UPDATE CITA SET dia = ?, hora = ?, duracion = ?, id_cliente = ?, id_taller = ?, id_empleado_responsable = ?, id_traje = ? WHERE id_cita = ?";
 		Connection conexion = getConexion();
@@ -495,86 +605,12 @@ public class Modelo {
 		}
 	}
 
-	// Métodos para obtener los Id a partir del nombre (crearCita)
-	public int obtenerIdClientePorNombre(String nombre) {
-		int id = -1;
-		String query = "SELECT id_cliente FROM CLIENTE WHERE nombre = ?";
-		try (Connection conexion = getConexion(); PreparedStatement ps = conexion.prepareStatement(query)) {
-			ps.setString(1, nombre); // 1. Primero el valor
-			ResultSet rs = ps.executeQuery(); // 2. Luego la ejecución
-			if (rs.next())
-				id = rs.getInt("id_cliente");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return id;
-	}
-
-	public int obtenerIdTallerPorNombre(String nombre) {
-		int id = -1;
-		String query = "SELECT id_taller FROM TALLER WHERE nombre_sala = ?";
-		try (Connection conexion = getConexion(); PreparedStatement ps = conexion.prepareStatement(query)) {
-			ps.setString(1, nombre);
-			ResultSet rs = ps.executeQuery();
-			if (rs.next())
-				id = rs.getInt("id_taller");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return id;
-	}
-
-	public int obtenerIdEmpleadoPorNombre(String nombre) {
-		int id = -1;
-		String query = "SELECT id_empleado FROM EMPLEADO WHERE nombre = ?";
-		try (Connection conexion = getConexion(); PreparedStatement ps = conexion.prepareStatement(query)) {
-			ps.setString(1, nombre);
-			ResultSet rs = ps.executeQuery();
-			if (rs.next())
-				id = rs.getInt("id_empleado");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return id;
-	}
-
-	public int obtenerIdTrajePorNombre(String nombre) {
-		int id = -1;
-		String query = "SELECT id_traje FROM TRAJE WHERE nombre = ?";
-		try (Connection conexion = getConexion(); PreparedStatement ps = conexion.prepareStatement(query)) {
-			ps.setString(1, nombre);
-			ResultSet rs = ps.executeQuery();
-			if (rs.next())
-				id = rs.getInt("id_traje");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return id;
-	}
-
-	// TRAJES
-	public ArrayList<Traje> recuperarTrajes() {
-		ArrayList<Traje> trajes = new ArrayList<Traje>();
-		Connection conexion = getConexion();
-		String query = "SELECT id_traje, nombre, estado FROM TRAJE";
-		try {
-			Statement st = conexion.createStatement();
-			ResultSet rs = st.executeQuery(query);
-			while (rs.next()) {
-				Traje t = new Traje();
-				t.setId_traje(rs.getInt("id_traje"));
-				t.setNombre(rs.getString("nombre"));
-				t.setEstado(rs.getString("estado"));
-				trajes.add(t);
-			}
-		} catch (SQLException e) {
-			System.err.println("Error al recuperar trajes: " + e.getMessage());
-		} finally {
-			cerrarConexion(conexion);
-		}
-		return trajes;
-	}
-
+	/**
+	 * Método para crear un traje
+	 * 
+	 * @param traje
+	 * @return
+	 */
 	public boolean crearTraje(Traje traje) {
 		String query = "INSERT INTO TRAJE (id_traje, nombre, estado) VALUES (?, ?, ?)";
 		Connection conexion = getConexion();
@@ -592,10 +628,16 @@ public class Modelo {
 		}
 	}
 
+	/**
+	 * Método para eliminar un traje
+	 * 
+	 * @param idTraje
+	 * @return
+	 */
 	public boolean eliminarTraje(int idTraje) {
 		String query = "DELETE FROM TRAJE WHERE id_traje = ?";
 		Connection conexion = getConexion();
-		
+
 		try {
 			PreparedStatement pst = conexion.prepareStatement(query);
 			pst.setInt(1, idTraje);
@@ -608,6 +650,12 @@ public class Modelo {
 		}
 	}
 
+	/**
+	 * Método para modificar un traje
+	 * 
+	 * @param traje
+	 * @return
+	 */
 	public boolean modificarTraje(Traje traje) {
 		String query = "UPDATE TRAJE SET nombre = ?, estado = ? WHERE id_traje = ?";
 		Connection conexion = getConexion();
@@ -628,22 +676,112 @@ public class Modelo {
 		return false;
 	}
 
-	public String obtenerNombreEmpleado(int id) {
-	    String nombre = "";
-	    String query = "SELECT nombre FROM EMPLEADO WHERE id_empleado = ?";
-    	Connection con = getConexion(); 
+	/**
+	 * Método para obtener el id del cliente a partir del nombre seleccionado en la
+	 * tabla
+	 * 
+	 * @param nombre
+	 * @return
+	 */
+	public int obtenerIdClientePorNombre(String nombre) {
+		int id = -1;
+		String query = "SELECT id_cliente FROM CLIENTE WHERE nombre = ?";
+		try (Connection conexion = getConexion(); PreparedStatement ps = conexion.prepareStatement(query)) {
+			ps.setString(1, nombre); // 1. Primero el valor
+			ResultSet rs = ps.executeQuery(); // 2. Luego la ejecución
+			if (rs.next())
+				id = rs.getInt("id_cliente");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
 
-	    try {
-	        PreparedStatement ps = con.prepareStatement(query);	
-	        ps.setInt(1, id);
-	        ResultSet rs = ps.executeQuery();    
-	        if (rs.next()) {
-	            nombre = rs.getString("nombre");
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    return nombre;
+	/**
+	 * Método para obtener el id del taller a partir del nombre seleccionado en la
+	 * tabla
+	 * 
+	 * @param nombre
+	 * @return
+	 */
+	public int obtenerIdTallerPorNombre(String nombre) {
+		int id = -1;
+		String query = "SELECT id_taller FROM TALLER WHERE nombre_sala = ?";
+		try (Connection conexion = getConexion(); PreparedStatement ps = conexion.prepareStatement(query)) {
+			ps.setString(1, nombre);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next())
+				id = rs.getInt("id_taller");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
+
+	/**
+	 * Método para obtener el id del empleado a partir del nombre seleccionado en la
+	 * tabla
+	 * 
+	 * @param nombre
+	 * @return
+	 */
+	public int obtenerIdEmpleadoPorNombre(String nombre) {
+		int id = -1;
+		String query = "SELECT id_empleado FROM EMPLEADO WHERE nombre = ?";
+		try (Connection conexion = getConexion(); PreparedStatement ps = conexion.prepareStatement(query)) {
+			ps.setString(1, nombre);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next())
+				id = rs.getInt("id_empleado");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
+
+	/**
+	 * Método para obtener el id del traje a partir del nombre seleccionado en la
+	 * tabla
+	 * 
+	 * @param nombre
+	 * @return
+	 */
+	public int obtenerIdTrajePorNombre(String nombre) {
+		int id = -1;
+		String query = "SELECT id_traje FROM TRAJE WHERE nombre = ?";
+		try (Connection conexion = getConexion(); PreparedStatement ps = conexion.prepareStatement(query)) {
+			ps.setString(1, nombre);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next())
+				id = rs.getInt("id_traje");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
+
+	/**
+	 * Método utilizado para gestionar los permisos del oficial
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public String obtenerNombreEmpleado(int id) {
+		String nombre = "";
+		String query = "SELECT nombre FROM EMPLEADO WHERE id_empleado = ?";
+		Connection con = getConexion();
+
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				nombre = rs.getString("nombre");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return nombre;
 	}
 
 }

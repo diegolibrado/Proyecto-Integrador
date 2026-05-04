@@ -29,6 +29,8 @@ public class ControladorCrearTaller implements ActionListener {
 
 		if (e.getSource().equals(vista.getBtnAtras())) {
 		    VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(vista.getRangoUsuario(), 0);
+		    ControladorMenuTaller cMenuTaller = new ControladorMenuTaller(vGestionTalleres, rangoUsuario, idUsuario);
+		    vGestionTalleres.setControlador(cMenuTaller);
 		    vGestionTalleres.cargarDatosTalleres(modelo.recuperarTalleres());
 		    vGestionTalleres.setVisible(true);
 		    vista.dispose();

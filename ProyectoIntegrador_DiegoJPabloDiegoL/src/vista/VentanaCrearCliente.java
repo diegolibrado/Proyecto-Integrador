@@ -34,6 +34,9 @@ public class VentanaCrearCliente extends JFrame {
 		setTitle("Crear Nuevo Cliente");
 	}
 
+	/**
+	 * Método para la configuracion de los componentes de la ventana de creacion de clientes
+	 */
 	private void inicializarComponentes() {
 		// footer franja inferior
 		JPanel pnlFooter = new JPanel();
@@ -96,7 +99,7 @@ public class VentanaCrearCliente extends JFrame {
 		lblNombre.setFont(new Font("Verdana", Font.BOLD, 14));
 		lblNombre.setBounds(50, 45, 150, 30);
 		pnlFormulario.add(lblNombre);
-		
+
 		txtNombreCliente = new JTextField();
 		txtNombreCliente.setBounds(200, 45, 255, 30);
 		pnlFormulario.add(txtNombreCliente);
@@ -106,7 +109,7 @@ public class VentanaCrearCliente extends JFrame {
 		lblSuperpoder.setFont(new Font("Verdana", Font.BOLD, 14));
 		lblSuperpoder.setBounds(50, 105, 150, 30);
 		pnlFormulario.add(lblSuperpoder);
-		
+
 		txtSuperpoder = new JTextField();
 		txtSuperpoder.setBounds(200, 105, 255, 30);
 		pnlFormulario.add(txtSuperpoder);
@@ -116,7 +119,7 @@ public class VentanaCrearCliente extends JFrame {
 		lblColores.setFont(new Font("Verdana", Font.BOLD, 14));
 		lblColores.setBounds(50, 165, 150, 30);
 		pnlFormulario.add(lblColores);
-		
+
 		txtColores = new JTextField();
 		txtColores.setBounds(200, 165, 255, 30);
 		pnlFormulario.add(txtColores);
@@ -128,22 +131,46 @@ public class VentanaCrearCliente extends JFrame {
 		getContentPane().add(lblFondo);
 	}
 
-	// metodo para asignar el controlador a los botones
+	/**
+	 * Método para conectar el controlador con los botones
+	 * 
+	 * @param c
+	 */
 	public void setControlador(ActionListener c) {
 		btnGuardarCambios.addActionListener(c);
 		btnAtras.addActionListener(c);
 		btnCerrarSesion.addActionListener(c);
 	}
 
-	// metodos para obtener el texto de los campos
-	public String getNombreCliente() { return txtNombreCliente.getText(); }
-	public String getSuperpoderCliente() { return txtSuperpoder.getText(); }
-	public String getColorCliente() { return txtColores.getText(); }
-	 
-	// getters para que el controlador acceda a los botones
-	public JButton getBtnGuardarCambios() { return btnGuardarCambios; }
-	public JButton getBtnAtras() { return btnAtras; }
-	public JButton getBtnCerrarSesion() { return btnCerrarSesion; }
-	public String getVentanaOrigen() {return ventanaOrigen; }
-	public String getRangoUsuario() { return rangoUsuario; }
+	public String getNombreCliente() {
+		return txtNombreCliente.getText();
+	}
+
+	public String getSuperpoderCliente() {
+		return txtSuperpoder.getText();
+	}
+
+	public String getColorCliente() {
+		return txtColores.getText();
+	}
+
+	public JButton getBtnGuardarCambios() {
+		return btnGuardarCambios;
+	}
+
+	public JButton getBtnAtras() {
+		return btnAtras;
+	}
+
+	public JButton getBtnCerrarSesion() {
+		return btnCerrarSesion;
+	}
+
+	public String getVentanaOrigen() {
+		return ventanaOrigen;
+	}
+
+	public String getRangoUsuario() {
+		return rangoUsuario;
+	}
 }

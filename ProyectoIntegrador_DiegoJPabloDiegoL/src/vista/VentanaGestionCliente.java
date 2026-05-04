@@ -40,7 +40,7 @@ public class VentanaGestionCliente extends JFrame {
 	}
 
 	private void inicializarComponentes() {
-		//  BOTÓN ATRÁS
+		// BOTÓN ATRÁS
 		btnAtras = new JButton("");
 		ImageIcon iconoAtras = new ImageIcon("img\\flecha_izq.png");
 		Image imgAtras = iconoAtras.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
@@ -49,7 +49,7 @@ public class VentanaGestionCliente extends JFrame {
 		btnAtras.setBounds(22, 11, 30, 30);
 		getContentPane().add(btnAtras);
 
-		//  TÍTULO 
+		// TÍTULO
 		JLabel lblTitulo = new JLabel("Gestión de Clientes");
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 34));
 		lblTitulo.setBounds(22, 63, 400, 40);
@@ -62,14 +62,14 @@ public class VentanaGestionCliente extends JFrame {
 		btnCerrarSesion.setBounds(787, 68, 135, 30);
 		getContentPane().add(btnCerrarSesion);
 
-		//  PANEL CENTRAL 
+		// PANEL CENTRAL
 		JPanel pnlBarraHorizontal = new JPanel();
 		pnlBarraHorizontal.setBackground(new Color(196, 204, 203));
 		pnlBarraHorizontal.setBounds(0, 111, 944, 282);
 		pnlBarraHorizontal.setLayout(null);
 		getContentPane().add(pnlBarraHorizontal);
 
-		// BOTONES LATERALES 
+		// BOTONES LATERALES
 		btnCrear = new JButton("Crear");
 		btnCrear.setBackground(new Color(165, 191, 201));
 		btnCrear.setFont(new Font("Verdana", Font.PLAIN, 14));
@@ -88,7 +88,7 @@ public class VentanaGestionCliente extends JFrame {
 		btnModificar.setBounds(22, 101, 109, 30);
 		pnlBarraHorizontal.add(btnModificar);
 
-		// PANEL DE LA TABLA 
+		// PANEL DE LA TABLA
 		JPanel pnlTablaContainer = new JPanel();
 		pnlTablaContainer.setBorder(new LineBorder(new Color(68, 68, 68), 1, true));
 		pnlTablaContainer.setBackground(new Color(165, 191, 201));
@@ -100,11 +100,18 @@ public class VentanaGestionCliente extends JFrame {
 		scrollPane.setBounds(10, 10, 762, 216);
 		pnlTablaContainer.add(scrollPane);
 
-		modeloTabla = new DefaultTableModel(new Object[][] {}, new String[] {"ID", "NOMBRE", "SUPERPODER", "COLORES"});
+		modeloTabla = new DefaultTableModel(new Object[][] {},
+				new String[] { "ID", "NOMBRE", "SUPERPODER", "COLORES" });
 		table = new JTable(modeloTabla);
 		scrollPane.setViewportView(table);
 
-		// FOOTER 
+		// Hacemos esto para poder utilizar el id pero tenerlo oculto de la tabla,
+		// hacemos que la anchura sea de 0 y asi se "oculta"
+		table.getColumnModel().getColumn(0).setMinWidth(0);
+		table.getColumnModel().getColumn(0).setMaxWidth(0);
+		table.getColumnModel().getColumn(0).setPreferredWidth(0);
+
+		// FOOTER
 		JPanel pnlFooter = new JPanel();
 		pnlFooter.setBackground(new Color(72, 119, 109));
 		pnlFooter.setBounds(0, 481, 944, 20);
@@ -123,7 +130,7 @@ public class VentanaGestionCliente extends JFrame {
 		getContentPane().add(lblFondo);
 	}
 
-	//punto donde se asigna el controlador
+	// punto donde se asigna el controlador
 	public void setControlador(ControladorMenuCliente c) {
 		btnCrear.addActionListener(c);
 		btnEliminar.addActionListener(c);
@@ -134,13 +141,8 @@ public class VentanaGestionCliente extends JFrame {
 
 	public void cargarDatosClientes(ArrayList<Cliente> datosCliente) {
 		modeloTabla.setRowCount(0);
-		for(Cliente c : datosCliente) {
-			modeloTabla.addRow(new Object[]{
-				c.getId(),
-				c.getNombre(),
-				c.getSuperpoder(),
-				c.getColores()
-			});
+		for (Cliente c : datosCliente) {
+			modeloTabla.addRow(new Object[] { c.getId(), c.getNombre(), c.getSuperpoder(), c.getColores() });
 		}
 	}
 
@@ -164,10 +166,27 @@ public class VentanaGestionCliente extends JFrame {
 		return (fila != -1) ? modeloTabla.getValueAt(fila, 3).toString() : null;
 	}
 
-	public JButton getBtnEliminar() { return btnEliminar; }
-	public JButton getBtnCrear() { return btnCrear; }
-	public JButton getBtnModificar() { return btnModificar; }
-	public JButton getBtnAtras() { return btnAtras; }
-	public JButton getBtnCerrarSesion() { return btnCerrarSesion; }
-	public String getRangoUsuario() { return rangoUsuario; }
+	public JButton getBtnEliminar() {
+		return btnEliminar;
+	}
+
+	public JButton getBtnCrear() {
+		return btnCrear;
+	}
+
+	public JButton getBtnModificar() {
+		return btnModificar;
+	}
+
+	public JButton getBtnAtras() {
+		return btnAtras;
+	}
+
+	public JButton getBtnCerrarSesion() {
+		return btnCerrarSesion;
+	}
+
+	public String getRangoUsuario() {
+		return rangoUsuario;
+	}
 }

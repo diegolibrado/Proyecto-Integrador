@@ -30,6 +30,8 @@ public class ControladorModificarTaller implements ActionListener {
 		// Si se pulsa el boton de atras
 		if (e.getSource().equals(vista.getBtnAtras())) {
 			VentanaGestionTalleres vGestionTalleres = new VentanaGestionTalleres(vista.getRangoUsuario(), idUsuario);
+		    ControladorMenuTaller cMenuTaller = new ControladorMenuTaller(vGestionTalleres, rangoUsuario, idUsuario);
+		    vGestionTalleres.setControlador(cMenuTaller);
 			vGestionTalleres.cargarDatosTalleres(modelo.recuperarTalleres());
 			vGestionTalleres.setVisible(true);
 			vista.dispose();

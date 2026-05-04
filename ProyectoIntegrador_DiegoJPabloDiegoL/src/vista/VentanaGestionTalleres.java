@@ -72,28 +72,24 @@ public class VentanaGestionTalleres extends JFrame {
 		btnCrear.setBackground(new Color(165, 191, 201));
 		btnCrear.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCrear.setBounds(22, 25, 109, 30);
-		btnCrear.addActionListener(controlador);
 		pnlBarraHorizontal.add(btnCrear);
 
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.setBackground(new Color(165, 191, 201));
 		btnEliminar.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnEliminar.setBounds(22, 63, 109, 30);
-		btnEliminar.addActionListener(controlador);
 		pnlBarraHorizontal.add(btnEliminar);
 
 		btnModificar = new JButton("Modificar");
 		btnModificar.setBackground(new Color(165, 191, 201));
 		btnModificar.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnModificar.setBounds(22, 101, 109, 30);
-		btnModificar.addActionListener(controlador);
 		pnlBarraHorizontal.add(btnModificar);
 
 		btnCerrarSesion = new JButton("Cerrar sesión");
 		btnCerrarSesion.setFont(new Font("Verdana", Font.PLAIN, 14));
 		btnCerrarSesion.setBackground(new Color(165, 191, 201));
 		btnCerrarSesion.setBounds(787, 68, 135, 30);
-		btnCerrarSesion.addActionListener(controlador);
 		getContentPane().add(btnCerrarSesion);
 
 		btnAtras = new JButton("");
@@ -102,7 +98,6 @@ public class VentanaGestionTalleres extends JFrame {
 		btnAtras.setIcon(new ImageIcon(imgAtras));
 		btnAtras.setBackground(new Color(165, 191, 201));
 		btnAtras.setBounds(22, 11, 30, 30);
-		btnAtras.addActionListener(controlador);
 		getContentPane().add(btnAtras);
 
 		// Tabla

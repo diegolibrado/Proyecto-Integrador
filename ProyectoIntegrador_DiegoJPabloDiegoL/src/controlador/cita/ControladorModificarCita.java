@@ -54,9 +54,11 @@ public class ControladorModificarCita implements ActionListener {
 				cita.setDuracion((int) vista.getSpinnerDuracion().getValue());
 
 				// 2. Buscamos los IDs según lo que hay seleccionado en los Combos
-				int idClienteCmb = m.obtenerIdClientePorNombre(vista.getCmbNombreCliente().getSelectedItem().toString());
+				int idClienteCmb = m
+						.obtenerIdClientePorNombre(vista.getCmbNombreCliente().getSelectedItem().toString());
 				int idTallerCmb = m.obtenerIdTallerPorNombre(vista.getCmbNombreTaller().getSelectedItem().toString());
-				int idResponsableCmb = m.obtenerIdEmpleadoPorNombre(vista.getCmbNombreResponsable().getSelectedItem().toString());
+				int idResponsableCmb = m
+						.obtenerIdEmpleadoPorNombre(vista.getCmbNombreResponsable().getSelectedItem().toString());
 				int idTrajeCmb = m.obtenerIdTrajePorNombre(vista.getCmbNombreTraje().getSelectedItem().toString());
 
 				cita.setId_cliente(idClienteCmb);
@@ -67,19 +69,17 @@ public class ControladorModificarCita implements ActionListener {
 				// 3. Intentamos modificar
 				if (m.modificarCita(cita)) {
 					JOptionPane.showMessageDialog(vista, "Cita actualizada correctamente");
-
-					// Volvemos a la gestión
 					VentanaGestionCita vG = new VentanaGestionCita(rangoUsuario, idUsuario);
 					vG.setControlador(new ControladorMenuCita(vG, rangoUsuario, idUsuario));
-					if (rangoUsuario.equalsIgnoreCase("Maestro")) {
+
+					if (rangoUsuario.equalsIgnoreCase("Maestro") || rangoUsuario.equalsIgnoreCase("Oficial")) {
 						vG.cargarDatosCitas(m.recuperarCitas());
 					} else {
 						vG.cargarDatosCitas(m.recuperarCitasPropias(idUsuario));
 					}
+
 					vG.setVisible(true);
 					vista.dispose();
-				} else {
-					JOptionPane.showMessageDialog(vista, "Error al guardar en la base de datos");
 				}
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(vista, "Error: " + ex.getMessage());
